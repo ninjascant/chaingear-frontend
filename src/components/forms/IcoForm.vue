@@ -1,90 +1,60 @@
 <template>
 <div>
-	<el-form 
-		ref="form" 
-		label-position='top'
-		:model="form" 
-		label-width="120px">
-		<el-collapse v-model="activeNames">
-			<el-collapse-item title="Common info" name="1">
-				<template slot="title">
-					Common info
-				</template>
-				<!-- Is ICO? -->
-				<el-row>
-					<el-form-item label="Do you plan to run a crowdsale?">
-						<el-checkbox 
-							v-model="checked"
-							@change='checkIco'></el-checkbox>
-					</el-form-item>
-				</el-row>
-				<!-- Start date -->
-				<el-row v-show='checked'>
-				<el-col :span='17'>
-				<el-form-item label="ICO start date">
-		    	<el-date-picker
-				      v-model="form.start_date.date"
-				      type="date"
-				      placeholder="Pick a day">
-					</el-date-picker>
-					<el-time-picker
-					  v-model="form.start_date.time"
-					  placeholder="Select time">
-					</el-time-picker>
-				</el-form-item>
-		    <!-- End date -->
-		    <el-form-item label="ICO end date">
-					<el-date-picker
-				    v-model="form.end_date.date"
-				    type="date"
-				    placeholder="Pick a day">
-					</el-date-picker>
-				  <el-time-picker
-						v-model="form.end_date.time"
-						placeholder="Select time">
-					</el-time-picker>
-		    </el-form-item>
-		    <el-form-item label="Supply">
-		      <el-popover
-		        ref="supplyInfo"
-		        placement="right-end"
-		        width="300"
-		        trigger="focus"
-		        content="Enter total supply of token used in ICO">
-		      </el-popover>
-		      <el-input 
-		        v-model="form.supply"
-		        v-popover:supplyInfo>
-		      </el-input>
-		    </el-form-item>
-		  </el-col>
-		</el-row>
-	</el-collapse-item>
-	<el-collapse-item v-show='checked' title="Crowdsale phases" name="2">
-	  <!-- Phase tabs -->
-	  <el-tabs 
-	  	v-model="editableTabsValue" 
-	  	type="card" 
-	  	editable 
-	  	@edit="handleTabsEdit">
-	  	<el-tab-pane
-	  		v-for="(item, index) in phasesTabs"
-	  		:key="item.name"
-	  		:label="item.title"
-	  		:name="item.name">
-	  		<IcoPhaseForm></IcoPhaseForm>
-	  	</el-tab-pane>
-	  </el-tabs>
-</el-collapse-item>
-</el-collapse>
-	</el-form>
-	<!-- Next tab button -->
-	<el-button type="default" 
+	<div class="ico-page">
+    <div class="ico-form">
+      <div class="form-header">
+        <div class="form-header-text">
+          <p>ICO</p>
+        </div>
+      </div>
+      <div class="form-content">
+        <p>At first, tell us, do you plan to run an ICO:</p>
+        <!-- Project Name -->
+        <div class="input-wrapper">
+          <label>Do you plan to run a crowdsale?</label>
+  				<!-- Is ICO? -->
+  				<el-checkbox 
+  					v-model="checked"
+  					@change='checkIco'>Yes</el-checkbox>
+        </div>
+        <div v-show='!checked' class="no-ico">
+          <p>
+            If you don't plan to run an ICO, just skip to the nex section
+          </p>
+        </div>
+    	  <!-- Phase tabs -->
+        <div v-show='checked' class="ico-form-full">
+      	  <el-tabs 
+      	  	v-model="editableTabsValue" 
+      	  	type="card" 
+      	  	editable 
+      	  	@edit="handleTabsEdit">
+      	  	<el-tab-pane
+      	  		v-for="(item, index) in phasesTabs"
+      	  		:key="item.name"
+      	  		:label="item.title"
+      	  		:name="item.name">
+      	  		<IcoPhaseForm></IcoPhaseForm>
+      	  	</el-tab-pane>
+      	  </el-tabs>
+        </div>
+      </div>
+    </div>
+    <div class="buttons-container">
+      
+      <el-button type="default" 
     round icon="el-icon-arrow-left"
     @click="prevClick">Previous</el-button>
-	<el-button type="default" 
-		round icon="el-icon-arrow-right"
-		@click="onClick">Next</el-button>	
+    
+  <el-button type="success" 
+    round icon="el-icon-arrow-right"
+    @click="onClick">Next</el-button>
+    
+    </div>
+    
+  </div>
+	<!-- Next tab button -->
+
 </div>
 </template>
 <script>
@@ -155,3 +125,96 @@ export default class IcoForm extends Vue {
   }
 }
 </script>
+<style>
+  h2 {
+    font-family: 'Helvetica Neue';
+  }
+  .buttons-container {
+    padding-top: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .no-ico {
+    height: 200px;
+    padding-top: 20px;
+    background-color: #B9D9C6;
+    display: flex;
+    align-items: center;
+  }
+  .ico-page {
+    width: 700px;
+  }
+  .ico-form {
+    background-color: white;
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 1px 1px 2px #AEAEB9;
+  }
+  .ico-form-full {
+    padding-top: 15px;
+    width: 600px;
+  }
+  .form-header {
+    font-family: 'Helvetica Neue';
+    font-size: 1.5em;
+    background-color: #91D2E1;
+  }
+  .form-header-text {
+    margin-left: 20px;
+  }
+  .form-content {
+    
+    margin-top: 15px;
+    margin-bottom: 20px;
+
+  }
+  .custom-buttons {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  fieldset {
+    width: 16em;
+    margin: 20px;
+    border: 0 none;
+  }
+  .el-popover--plain {
+    white-space: pre-line;
+  }
+  .input-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+
+  }
+  .custom-input {
+    border-radius: 4px;
+    border: 1px solid #dcdfe6;
+    color: #606266;
+    height: 40px;
+    font-size: 0.9em;
+    
+    width: 40%;
+  }
+  select {
+    border-radius: 4px;
+    border: 1px solid #dcdfe6;
+    color: #606266;
+    height: 40px;
+    font-size: 0.9em;
+    padding-left: 15px;
+    width: 40%;
+  }
+  option {
+    font-size: 14px;
+    padding: 5px;
+  }
+  label {
+    padding-left: 0.5em;
+    text-align: left;
+    width: 7em;
+  }
+</style>

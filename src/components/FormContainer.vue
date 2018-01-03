@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- Progress -->
-  <el-col :span="12" bg-purple>
+  <el-col :span="24" bg-purple>
     <el-steps :active="active" finish-status="success">
     <el-step title="Step 1" description='Blockchain'></el-step>
     <el-step title="Step 2" description='ICO'></el-step>
