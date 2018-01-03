@@ -8,12 +8,13 @@
       text-color="#fff"
       active-text-color="#ffd04b">
       <el-menu-item index="1">
+      <router-link to="/add_info">
         <i class="el-icon-circle-plus-outline"></i>
-        <span>Add new project</span>
+        <span>Add new project</span></router-link>
       </el-menu-item>
       <el-menu-item index="2">
         <i class="el-icon-edit"></i>
-        <span>Update a project</span>
+        <span><router-link to="/finished">Update a project</router-link></span>
       </el-menu-item>
       <el-menu-item index="3">
         <i class="el-icon-delete"></i>

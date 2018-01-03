@@ -1,14 +1,17 @@
 <template>
   <div id="app">
+    
     <el-container>
       <el-header>Header</el-header>
       <el-container>
         <el-aside>
           <SideMenu></SideMenu>
+          
         </el-aside>
         <el-main>
-          <FormContainer message='proprpr'></FormContainer>
-          <!--<FinishedFormContainer></FinishedFormContainer>-->
+          <router-view></router-view>
+          <!--<FormContainer message='proprpr'></FormContainer>
+          <FinishedFormContainer></FinishedFormContainer>-->
         </el-main>
       </el-container>
     </el-container>
