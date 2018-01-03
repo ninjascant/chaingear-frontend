@@ -7,13 +7,10 @@
           <SideMenu></SideMenu>
         </el-aside>
         <el-main>
-          <!--<FormContainer message='proprpr'></FormContainer>-->
-          <FinishedFormContainer></FinishedFormContainer>
+          <FormContainer message='proprpr'></FormContainer>
+          <!--<FinishedFormContainer></FinishedFormContainer>-->
         </el-main>
       </el-container>
-      <el-footer>
-        Footer
-      </el-footer>
     </el-container>
   </div>
 </template>
@@ -21,13 +18,13 @@
 <script>
 import {Component} from 'vue-property-decorator'
 import Vue from 'vue'
-// import FormContainer from './components/FormContainer'
+import FormContainer from './components/FormContainer'
 import SideMenu from './components/SideMenu'
 import FinishedFormContainer from './components/FinishedFormContainer'
 
 @Component({
   components: {
-    // FormContainer,
+    FormContainer,
     FinishedFormContainer,
     SideMenu
   }

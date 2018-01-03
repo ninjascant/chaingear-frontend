@@ -26,9 +26,9 @@
     <el-col :span='6'>
       <el-form ref="form" label-position='right' :model="form" label-width="120px">
         <!-- Issued -->
-        <el-form-item label="Issued tokens">
+        <el-form-item label="ICO phase">
           <el-input 
-            v-model="form.issued"></el-input>
+            v-model="form.phase"></el-input>
         </el-form-item>
         <!-- Sold -->
         <el-form-item label="Sold tokens">
@@ -74,8 +74,9 @@
 </div>
 </template>
 <script>
+/* eslint-disable */
 import Vue from 'vue'
-import {Component} from 'vue-property-decorator'
+import {Component, Watch} from 'vue-property-decorator'
 
 @Component({
   props: {
@@ -85,10 +86,8 @@ import {Component} from 'vue-property-decorator'
   }
 })
 export default class FinishedForm extends Vue {
-  form = {
-    // issued: this.project.ico.phases[0].terms.issued_tokens
-    // sold: this.project.ico.phases[0].terms.sold_tokens
-  }
+  form = {}
+  
   websiteUrl = this.project.links.filter(link => link.type === 'website')[0].url
   websiteName = this.project.links.filter(link => link.type === 'website')[0].name
   website = {
@@ -99,25 +98,85 @@ export default class FinishedForm extends Vue {
     url: this.project.links.filter(link => link.type === 'twitter')[0].url,
     name: this.project.links.filter(link => link.type === 'twitter')[0].name
   }
+  /* 
+  websiteUrl = ''
+  websiteName = ''
+  twitter = {
+    url: '',
+    name: ''
+  } */
   loading=false
+  @Watch('project')
+  onProjectChanged () {
+    this.websiteUrl = this.project.links.filter(link => link.type === 'website')[0].url
+    this.websiteName = this.project.links.filter(link => link.type === 'website')[0].name
+
+    this.twitter = {
+      url: this.project.links.filter(link => link.type === 'twitter')[0].url,
+      name: this.project.links.filter(link => link.type === 'twitter')[0].name
+    }
+  }
   makeCommit () {
-    this.project.ico.phases[0].phase_status = 'Finished'
-    this.project.ico.phases[0].terms.sold_tokens = this.form.sold
-    this.project.ico.phases[0].prices.token_final_price[0].currency = 'ETH'
-    this.project.ico.phases[0].prices.token_final_price[0].amount = this.form.final_price
-    this.project.ico.phases[0].raised_funds = []
-    this.project.ico.phases[0].raised_funds.push({
-      currency: 'USD',
-      amount: this.form.raised_usd
-    })
-    this.project.ico.phases[0].raised_funds.push({
-      currency: 'ETH',
-      amount: this.form.raised_eth
-    })
-    this.project.ico.phases[0].raised_funds.push({
-      currency: 'BTC',
-      amount: this.form.raised_btc
-    })
+    const n = this.form.phase
+    if (n !== 0) {
+        const tmp = {
+        phase_status: 'Finished',
+        terms: {
+          sold_tokens: this.form.sold 
+        },
+        prices: {
+          token_final_price: []
+        },
+        raised_funds: []
+      }
+      tmp.prices.token_final_price.push({currency: 'ETH', amount: this.form.final_price})
+      // this.project.ico.phases[n].phase_status = 'Finished'
+      // this.project.ico.phases[n].terms.sold_tokens = this.form.sold
+      // this.project.ico.phases[n].prices.token_final_price[0].currency = 'ETH'
+      // this.project.ico.phases[n].prices.token_final_price[0].amount = this.form.final_price
+      // this.project.ico.phases[n].raised_funds = []
+      tmp.raised_funds.push({
+        currency: 'USD',
+        amount: this.form.raised_usd
+      })
+      tmp.raised_funds.push({
+        currency: 'ETH',
+        amount: this.form.raised_eth
+      })
+      tmp.raised_funds.push({
+        currency: 'BTC',
+        amount: this.form.raised_btc
+      })
+    } else {
+      const tmp = {
+        phase_status: 'Finished',
+        terms: {
+          sold_tokens: this.form.sold 
+        },
+        prices: {
+          token_final_price: []
+        },
+        raised_funds: []
+      }
+      tmp.prices.token_final_price.push({currency: 'ETH', amount: this.form.final_price})
+      // this.project.ico.phases[n].phase_status = 'Finished'
+      // this.project.ico.phases[n].terms.sold_tokens = this.form.sold
+      // this.project.ico.phases[n].prices.token_final_price[0].currency = 'ETH'
+      // this.project.ico.phases[n].prices.token_final_price[0].amount = this.form.final_price
+      // this.project.ico.phases[n].raised_funds = []
+      tmp.raised_funds.push({
+        currency: 'USD',
+        amount: this.form.raised_usd
+      })
+      tmp.raised_funds.push({
+        currency: 'ETH',
+        amount: this.form.raised_eth
+      })
+      tmp.raised_funds.push({
+        currency: 'BTC',
+        amount: this.form.raised_btc
+      })
+    }
     this.$http.post('http://localhost:8000/pullreq', JSON.stringify(this.project))
       .then(res => console.log(res.body))
   }

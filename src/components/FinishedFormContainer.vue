@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div> 
     <el-button type="default" 
       @click='fetchFinished'
       round icon="el-icon-upload">Load data</el-button>
@@ -51,6 +51,7 @@ export default class FinishedFormContainer extends Vue {
           return new Date(dateB) - new Date(dateA)
         })
         this.allProjects = chunk(sorted, 10)
+        console.log(this.allProjects.length)
         this.projects = this.allProjects[0]
         this.total = sorted.length
         this.loaded = true
