@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="links-form-content">
-        <p>Now it's time to describe your token</p>
+        <p>Eventually, please, give us some links to social network profiles</p>
 		    <!-- Website -->
     		<div class="input-wrapper">
           <label class="img-label"><img src="https://cdn2.iconfinder.com/data/icons/picons-essentials/57/website-512.png" 
@@ -163,7 +163,7 @@ export default class LinksForm extends Vue {
     margin-left: 20px;
   }
   .links-form-content {
-    
+    margin-left: 15px;
     margin-top: 15px;
     margin-bottom: 20px;
 

@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- Progress -->
-  <el-col :span="24" bg-purple>
+  <el-col :span="18" bg-purple>
     <el-steps :active="active" finish-status="success">
     <el-step title="Step 1" description='Blockchain'></el-step>
     <el-step title="Step 2" description='ICO'></el-step>
@@ -11,12 +11,17 @@
   </el-steps>
   <!-- Tabs -->
   <el-tabs v-model="activeName">
-    <!-- Blockchain tab -->
+    <el-tab-pane
+      label='Funds'
+      name='first'>
+      <FundsForm></FundsForm>
+    </el-tab-pane>
+    <!-- Blockchain tab
     <el-tab-pane 
       label="Blockchain" 
       name="first">
       <DescrForm @interface='nextClick'></DescrForm>
-    </el-tab-pane>
+    </el-tab-pane> -->
     <!-- ICO tab -->
     <el-tab-pane label="ICO" name="second">
       <IcoForm @interface='nextClick'></IcoForm>
@@ -44,6 +49,7 @@ import {Component} from 'vue-property-decorator'
 import Vue from 'vue'
 import DescrForm from './forms/BlockchainForm'
 import IcoForm from './forms/IcoForm'
+import FundsForm from './forms/FundsForm'
 import TokenForm from './forms/TokenForm'
 import SubmitForm from './forms/SubmitForm'
 import LinksForm from './forms/LinksForm'
@@ -52,6 +58,7 @@ import LinksForm from './forms/LinksForm'
   components: {
     DescrForm,
     IcoForm,
+    FundsForm,
     TokenForm,
     LinksForm,
     SubmitForm

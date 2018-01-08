@@ -34,7 +34,7 @@ export default class FinishedFormContainer extends Vue {
   loaded = false
   total = 0
   fetchFinished () {
-    this.$http.get('http://localhost:8000/getFinished')
+    this.$http.get('http://ninja-analytics.ru/getFinished')
       .then(res => {
         const chunk = (arr, len) => {
           let chunks = [],

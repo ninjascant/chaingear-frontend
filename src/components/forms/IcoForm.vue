@@ -9,7 +9,6 @@
       </div>
       <div class="form-content">
         <p>At first, tell us, do you plan to run an ICO:</p>
-        <!-- Project Name -->
         <div class="input-wrapper">
           <label>Do you plan to run a crowdsale?</label>
   				<!-- Is ICO? -->
@@ -21,6 +20,23 @@
           <p>
             If you don't plan to run an ICO, just skip to the nex section
           </p>
+        </div>
+        <div class="sub-header">
+          <p>Token distribution shares</p>
+        </div>
+        <div class="input-wrapper">
+          <label>Description</label>
+          <input 
+            v-model="form.token_" 
+            type="text" 
+            class="custom-input"></input>
+        </div>
+        <div class="input-wrapper">
+          <label>Description</label>
+          <input 
+            v-model="form.headline" 
+            type="text" 
+            class="custom-input"></input>
         </div>
     	  <!-- Phase tabs -->
         <div v-show='checked' class="ico-form-full">
@@ -190,6 +206,9 @@ export default class IcoForm extends Vue {
     margin-top: 10px;
 
   }
+  .input-wrapper~label {
+    
+  }
   .custom-input {
     border-radius: 4px;
     border: 1px solid #dcdfe6;
@@ -214,7 +233,10 @@ export default class IcoForm extends Vue {
   }
   label {
     padding-left: 0.5em;
+    padding-right: 0.5em;
     text-align: left;
     width: 7em;
+    font-family: Helvetica, 'Helvetica-neue';
+    font-size: 0.9em;
   }
 </style>

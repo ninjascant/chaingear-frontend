@@ -3,7 +3,7 @@
 <div class="blockchain-form">
   <div class="form-header">
     <div class="form-header-text">
-      <p>Description</p>
+      <p class='form-header-text1'>Description</p>
     </div>
   </div>
   <div class="form-content">
@@ -199,6 +199,10 @@ export default class DescrForm extends Vue {
   }
   .form-header-text {
     margin-left: 20px;
+  }
+  .form-header-text1 {
+    font-family: Helvetica;
+    font-size: 1.2em;
   }
   .form-content {
     margin-left: 20px;

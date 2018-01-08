@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    
     <el-container>
       <el-header>Header</el-header>
       <el-container>
@@ -39,3 +38,5 @@ export default class App extends Vue {
   obj = {}
 }
 </script>
+<style>
+</style>
