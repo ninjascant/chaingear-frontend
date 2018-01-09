@@ -1,225 +1,84 @@
 <template>
-<div>
-  <div class="token-page">
-    <div class="token-form">
-      <div class="form-header">
-        <div class="form-header-text">
-          <p>Token</p>
-        </div>
-      </div>
-      <div class="form-content">
-        <p>Now it's time to describe your token</p>
-        <el-tabs 
-            v-model="editableTabsValue" 
-            type="card" 
-            editable 
-            @edit="handleTabsEdit">
-            <el-tab-pane
-              v-for="(item, index) in phasesTabs"
-              :key="item.name"
-              :label="item.title"
-              :name="item.name">
-              <!-- Token Name -->
-              <div class="input-wrapper">
-                <label>Token name</label>
-                <input class="custom-input" v-model="form.name"></el-input>
-              </div>
-              <!-- Token Symbol -->
-              <div class="input-wrapper">
-                <label>Token symbol</label>
-                <input class="custom-input" v-model="form.sym"></el-input>
-              </div>
-              <!-- Token Type -->
-              <div class="input-wrapper">
-                <label>Token type</label>
-                <el-select
-                  v-model="form.token_type"
-                  placeholder="Choose type of your token">
-                  <el-option
-                    v-for="item in tokenTypes"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </div>
-              <!-- Total supply -->
-              <div class="input-wrapper">
-                <label>Total supply</label>
-                <input class="custom-input" v-model="form.supply"></el-input>
-              </div>
-              <!-- Inflation Rate -->
-              <div class="input-wrapper">
-                <label>Inflation rate</label>
-                <textarea class="custom-input" 
-                  :rows="4"
-                  placeholder="Please input"
-                  v-model="form.inflation"></textarea>
-              </div>
-              <!-- Circulation terms -->
-              <div class="input-wrapper">
-                <label>Cicrulation terms</label>
-                <input class="custom-input" v-model="form.circulation"></el-input>
-              </div>
-              <!-- Govern rights -->
-              <div class="input-wrapper">
-                <label>On project</label>
-                <input class="custom-input" v-model="form.governanceProj"></el-input>
-              </div>
-              <!-- Govern right org -->
-              <div class="input-wrapper">
-                <label>On organisation</label>
-                <input class="custom-input" v-model="form.governanceOrg"></el-input>
-              </div>
-            </el-tab-pane>
-          </el-tabs>
-        </div>
-      </div>
-      <div class="buttons-container">
-      <el-button type="default" 
-        round icon="el-icon-arrow-left"
-        @click="prevClick">Previous</el-button>
-      <el-button type="success" 
-        round icon="el-icon-arrow-right"
-        @click="onClick">Next</el-button>
-    </div>
-    </div>
+  <div>
+    <v-card color="grey lighten-4" flat>
+      <v-card-media
+        height='100px'
+        src="/dist/static/doc-images/cards/docks1.png">
+        <v-container fill-height fluid>
+          <v-layout fill-height>
+            <v-flex xs12 align-end flexbox>
+              <span class="headline">Token</span>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-media>
+      <v-card-text>
+        <v-container fluid>
+          <v-layout row wrap>
+            <v-flex xs6>
+              <v-text-field
+                label='Token Name'
+                v-model='form.name'>
+              </v-text-field>
+              <v-text-field
+                label='Token Symbol'
+                v-model='form.symbol'>
+              </v-text-field>
+              <v-select
+                v-bind:items="purpose"
+                v-model="form.token_purpose"
+                label="Token purpose"
+                max-height='auto'></v-select>
+              <v-select
+                v-bind:items="type"
+                v-model="form.token_type"
+                label="Token type"
+                max-height='auto'></v-select>
+              <v-text-field
+                label='Inflation rate'
+                multi-line
+                hint="Annual increase/decrease of the token volume in the ecosystem and a type of its production"
+                v-model='form.inflation_rate'>
+              </v-text-field>
+              <v-text-field
+                label='Circulation terms'
+                multi-line
+                hint="Conditions for consumed tokens (re-sale, burning), rate of fee for intermidearies"
+                v-model='form.circulation_terms'>
+              </v-text-field>
+              <v-text-field
+                label='Governance rights project'
+                multi-line
+                hint="List of rights to be granted to tokenholders to vote for the course of the project development"
+                v-model='form.governance_rights_project'>
+              </v-text-field>
+              <v-text-field
+                label='Governance rights organization'
+                hint="List of rights to be granted to tokenholders to govern the operational organization"
+                multi-line
+                v-model='form.governance_rights_org'>
+              </v-text-field>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-btn color="primary" @click="next">Continue</v-btn>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+    </v-card>
   </div>
-</div>
 </template>
 <script>
-/* eslint-disable */
-import {Component} from 'vue-property-decorator'
 import Vue from 'vue'
+import {Component} from 'vue-property-decorator'
 
 @Component({})
-export default class DescrForm extends Vue {
-  editableTabsValue = 'Token 1'
-  tabIndex = 1
-  phasesTabs = [
-    {
-      title: 'Token 1',
-      name: 'Token 1',
-      content: 'Token 1'
-    }]
-  handleTabsEdit (targetName, action) {
-    if(action === 'add') {
-      const newTabName = `Token ${++this.tabIndex}`
-      this.phasesTabs.push({
-        title: newTabName,
-        name: newTabName,
-        content: 'New tab'
-      })
-      this.editableTabsValue = newTabName
-    } 
-    if (action === 'remove') {
-      console.log('remove')
-      const tabs = this.phasesTabs
-      let activeName = this.editableTabsValue
-      if(activeName === targetName) {
-        tabs.forEach((tab, index) => {
-          if(tab.name === targetName) {
-            let nextTab = tabs[index + 1] || tabs[index - 1]
-            if (nextTab) {
-              activeName = nextTab.name
-            }
-          }
-        })
-      }
-      this.editableTabsValue = activeName
-      this.phasesTabs = tabs.filter(tab => tab.name !== targetName)
-    }
-  }
+export default class Token extends Vue {
+  purpose = ['ICO token', 'App token', 'Both']
+  type = ['Core token', 'Blockchain issued token']
   form = {}
-  tokenTypes = [
-    {value: 'core token', label: 'Core token'},
-    {value: 'blockchain issued token', label: 'Blockchain issued token'}]
-  onClick () {
-    this.$emit('interface', {direction: 'next', data: JSON.stringify(this.form)})
-  }
-  prevClick () {
-    this.$emit('interface', {direction: 'prev', data: JSON.stringify(this.form)})
+  next () {
+    this.$emit('interface', {form: 'token', data: this.form})
   }
 }
 </script>
-<style>
-  h2 {
-    font-family: 'Helvetica Neue';
-  }
-  .token-page {
-    width: 700px;
-  }
-  .token-form {
-    background-color: white;
-    width: 700px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 1px 1px 2px #AEAEB9;
-  }
-  .form-header {
-    font-family: 'Helvetica Neue';
-    font-size: 1.5em;
-    background-color: #E8C9E1;
-  }
-  .form-header-text {
-    margin-left: 20px;
-  }
-  .form-content {
-    margin-left: 20px;
-    margin-top: 15px;
-    margin-bottom: 20px;
-    width: 600px;
-
-  }
-  .custom-buttons {
-    display: flex;
-    flex-direction: column;
-  }
-  .next-button {
-    padding-top: 15px;
-    display: flex;
-    justify-content: flex-end;
-  }
-  fieldset {
-    width: 16em;
-    margin: 20px;
-    border: 0 none;
-  }
-  .el-popover--plain {
-    white-space: pre-line;
-  }
-  .input-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 10px;
-
-  }
-  .custom-input {
-    border-radius: 4px;
-    border: 1px solid #dcdfe6;
-    color: #606266;
-    height: 40px;
-    font-size: 0.9em;
-    padding-left: 15px;
-    width: 40%;
-  }
-  select {
-    border-radius: 4px;
-    border: 1px solid #dcdfe6;
-    color: #606266;
-    height: 40px;
-    font-size: 0.9em;
-    padding-left: 15px;
-    width: 40%;
-  }
-  option {
-    font-size: 14px;
-    padding: 5px;
-  }
-  label {
-    padding-left: 0.5em;
-    text-align: left;
-    width: 7em;
-  }
-</style>

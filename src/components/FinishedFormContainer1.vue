@@ -1,18 +1,20 @@
 <template>
-  <div>
-    <v-container grid-list-md fluid>
-      <v-layout row wrap>
-        <v-progress-circular v-show='loading' indeterminate color="green"></v-progress-circular>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex xs8>
-          <FinishedForm
-            v-for='project in projects'
-            :key="project.id"
-            :project='project'></FinishedForm>
-        </v-flex>
-      </v-layout>
-    </v-container>
+  <div> 
+    <el-button type="default" 
+      @click='fetchFinished'
+      round icon="el-icon-upload">Load data</el-button>
+    <FinishedForm
+      v-for='project in projects'
+      :key='project.id'
+      v-bind:project='project'>
+    </FinishedForm>
+    <el-pagination
+      v-show='loaded'
+      background
+      @current-change="handleCurrentChange"
+      layout="prev, pager, next"
+      :total='total'>
+    </el-pagination>
   </div>
 </template>
 <script>
@@ -30,9 +32,8 @@ export default class FinishedFormContainer extends Vue {
   allProjects = []
   projects = []
   loaded = false
-  loading = true
   total = 0
-  mounted () {
+  fetchFinished () {
     this.$http.get('http://ninja-analytics.ru/getFinished')
       .then(res => {
         const chunk = (arr, len) => {
@@ -44,7 +45,6 @@ export default class FinishedFormContainer extends Vue {
           }
           return chunks
         }
-        console.log(res)
         const sorted = res.body.sort((a, b) => {
           const dateA = a.ico.phases[0].dates.end_date
           const dateB = b.ico.phases[0].dates.end_date
@@ -55,7 +55,6 @@ export default class FinishedFormContainer extends Vue {
         this.projects = this.allProjects[0]
         this.total = sorted.length
         this.loaded = true
-        this.loading = false
       })
   }
   handleCurrentChange (e) {

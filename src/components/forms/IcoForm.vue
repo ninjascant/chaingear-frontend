@@ -1,242 +1,301 @@
 <template>
-<div>
-	<div class="ico-page">
-    <div class="ico-form">
-      <div class="form-header">
-        <div class="form-header-text">
-          <p>ICO</p>
-        </div>
-      </div>
-      <div class="form-content">
-        <p>At first, tell us, do you plan to run an ICO:</p>
-        <div class="input-wrapper">
-          <label>Do you plan to run a crowdsale?</label>
-  				<!-- Is ICO? -->
-  				<el-checkbox 
-  					v-model="checked"
-  					@change='checkIco'>Yes</el-checkbox>
-        </div>
-        <div v-show='!checked' class="no-ico">
-          <p>
-            If you don't plan to run an ICO, just skip to the nex section
-          </p>
-        </div>
-        <div class="sub-header">
-          <p>Token distribution shares</p>
-        </div>
-        <div class="input-wrapper">
-          <label>Description</label>
-          <input 
-            v-model="form.token_" 
-            type="text" 
-            class="custom-input"></input>
-        </div>
-        <div class="input-wrapper">
-          <label>Description</label>
-          <input 
-            v-model="form.headline" 
-            type="text" 
-            class="custom-input"></input>
-        </div>
-    	  <!-- Phase tabs -->
-        <div v-show='checked' class="ico-form-full">
-      	  <el-tabs 
-      	  	v-model="editableTabsValue" 
-      	  	type="card" 
-      	  	editable 
-      	  	@edit="handleTabsEdit">
-      	  	<el-tab-pane
-      	  		v-for="(item, index) in phasesTabs"
-      	  		:key="item.name"
-      	  		:label="item.title"
-      	  		:name="item.name">
-      	  		<IcoPhaseForm></IcoPhaseForm>
-      	  	</el-tab-pane>
-      	  </el-tabs>
-        </div>
-      </div>
-    </div>
-    <div class="buttons-container">
-      
-      <el-button type="default" 
-    round icon="el-icon-arrow-left"
-    @click="prevClick">Previous</el-button>
-    
-  <el-button type="success" 
-    round icon="el-icon-arrow-right"
-    @click="onClick">Next</el-button>
-    
-    </div>
-    
+  <div>
+    <v-card color="grey lighten-4" flat>
+      <v-card-media
+        height='100px'
+        src="/dist/static/doc-images/cards/docks3.png">
+        <v-container fill-height fluid>
+          <v-layout fill-height>
+            <v-flex xs12 align-end flexbox>
+              <span class="headline">ICO</span>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-media>
+      <v-card-text>
+        <v-container fluid>
+          <v-layout row wrap>
+            <v-flex xs6>
+              <v-subheader>At first, tell us, do you plan to run an ICO?</v-subheader>
+              <v-card flat color="grey lighten-4">
+                <v-card-text>
+                  <v-switch v-bind:label="`${form.is_ico?'Yes':'No'}`" v-model="form.is_ico"></v-switch>
+                </v-card-text>
+              </v-card>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap v-show='!form.is_ico'>
+            Ok, then just move to the next section
+          </v-layout>
+          <v-layout row wrap v-show='form.is_ico'>
+            <v-flex xs8>
+              <v-text-field
+                name="input-1"
+                label='Current ICO phase number'
+                v-model='form.phase_num'>
+              </v-text-field>
+              <v-text-field
+                name="input-1"
+                label='Current ICO phase name'
+                v-model='form.phase_name'>
+              </v-text-field>
+              <v-select
+                  v-bind:items="status"
+                  v-model="form.phase_status"
+                  hint=""
+                  persistent-hint
+                  label="Current phase status"  
+                  max-height='auto'></v-select>
+              <v-subheader>Registration</v-subheader>
+              <v-layout row wrap>
+                  <v-flex xs8>
+                <v-dialog
+                  persistent
+                  v-model="modal"
+                  lazy
+                  full-width
+                  width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    label="Registration start date"
+                    v-model="form.registration.start_date.date"
+                    prepend-icon="event"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker v-model="form.registration.start_date.date" scrollable actions>
+                    <template slot-scope="{ save, cancel }">
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
+                        <v-btn flat color="primary" @click="save">OK</v-btn>
+                      </v-card-actions>
+                    </template>
+                  </v-date-picker>
+                </v-dialog>
+                </v-flex>
+                <v-flex xs3>
+                  <v-text-field
+                        type="time"
+                        suffix="UTC"
+                        label="Time"
+                        v-model="form.registration.start_date.time"
+                      ></v-text-field>
+                </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                  <v-flex xs8>
+                    <v-dialog
+                      persistent
+                      v-model="modal"
+                      lazy
+                      full-width
+                      width="290px"
+                    >
+                      <v-text-field
+                        slot="activator"
+                        label="Registration end date"
+                        v-model="form.registration.end_date.date"
+                        prepend-icon="event"
+                        readonly
+                      ></v-text-field>
+                      <v-date-picker v-model="form.registration.end_date.date" scrollable actions>
+                        <template slot-scope="{ save, cancel }">
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
+                            <v-btn flat color="primary" @click="save">OK</v-btn>
+                          </v-card-actions>
+                        </template>
+                      </v-date-picker>
+                    </v-dialog>
+                  </v-flex>
+                
+                
+                  <v-flex xs3>
+                    <v-text-field
+                        type="time"
+                        suffix="UTC"
+                        label="Time"
+                        v-model="form.registration.end_date.time"
+                      ></v-text-field>
+                    </v-flex>
+                </v-layout>
+              <v-text-field
+                label='Registration terms'
+                v-model='form.registration.terms'>
+              </v-text-field>
+              <v-text-field
+                label='Registration website'
+                v-model='form.registration.website'>
+              </v-text-field>
+              <v-subheader>Crowdsale</v-subheader><v-layout row wrap>
+                  <v-flex xs8>
+                <v-dialog
+                  persistent
+                  v-model="modal"
+                  lazy
+                  full-width
+                  width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    label="ICO start date"
+                    v-model="form.dates.start_date.date"
+                    prepend-icon="event"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker v-model="form.dates.start_date.date" scrollable actions>
+                    <template slot-scope="{ save, cancel }">
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
+                        <v-btn flat color="primary" @click="save">OK</v-btn>
+                      </v-card-actions>
+                    </template>
+                  </v-date-picker>
+                </v-dialog>
+                </v-flex>
+                <v-flex xs3>
+                  <v-text-field
+                        type="time"
+                        suffix="UTC"
+                        label="Time"
+                        v-model="form.dates.start_date.time"
+                      ></v-text-field>
+                </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                  <v-flex xs8>
+                    <v-dialog
+                      persistent
+                      v-model="modal"
+                      lazy
+                      full-width
+                      width="290px"
+                    >
+                      <v-text-field
+                        slot="activator"
+                        label="Registration end date"
+                        v-model="form.dates.end_date.date"
+                        prepend-icon="event"
+                        readonly
+                      ></v-text-field>
+                      <v-date-picker v-model="form.dates.end_date.date" scrollable actions>
+                        <template slot-scope="{ save, cancel }">
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
+                            <v-btn flat color="primary" @click="save">OK</v-btn>
+                          </v-card-actions>
+                        </template>
+                      </v-date-picker>
+                    </v-dialog>
+                  </v-flex>
+                
+                
+                  <v-flex xs3>
+                    <v-text-field
+                        type="time"
+                        suffix="UTC"
+                        label="Time"
+                        v-model="form.dates.end_date.time"
+                      ></v-text-field>
+                    </v-flex>
+                </v-layout>
+              <v-text-field
+                label='Sales agreement'
+                v-model='form.terms.sales_agreement'>
+              </v-text-field>
+              <v-text-field
+                label='Sales website'
+                v-model='form.terms.sales_url'>
+              </v-text-field>
+              <v-text-field
+                label='Issued tokens'
+                v-model='form.terms.issued_tokens'>
+              </v-text-field>
+              <v-text-field
+                label='Sold tokens'
+                v-model='form.terms.sold_tokens'>
+              </v-text-field>
+              <v-layout row wrap>
+                <v-flex xs8>
+                  <v-text-field
+                    label='Cap limit'
+                    v-model='form.terms.cap_limit_amount'>
+                  </v-text-field>
+                </v-flex>
+                <v-flex xs3>
+                <v-select
+                  v-bind:items="currency"
+                  v-model="form.terms.cap_limit_currency"
+                  hint=""
+                  persistent-hint
+                        
+                  max-height='auto'></v-select>
+                </v-flex>
+              </v-layout>
+              <v-layout row wrap>
+                <v-flex xs8>
+                  <v-text-field
+                    label='Raised funds'
+                    hint="Fill this field only if your ICO already started"
+                    v-model='form.raised_funds_amount'>
+                  </v-text-field>
+                </v-flex>
+                <v-flex xs3>
+                <v-select
+                  v-bind:items="currency"
+                  v-model="form.raised_funds_currency"
+                  hint=""
+                  persistent-hint    
+                  max-height='auto'></v-select>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-btn color="primary" @click="next">Continue</v-btn>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+    </v-card>
   </div>
-	<!-- Next tab button -->
-
-</div>
 </template>
 <script>
-/* eslint-disable */
 import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
-import IcoPhaseForm from './IcoPhaseForm.vue'
 
-@Component({
-	components: {
-		IcoPhaseForm
-	}
-})
+@Component({})
 export default class IcoForm extends Vue {
-	activeNames = ['1']
-	checked = true
-	icoOptions = true
-	editableTabsValue = 'Phase 1'
-	tabIndex = 1
+  status = ['Active', 'Finished']
+  currency = ['USD', 'ETH', 'BTC']
+  modal = false
   form = {
-    start_date: {},
-    end_date: {}
+    is_ico: true,
+    registration: {
+      start_date: {},
+      end_date: {}
+    },
+    terms: {
+      cap_limit_currency: 'USD'
+    },
+    raised_funds_currency: 'USD',
+    dates: {
+      start_date: {},
+      end_date: {}
+    }
   }
-  phasesTabs = [
-  	{
-  		title: 'Phase 1',
-  		name: 'Phase 1',
-  		content: 'Phase 1'
-  	}]
-  onClick () {
-    this.$emit('interface', {direction: 'next', data: JSON.stringify(this.form)})
-  }
-  prevClick () {
-    this.$emit('interface', {direction: 'prev', data: JSON.stringify(this.form)})
-  }
-  checkIco () {
-  	if (!this.checked) {
-  		this.icoOptions = false
-  	}
-  }
-  handleTabsEdit (targetName, action) {
-  	if(action === 'add') {
-  		const newTabName = `Phase ${++this.tabIndex}`
-  		this.phasesTabs.push({
-  			title: newTabName,
-  			name: newTabName,
-  			content: 'New tab'
-  		})
-  		this.editableTabsValue = newTabName
-  	} 
-  	if (action === 'remove') {
-  		console.log('remove')
-  		const tabs = this.phasesTabs
-  		let activeName = this.editableTabsValue
-  		if(activeName === targetName) {
-  			tabs.forEach((tab, index) => {
-  				if(tab.name === targetName) {
-  					let nextTab = tabs[index + 1] || tabs[index - 1]
-  					if (nextTab) {
-  						activeName = nextTab.name
-  					}
-  				}
-  			})
-  		}
-  		this.editableTabsValue = activeName
-  		this.phasesTabs = tabs.filter(tab => tab.name !== targetName)
-  	}
+  next () {
+    console.log('ico')
+    const tmp = {
+      is_ico: this.form.is_ico,
+      phases: []
+    }
+    delete this.form.is_ico
+    tmp.phases.push(this.form)
+    this.$emit('interface', {form: 'ico', data: tmp})
   }
 }
 </script>
-<style>
-  h2 {
-    font-family: 'Helvetica Neue';
-  }
-  .buttons-container {
-    padding-top: 15px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  .no-ico {
-    height: 200px;
-    padding-top: 20px;
-    background-color: #B9D9C6;
-    display: flex;
-    align-items: center;
-  }
-  .ico-page {
-    width: 700px;
-  }
-  .ico-form {
-    background-color: white;
-    width: 700px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 1px 1px 2px #AEAEB9;
-  }
-  .ico-form-full {
-    padding-top: 15px;
-    width: 600px;
-  }
-  .form-header {
-    font-family: 'Helvetica Neue';
-    font-size: 1.5em;
-    background-color: #91D2E1;
-  }
-  .form-header-text {
-    margin-left: 20px;
-  }
-  .form-content {
-    
-    margin-top: 15px;
-    margin-bottom: 20px;
-
-  }
-  .custom-buttons {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  fieldset {
-    width: 16em;
-    margin: 20px;
-    border: 0 none;
-  }
-  .el-popover--plain {
-    white-space: pre-line;
-  }
-  .input-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 10px;
-
-  }
-  .input-wrapper~label {
-    
-  }
-  .custom-input {
-    border-radius: 4px;
-    border: 1px solid #dcdfe6;
-    color: #606266;
-    height: 40px;
-    font-size: 0.9em;
-    
-    width: 40%;
-  }
-  select {
-    border-radius: 4px;
-    border: 1px solid #dcdfe6;
-    color: #606266;
-    height: 40px;
-    font-size: 0.9em;
-    padding-left: 15px;
-    width: 40%;
-  }
-  option {
-    font-size: 14px;
-    padding: 5px;
-  }
-  label {
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    text-align: left;
-    width: 7em;
-    font-family: Helvetica, 'Helvetica-neue';
-    font-size: 0.9em;
-  }
-</style>

@@ -1,42 +1,37 @@
 <template>
   <div id="app">
-    <el-container>
-      <el-header>Header</el-header>
-      <el-container>
-        <el-aside>
-          <SideMenu></SideMenu>
-          
-        </el-aside>
-        <el-main>
-          <router-view></router-view>
-          <!--<FormContainer message='proprpr'></FormContainer>
-          <FinishedFormContainer></FinishedFormContainer>-->
-        </el-main>
-      </el-container>
-    </el-container>
+  <v-app>
+    <main>
+      <v-container>
+        <v-layout row wrap>
+          <v-flex xs4>
+            <SideMenu></SideMenu>
+          </v-flex>
+          <v-flex xs8>
+            <router-view></router-view>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </main>
+  </v-app>
   </div>
 </template>
 
 <script>
+/* eslint-disable */ 
 import {Component} from 'vue-property-decorator'
 import Vue from 'vue'
-import FormContainer from './components/FormContainer'
-import SideMenu from './components/SideMenu'
+import AddProjectFormContainer from './components/AddProjectFormContainer'
 import FinishedFormContainer from './components/FinishedFormContainer'
-
+import SideMenu from './components/SideMenu'
 @Component({
   components: {
-    FormContainer,
-    FinishedFormContainer,
-    SideMenu
+    SideMenu,
+    AddProjectFormContainer,
+    FinishedFormContainer
   }
 })
-export default class App extends Vue {
-  // message = 'hello from vue component'
-  messages = ['one', 'two', 'three', 'four', 'five']
-  txt = ''
-  obj = {}
-}
+export default class App extends Vue {}
 </script>
 <style>
 </style>

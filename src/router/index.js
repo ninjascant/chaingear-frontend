@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import App from '../App'
-import FormContainer from '../components/FormContainer'
+import AddProjectFormContainer from '../components/AddProjectFormContainer'
 import FinishedFormContainer from '../components/FinishedFormContainer'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     /* {
       path: '/',
@@ -16,7 +17,7 @@ export default new Router({
     {
       path: '/add_info',
       name: 'Add info',
-      component: FormContainer
+      component: AddProjectFormContainer
     },
     {
       path: '/finished',

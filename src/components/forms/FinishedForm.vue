@@ -1,190 +1,117 @@
 <template>
-<div>
-  <div class="finished-proj-card">
-    <h3>{{ project.description.project_name }}</h3>
+  <div>
+    <v-card color="grey lighten-4" flat>
+      <v-card-media
+        height='70px'
+        src="/dist/static/doc-images/cards/docks2.png">
+        <v-container fill-height fluid>
+          <v-layout fill-height>
+            <v-flex xs12 align-end flexbox>
+              <span class="display-1">{{project.description.project_name}}</span>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-media>
+      <v-card-text>
+        <v-container fluid>
+          <v-layout row wrap>
+              <v-flex xs3>
+                <span class="headline"><a v-bind:href='website.url'>Site</a></span>
+              </v-flex>
+              <v-flex xs3>
+                <span class="headline"><a v-bind:href='twitter.url'>Twitter</a></span>
+              </v-flex>
+              <v-flex xs3>
+                <span class="headline"><a v-bind:href='blog.url'>Blog</a></span>
+              </v-flex>
+          </v-layout>
+          <v-divider></v-divider>
+          <v-layout row wrap>
+            <v-flex xs12>
+              <v-layout row wrap>
+                <v-flex xs6>
+                  <v-text-field
+                    label='Sold tokens'
+                    v-model='form.sold_tokens'>
+                  </v-text-field>
+                </v-flex>
+                <v-flex xs6>
+                  <v-text-field
+                    label='Token Final Price'
+                    v-model='form.token_final_price'>
+                  </v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout row wrap>
+                <v-flex xs6>
+                  <v-text-field
+                    label='USD Raised'
+                    v-model='form.usd_raised'>
+                  </v-text-field>
+                </v-flex>
+                <v-flex xs6>
+                  <v-text-field
+                    label='ETH Raised'
+                    v-model='form.eth_raised'>
+                  </v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-flex><v-btn flat @click="makeCommit" color="primary">Commit changes</v-btn></v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+    </v-card>
+    
   </div>
-  <el-row>
-    <el-row>
-    <p>Ended: {{ project.ico.phases[0].dates.end_date }} </p>
-    </el-row>
-    <el-row>
-    <el-col :span='24'>
-      <img src="https://cdn1.iconfinder.com/data/icons/unique-round-blue/93/globe-512.png"
-        width="32px"
-        height="32px">
-      <a v-bind:href='websiteUrl'>{{websiteName}}</a>
-    </el-col>
-    <el-col :span='24'>
-      <img src='https://abs-0.twimg.com/responsive-web/web/ltr/icon-ios.a9cd885bccbcaf2f.png'
-        width="32px"
-        height="32px">
-      <a v-bind:href='twitter.url'>{{twitter.name}}</a>
-    </el-col>
-    </el-row>  
-  </el-row>
-  <el-row>
-    <el-col :span='6'>
-      <el-form ref="form" label-position='right' :model="form" label-width="120px">
-        <!-- Issued -->
-        <el-form-item label="ICO phase">
-          <el-input 
-            v-model="form.phase"></el-input>
-        </el-form-item>
-        <!-- Sold -->
-        <el-form-item label="Sold tokens">
-          <el-input v-model="form.sold"></el-input>
-        </el-form-item>
-        <!-- Final price -->
-        <el-popover
-          ref="finalPriceInfo"
-          placement="right-end"
-          title=""
-          width="300"
-          trigger="focus"
-          content="Enter token price in ETH at the end of ICO">
-        </el-popover>
-        <el-form-item label="Token final price">
-          <el-input 
-            v-model="form.final_price"
-            v-popover:finalPriceInfo></el-input>
-        </el-form-item>
-      </el-form>
-    </el-col>
-    <el-col :span='6'>
-      <el-form ref="form" label-position='right' :model="form" label-width="120px">
-        <el-form-item label="USD raised">
-          <el-input v-model="form.raised_usd"></el-input>
-        </el-form-item>
-        <el-form-item label="ETH raised">
-          <el-input v-model="form.raised_eth"></el-input>
-        </el-form-item>
-        <el-form-item label="BTC raised">
-          <el-input v-model="form.raised_btc"></el-input>
-        </el-form-item>
-      </el-form>
-    </el-col>
-  </el-row>
-  <el-row>
-    <el-button type="success"
-      :loading='loading' 
-      size='small'
-      @click='makeCommit'
-      round icon="el-icon-upload">Commit changes</el-button>
-  </el-row>
-</div>
 </template>
 <script>
 /* eslint-disable */
 import Vue from 'vue'
-import {Component, Watch} from 'vue-property-decorator'
+import {Component, Prop} from 'vue-property-decorator'
 
-@Component({
-  props: {
-    project: {
-      default: ''
-    }
-  }
-})
+@Component({})
 export default class FinishedForm extends Vue {
+  @Prop({default: {}})
+  project
   form = {}
-  
-  websiteUrl = this.project.links.filter(link => link.type === 'website')[0].url
-  websiteName = this.project.links.filter(link => link.type === 'website')[0].name
   website = {
-    url: this.project.links.filter(link => link.type === 'website')[0].url,
-    name: this.project.links.filter(link => link.type === 'website')[0].name
-  }
-  twitter = {
-    url: this.project.links.filter(link => link.type === 'twitter')[0].url,
-    name: this.project.links.filter(link => link.type === 'twitter')[0].name
-  }
-  /* 
-  websiteUrl = ''
-  websiteName = ''
-  twitter = {
     url: '',
     name: ''
-  } */
-  loading=false
-  @Watch('project')
-  onProjectChanged () {
-    this.websiteUrl = this.project.links.filter(link => link.type === 'website')[0].url
-    this.websiteName = this.project.links.filter(link => link.type === 'website')[0].name
+  }
+  twitter = {
+    url: ''
+  }
+  blog = {
+    url: '',
+    name: ''
+  }
+  beforeUpdate () {
 
-    this.twitter = {
-      url: this.project.links.filter(link => link.type === 'twitter')[0].url,
-      name: this.project.links.filter(link => link.type === 'twitter')[0].name
-    }
+    this.website.url = (this.project.links.filter(link => link.type === 'website')[0].url)?this.project.links.filter(link => link.type === 'website')[0].url:''
+    this.website.name = (this.project.links.filter(link => link.type === 'website')[0].name)?this.project.links.filter(link => link.type === 'website')[0].name:''
+    this.twitter.url = (this.project.links.filter(link => link.type === 'twitter')[0].url)?this.project.links.filter(link => link.type === 'twitter')[0].url:''
+    this.blog.url = (this.project.links.filter(link => link.type === 'blog')[0].url)?this.project.links.filter(link => link.type === 'blog')[0].url:''
+    this.blog.name = (this.project.links.filter(link => link.type === 'blog')[0].name)?this.project.links.filter(link => link.type === 'blog')[0].name:''
   }
   makeCommit () {
-    const n = this.form.phase
-    if (n !== 0) {
-        const tmp = {
-        phase_status: 'Finished',
-        terms: {
-          sold_tokens: this.form.sold 
-        },
-        prices: {
-          token_final_price: []
-        },
-        raised_funds: []
-      }
-      tmp.prices.token_final_price.push({currency: 'ETH', amount: this.form.final_price})
-      // this.project.ico.phases[n].phase_status = 'Finished'
-      // this.project.ico.phases[n].terms.sold_tokens = this.form.sold
-      // this.project.ico.phases[n].prices.token_final_price[0].currency = 'ETH'
-      // this.project.ico.phases[n].prices.token_final_price[0].amount = this.form.final_price
-      // this.project.ico.phases[n].raised_funds = []
-      tmp.raised_funds.push({
-        currency: 'USD',
-        amount: this.form.raised_usd
-      })
-      tmp.raised_funds.push({
-        currency: 'ETH',
-        amount: this.form.raised_eth
-      })
-      tmp.raised_funds.push({
-        currency: 'BTC',
-        amount: this.form.raised_btc
-      })
-    } else {
-      const tmp = {
-        phase_status: 'Finished',
-        terms: {
-          sold_tokens: this.form.sold 
-        },
-        prices: {
-          token_final_price: []
-        },
-        raised_funds: []
-      }
-      tmp.prices.token_final_price.push({currency: 'ETH', amount: this.form.final_price})
-      // this.project.ico.phases[n].phase_status = 'Finished'
-      // this.project.ico.phases[n].terms.sold_tokens = this.form.sold
-      // this.project.ico.phases[n].prices.token_final_price[0].currency = 'ETH'
-      // this.project.ico.phases[n].prices.token_final_price[0].amount = this.form.final_price
-      // this.project.ico.phases[n].raised_funds = []
-      tmp.raised_funds.push({
-        currency: 'USD',
-        amount: this.form.raised_usd
-      })
-      tmp.raised_funds.push({
-        currency: 'ETH',
-        amount: this.form.raised_eth
-      })
-      tmp.raised_funds.push({
-        currency: 'BTC',
-        amount: this.form.raised_btc
-      })
-    }
-    this.$http.post('http://localhost:8000/pullreq', JSON.stringify(this.project))
+    this.project.ico.phases[0].phase_status = 'Finished'
+    this.project.ico.phases[0].terms.sold_tokens = this.form.sold_tokens
+    this.project.ico.phases[0].prices.token_final_price[0].currency = 'ETH'
+    this.project.ico.phases[0].prices.token_final_price[0].amount = (this.form.final_price)?this.form.final_price:''
+    this.project.ico.phases[0].raised_funds = []
+    if(this.form.usd_raised!==undefined) this.project.ico.phases[0].raised_funds.push({currency: 'USD', amount: this.form.usd_raised})
+    if(this.form.eth_raised!==undefined) this.project.ico.phases[0].raised_funds.push({currency: 'ETH', amount: this.form.eth_raised})
+    if(this.form.btc_raised!==undefined) this.project.ico.phases[0].raised_funds.push({currency: 'BTC', amount: this.form.btc_raised})
+    this.$http.post('http://ninja-analytics.ru/pullreq', JSON.stringify(this.project))
       .then(res => console.log(res.body))
   }
 }
 </script>
 <style>
-  .finished-proj-card {
-    background-color: #EBF3F7;
-    width: 60%;
-  }
+.hide-this {
+  visibility: hidden;
+}
 </style>

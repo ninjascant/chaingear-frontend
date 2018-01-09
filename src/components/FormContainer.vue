@@ -14,14 +14,11 @@
     <el-tab-pane
       label='Funds'
       name='first'>
-      <FundsForm></FundsForm>
+      <FundsForm @interface='nextClick'></FundsForm>
     </el-tab-pane>
-    <!-- Blockchain tab
-    <el-tab-pane 
-      label="Blockchain" 
-      name="first">
-      <DescrForm @interface='nextClick'></DescrForm>
-    </el-tab-pane> -->
+    <!-- Blockchain tab-->
+    
+    
     <!-- ICO tab -->
     <el-tab-pane label="ICO" name="second">
       <IcoForm @interface='nextClick'></IcoForm>
@@ -35,7 +32,12 @@
       <LinksForm @interface='nextClick'></LinksForm>
     </el-tab-pane>
     <!-- Submit tab -->
-    <el-tab-pane label="Submit" name="fifth">
+    <el-tab-pane 
+      label="Blockchain" 
+      name="fifth">
+      <DescrForm @interface='nextClick'></DescrForm>
+      </el-tab-pane> 
+    <el-tab-pane label="Submit" name="sixth">
       <SubmitForm @interface='nextClick' :fullInfo='obj'></SubmitForm>
     </el-tab-pane>
   </el-tabs>
