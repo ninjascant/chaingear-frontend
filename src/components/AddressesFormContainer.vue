@@ -16,10 +16,10 @@
         <v-container fluid>
           <v-layout row wrap>
             <v-flex xs5>
-              <FundsForm 
+              <AddressesForm 
                 :share='addresses[0]'
                 @interface='changeAddress'
-              ></FundsForm>
+              ></AddressesForm>
             </v-flex>
             <v-flex xs6>
               <v-data-table
@@ -57,9 +57,51 @@
             </v-data-table>
             </v-flex>
           </v-layout>
+          <v-layout row wrap>
+            <v-flex xs5>
+              <ContractsForm 
+                @interface='changeContracts'
+              ></ContractsForm>
+            </v-flex>
+            <v-flex xs6>
+              <v-data-table
+                v-bind:headers="headers1"
+                v-bind:items="contracts"
+                v-model="selected"
+                item-key="contract"
+                select-all
+                hide-actions 
+              >
+              <template slot="headerCell" slot-scope="props">
+                <v-tooltip bottom>
+                  <span slot="activator">
+                    {{ props.header.text }}
+                  </span>
+                  <span>
+                    {{ props.header.text }}
+                  </span>
+                </v-tooltip>
+              </template>
+              <template slot="items" slot-scope="props">
+                <td>
+                  <v-checkbox
+                    primary
+                    hide-details
+                    v-model="props.selected"
+                  ></v-checkbox>
+                </td>
+                <td class="text-xs-right" color="grey lighten-4">{{ props.item.address }}</td>
+                <td class="text-xs-right">{{ props.item.type }}</td>
+              </template>
+              <template slot="no-data">
+                <span>Nothing to display yet</span>
+              </template>
+            </v-data-table>
+            </v-flex>
+          </v-layout>
         </v-container>
         <v-layout row wrap>
-          <v-btn :disabled='disabled' color="primary" @click="next">Continue</v-btn>
+          <v-btn color="primary" @click="next">Continue</v-btn>
         </v-layout>
       </v-card-text>
     </v-card>
@@ -68,11 +110,13 @@
 <script>
 import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
-import FundsForm from './forms/AddressesForm'
+import AddressesForm from './forms/AddressesForm'
+import ContractsForm from './forms/ContractsForm'
 
 @Component({
   components: {
-    FundsForm
+    AddressesForm,
+    ContractsForm
   }
 })
 export default class AddressesFormContainer extends Vue {
@@ -86,9 +130,19 @@ export default class AddressesFormContainer extends Vue {
       value: 'currency'
     }
   ]
-  lowerThan100 = false
+  headers1 = [
+    {
+      text: 'Address',
+      value: 'address'
+    },
+    {
+      text: 'Type',
+      value: 'type'
+    }
+  ]
   disabled = true
   addresses = []
+  contracts = []
   selected = []
   i = 0
   changeAddress (data) {
@@ -96,8 +150,13 @@ export default class AddressesFormContainer extends Vue {
     this.disabled = false
     console.log(this.addresses)
   }
+  changeContracts (data) {
+    this.contracts.push({address: data.formData.address, type: data.formData.type, value: false})
+    this.disabled = false
+    console.log(this.contracts)
+  }
   next () {
-    this.$emit('interface', {form: 'funds', data: this.form})
+    this.$emit('interface', {form: 'addresses', data: {contracts: this.contracts, addresses: this.addresses}})
   }
 }
 </script>

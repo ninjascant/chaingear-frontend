@@ -12,10 +12,12 @@
           </v-layout>
         </v-container>
       </v-card-media>
+      <!-- Main content -->
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
             <v-flex xs8>
+              <!-- Phase number, name, status -->
               <v-text-field
                 name="input-1"
                 label='Current ICO phase number'
@@ -47,11 +49,11 @@
                   <v-text-field
                     slot="activator"
                     label="Registration start date"
-                    v-model="form.registration.start_date.date"
+                    v-model="form.reg_start_date.date"
                     prepend-icon="event"
                     readonly
                   ></v-text-field>
-                  <v-date-picker v-model="form.registration.start_date.date" scrollable actions>
+                  <v-date-picker v-model="form.reg_start_date.date" scrollable actions>
                     <template slot-scope="{ save, cancel }">
                       <v-card-actions>
                         <v-spacer></v-spacer>
@@ -67,7 +69,7 @@
                         type="time"
                         suffix="UTC"
                         label="Time"
-                        v-model="form.registration.start_date.time"
+                        v-model="form.reg_start_date.time"
                       ></v-text-field>
                 </v-flex>
                 </v-layout>
@@ -83,11 +85,11 @@
                       <v-text-field
                         slot="activator"
                         label="Registration end date"
-                        v-model="form.registration.end_date.date"
+                        v-model="form.reg_end_date.date"
                         prepend-icon="event"
                         readonly
                       ></v-text-field>
-                      <v-date-picker v-model="form.registration.end_date.date" scrollable actions>
+                      <v-date-picker v-model="form.reg_end_date.date" scrollable actions>
                         <template slot-scope="{ save, cancel }">
                           <v-card-actions>
                             <v-spacer></v-spacer>
@@ -105,17 +107,17 @@
                         type="time"
                         suffix="UTC"
                         label="Time"
-                        v-model="form.registration.end_date.time"
+                        v-model="form.reg_end_date.time"
                       ></v-text-field>
                     </v-flex>
                 </v-layout>
               <v-text-field
                 label='Registration terms'
-                v-model='form.registration.terms'>
+                v-model='form.reg_terms'>
               </v-text-field>
               <v-text-field
                 label='Registration website'
-                v-model='form.registration.website'>
+                v-model='form.reg_url'>
               </v-text-field>
               <v-subheader>Crowdsale</v-subheader><v-layout row wrap>
                   <v-flex xs6>
@@ -129,11 +131,11 @@
                   <v-text-field
                     slot="activator"
                     label="ICO start date"
-                    v-model="form.dates.start_date.date"
+                    v-model="form.ico_start_date.date"
                     prepend-icon="event"
                     readonly
                   ></v-text-field>
-                  <v-date-picker v-model="form.dates.start_date.date" scrollable actions>
+                  <v-date-picker v-model="form.ico_start_date.date" scrollable actions>
                     <template slot-scope="{ save, cancel }">
                       <v-card-actions>
                         <v-spacer></v-spacer>
@@ -149,7 +151,7 @@
                         type="time"
                         suffix="UTC"
                         label="Time"
-                        v-model="form.dates.start_date.time"
+                        v-model="form.ico_start_date.time"
                       ></v-text-field>
                 </v-flex>
                 </v-layout>
@@ -165,11 +167,11 @@
                       <v-text-field
                         slot="activator"
                         label="ICO end date"
-                        v-model="form.dates.end_date.date"
+                        v-model="form.ico_end_date.date"
                         prepend-icon="event"
                         readonly
                       ></v-text-field>
-                      <v-date-picker v-model="form.dates.end_date.date" scrollable actions>
+                      <v-date-picker v-model="form.ico_end_date.date" scrollable actions>
                         <template slot-scope="{ save, cancel }">
                           <v-card-actions>
                             <v-spacer></v-spacer>
@@ -187,25 +189,25 @@
                         type="time"
                         suffix="UTC"
                         label="Time"
-                        v-model="form.dates.end_date.time"
+                        v-model="form.ico_end_date.time"
                       ></v-text-field>
                     </v-flex>
                 </v-layout>
               <v-text-field
                 label='Sales agreement'
-                v-model='form.terms.sales_agreement'>
+                v-model='form.sales_agreement'>
               </v-text-field>
               <v-text-field
                 label='Sales website'
-                v-model='form.terms.sales_url'>
+                v-model='form.sales_url'>
               </v-text-field>
               <v-text-field
                 label='Issued tokens'
-                v-model='form.terms.issued_tokens'>
+                v-model='form.issued_tokens'>
               </v-text-field>
               <v-text-field
                 label='Sold tokens'
-                v-model='form.terms.sold_tokens'>
+                v-model='form.sold_tokens'>
               </v-text-field>
               <v-layout row wrap>
                 <v-flex xs6>
@@ -220,11 +222,11 @@
                   <v-text-field
                     slot="activator"
                     label="Token distribution date"
-                    v-model="form.token_distribution.date"
+                    v-model="form.token_distr_date"
                     prepend-icon="event"
                     readonly
                   ></v-text-field>
-                  <v-date-picker v-model="form.token_distribution.date" scrollable actions>
+                  <v-date-picker v-model="form.token_distr_date" scrollable actions>
                     <template slot-scope="{ save, cancel }">
                       <v-card-actions>
                         <v-spacer></v-spacer>
@@ -240,7 +242,7 @@
                         type="time"
                         suffix="UTC"
                         label="Time"
-                        v-model="form.token_distribution.time"
+                        v-model="form.token_distr_time"
                       ></v-text-field>
                 </v-flex>
                 </v-layout>
@@ -248,13 +250,13 @@
                 <v-flex xs8>
                   <v-text-field
                     label='Cap limit'
-                    v-model='form.terms.cap_limit_amount'>
+                    v-model='form.cap_limit_amount'>
                   </v-text-field>
                 </v-flex>
                 <v-flex xs3>
                 <v-select
                   v-bind:items="currency"
-                  v-model="form.terms.cap_limit_currency"
+                  v-model="form.cap_limit_currency"
                   hint=""
                   persistent-hint
                         
@@ -316,32 +318,14 @@ export default class IcoForm extends Vue {
   modal = false
   form = {
     is_ico: true,
-    registration: {
-      start_date: {},
-      end_date: {}
-    },
-    terms: {
-      cap_limit_currency: 'USD'
-    },
-    raised_funds_currency: 'USD',
-    token_final_price: {
-      currency: 'ETH'
-    },
-    token_distribution: {},
-    dates: {
-      start_date: {},
-      end_date: {}
-    }
+    reg_start_date: {},
+    reg_end_date: {},
+    ico_start_date: {},
+    ico_end_date: {},
+    token_final_price: {}
   }
   next () {
-    console.log(this.form)
-    const tmp = {
-      is_ico: this.form.is_ico,
-      phases: []
-    }
-    delete this.form.is_ico
-    tmp.phases.push(this.form)
-    this.$emit('interface', {form: 'ico', data: tmp})
+    this.$emit('interface', {form: 'ico', data: this.form})
   }
 }
 </script>

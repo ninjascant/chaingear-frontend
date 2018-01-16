@@ -28,8 +28,7 @@
                 v-model="selected"
                 item-key="description"
                 select-all
-                hide-actions
-                
+                hide-actions 
               >
               <template slot="headerCell" slot-scope="props">
                 <v-tooltip bottom>
@@ -102,10 +101,9 @@ export default class FundsFormContainer extends Vue {
   changeShare (data) {
     this.items.push({percent: data.formData.percent, description: data.formData.description, value: false})
     this.disabled = false
-    console.log(this.items)
   }
   next () {
-    this.$emit('interface', {form: 'blockchain', data: this.form})
+    this.$emit('interface', {form: 'funds', data: {proceeds: this.items}})
   }
 }
 </script>

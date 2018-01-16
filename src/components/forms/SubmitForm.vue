@@ -60,6 +60,11 @@
                 :loading="loading"
                 @click="makeCommit">Commit changes<v-icon right dark>cloud_upload</v-icon>
               </v-btn>
+              <v-btn 
+                class="white--text" 
+                color='success' 
+                @click="testCommit">Test commit<v-icon right dark>cloud_upload</v-icon>
+              </v-btn>
             </v-flex>
           </v-layout>
         </v-container>
@@ -70,6 +75,7 @@
 <script>
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
+import convert from '../../helpers/full.js'
 
 @Component({})
 export default class SubmitForm extends Vue {
@@ -81,12 +87,15 @@ export default class SubmitForm extends Vue {
   errorCode = ''
   successful = false
   htmlUrl = ''
+  testCommit () {
+    console.log(convert(this.fullInfo))
+  }
   makeCommit () {
     this.loading = true
     console.log('this.fullInfo')
     console.log(Object.keys(this.fullInfo))
-    const tmp = this.fullInfo
-    this.$http.post('http://ninja-analytics.ru/pullreq', JSON.stringify(tmp))
+    // const tmp = this.fullInfo
+    this.$http.post('http://localhost:8000/pullreq', JSON.stringify(convert(this.fullInfo)))
       .then(res => {
         this.loading = false
         this.successful = true

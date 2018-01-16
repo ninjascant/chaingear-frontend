@@ -100,7 +100,7 @@ export default class LinksForm extends Vue {
       }
       return link
     })
-    this.$emit('interface', {form: 'ico', data: tmp})
+    this.$emit('interface', {form: 'links', data: tmp})
   }
 }
 </script>

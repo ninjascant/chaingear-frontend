@@ -53,7 +53,10 @@ export default class AddressesForm extends Vue {
   send () {
     console.log(parseInt('12,5', 10))
     this.$emit('interface', {formData: this.form})
-    this.form = {}
+    const currency = this.form.currency
+    this.form = {
+      currency: currency
+    }
   }
 }
 </script>

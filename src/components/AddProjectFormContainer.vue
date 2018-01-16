@@ -5,41 +5,45 @@
         <v-flex xs12>
           <v-stepper v-model="e6" vertical>
             <v-stepper-step step="1" editable v-bind:complete="e6 > 1">
-              Tell us about blockchain, used in your project
+              Blockchain
             </v-stepper-step>
             <v-stepper-content step="1">
-              <!--<BlockchainForm @interface='nextPane'></BlockchainForm>-->
-              <FundsFormContainer @interface='nextPane'></FundsFormContainer>
+              <BlockchainForm @interface='nextPane'></BlockchainForm>
             </v-stepper-content>
             <v-stepper-step step="2" editable v-bind:complete="e6 > 2">
-              Addresses and contracts
-            </v-stepper-step>
-            <v-stepper-content step="2">
-              <!--<BlockchainForm @interface='nextPane'></BlockchainForm>-->
-              <AddressesFormContainer @interface='nextPane'></AddressesFormContainer>
-            </v-stepper-content>
-            <!--<v-stepper-step step="2" editable v-bind:complete="e6 > 2">
-              Tell us about your crowdsale
+              Crowdsale
             </v-stepper-step>
             <v-stepper-content step="2">
               <IcoForm @interface='nextPane'></IcoForm>
-            </v-stepper-content>-->
-            <v-stepper-step step="3" editable v-bind:complete="e6 > 3">
-              Tell us about the token, used in ICO
+            </v-stepper-content>
+             <v-stepper-step step="3" editable v-bind:complete="e6 > 3">
+              Use of proceeds
             </v-stepper-step>
             <v-stepper-content step="3">
-              <TokenForm @interface='nextPane'></TokenForm>
+              <FundsFormContainer @interface='nextPane'></FundsFormContainer>
             </v-stepper-content>
-            <v-stepper-step step="4" editable v-bind:complete="e6 > 4">
-              Links to social networks
+             <v-stepper-step step="4" editable v-bind:complete="e6 > 4">
+              Addresses and contracts
             </v-stepper-step>
             <v-stepper-content step="4">
-              <LinksForm @interface='nextPane'></LinksForm>
+              <AddressesFormContainer @interface='nextPane'></AddressesFormContainer>
             </v-stepper-content>
             <v-stepper-step step="5" editable v-bind:complete="e6 > 5">
-              Submit application
+              Tell us about the token, used in ICO
             </v-stepper-step>
             <v-stepper-content step="5">
+              <TokenForm @interface='nextPane'></TokenForm>
+            </v-stepper-content>
+            <v-stepper-step step="6" editable v-bind:complete="e6 > 6">
+              Links to social networks
+            </v-stepper-step>
+            <v-stepper-content step="6">
+              <LinksForm @interface='nextPane'></LinksForm>
+            </v-stepper-content>
+            <v-stepper-step step="7" editable v-bind:complete="e6 > 7">
+              Submit application
+            </v-stepper-step>
+            <v-stepper-content step="7">
               <SubmitForm @interface='lastPane' :fullInfo='fullInfo'></SubmitForm>
             </v-stepper-content>
           </v-stepper>
@@ -76,7 +80,7 @@ export default class AddProjectFormContainer extends Vue {
   nextPane (e) {
     this.e6 += 1
     this.fullInfo[e.form] = e.data
-    // console.log(this.fullInfo)
+    console.log(this.fullInfo)
   }
   lastPane () {}
 }
