@@ -91,7 +91,7 @@ export default class SubmitForm extends Vue {
         this.loading = false
         this.successful = true
         this.htmlUrl = res.body.html_url
-        //console.log(res.body)
+        // console.log(res.body)
       })
       .catch(error => {
         console.log('error', error)

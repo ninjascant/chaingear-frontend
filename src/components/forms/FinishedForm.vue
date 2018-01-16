@@ -64,7 +64,6 @@
         </v-container>
       </v-card-text>
     </v-card>
-    
   </div>
 </template>
 <script>
@@ -89,7 +88,6 @@ export default class FinishedForm extends Vue {
     name: ''
   }
   beforeUpdate () {
-
     this.website.url = (this.project.links.filter(link => link.type === 'website')[0].url)?this.project.links.filter(link => link.type === 'website')[0].url:''
     this.website.name = (this.project.links.filter(link => link.type === 'website')[0].name)?this.project.links.filter(link => link.type === 'website')[0].name:''
     this.twitter.url = (this.project.links.filter(link => link.type === 'twitter')[0].url)?this.project.links.filter(link => link.type === 'twitter')[0].url:''

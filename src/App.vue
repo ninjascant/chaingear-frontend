@@ -4,10 +4,10 @@
     <main>
       <v-container>
         <v-layout row wrap>
-          <v-flex xs4>
+          <v-flex xs3>
             <SideMenu></SideMenu>
           </v-flex>
-          <v-flex xs8>
+          <v-flex xs9>
             <router-view></router-view>
           </v-flex>
         </v-layout>

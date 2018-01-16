@@ -15,19 +15,6 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex xs6>
-              <v-subheader>At first, tell us, do you plan to run an ICO?</v-subheader>
-              <v-card flat color="grey lighten-4">
-                <v-card-text>
-                  <v-switch v-bind:label="`${form.is_ico?'Yes':'No'}`" v-model="form.is_ico"></v-switch>
-                </v-card-text>
-              </v-card>
-            </v-flex>
-          </v-layout>
-          <v-layout row wrap v-show='!form.is_ico'>
-            Ok, then just move to the next section
-          </v-layout>
-          <v-layout row wrap v-show='form.is_ico'>
             <v-flex xs8>
               <v-text-field
                 name="input-1"
@@ -48,7 +35,8 @@
                   max-height='auto'></v-select>
               <v-subheader>Registration</v-subheader>
               <v-layout row wrap>
-                  <v-flex xs8>
+                <v-flex xs6>
+                <!-- Registration Dates -->
                 <v-dialog
                   persistent
                   v-model="modal"
@@ -74,7 +62,7 @@
                   </v-date-picker>
                 </v-dialog>
                 </v-flex>
-                <v-flex xs3>
+                <v-flex xs4>
                   <v-text-field
                         type="time"
                         suffix="UTC"
@@ -84,10 +72,10 @@
                 </v-flex>
                 </v-layout>
                 <v-layout row wrap>
-                  <v-flex xs8>
+                  <v-flex xs6>
                     <v-dialog
                       persistent
-                      v-model="modal"
+                      v-model="modal1"
                       lazy
                       full-width
                       width="290px"
@@ -112,7 +100,7 @@
                   </v-flex>
                 
                 
-                  <v-flex xs3>
+                  <v-flex xs4>
                     <v-text-field
                         type="time"
                         suffix="UTC"
@@ -130,10 +118,10 @@
                 v-model='form.registration.website'>
               </v-text-field>
               <v-subheader>Crowdsale</v-subheader><v-layout row wrap>
-                  <v-flex xs8>
+                  <v-flex xs6>
                 <v-dialog
                   persistent
-                  v-model="modal"
+                  v-model="modal2"
                   lazy
                   full-width
                   width="290px"
@@ -156,7 +144,7 @@
                   </v-date-picker>
                 </v-dialog>
                 </v-flex>
-                <v-flex xs3>
+                <v-flex xs4>
                   <v-text-field
                         type="time"
                         suffix="UTC"
@@ -166,17 +154,17 @@
                 </v-flex>
                 </v-layout>
                 <v-layout row wrap>
-                  <v-flex xs8>
+                  <v-flex xs6>
                     <v-dialog
                       persistent
-                      v-model="modal"
+                      v-model="modal3"
                       lazy
                       full-width
                       width="290px"
                     >
                       <v-text-field
                         slot="activator"
-                        label="Registration end date"
+                        label="ICO end date"
                         v-model="form.dates.end_date.date"
                         prepend-icon="event"
                         readonly
@@ -194,7 +182,7 @@
                   </v-flex>
                 
                 
-                  <v-flex xs3>
+                  <v-flex xs4>
                     <v-text-field
                         type="time"
                         suffix="UTC"
@@ -219,6 +207,43 @@
                 label='Sold tokens'
                 v-model='form.terms.sold_tokens'>
               </v-text-field>
+              <v-layout row wrap>
+                <v-flex xs6>
+                <!-- Token distribution Dates -->
+                <v-dialog
+                  persistent
+                  v-model="modal4"
+                  lazy
+                  full-width
+                  width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    label="Token distribution date"
+                    v-model="form.token_distribution.date"
+                    prepend-icon="event"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker v-model="form.token_distribution.date" scrollable actions>
+                    <template slot-scope="{ save, cancel }">
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
+                        <v-btn flat color="primary" @click="save">OK</v-btn>
+                      </v-card-actions>
+                    </template>
+                  </v-date-picker>
+                </v-dialog>
+                </v-flex>
+                <v-flex xs4>
+                  <v-text-field
+                        type="time"
+                        suffix="UTC"
+                        label="Time"
+                        v-model="form.token_distribution.time"
+                      ></v-text-field>
+                </v-flex>
+                </v-layout>
               <v-layout row wrap>
                 <v-flex xs8>
                   <v-text-field
@@ -253,6 +278,23 @@
                   max-height='auto'></v-select>
                 </v-flex>
               </v-layout>
+              <v-layout row wrap>
+                <v-flex xs8>
+                  <v-text-field
+                    label='Token final price'
+                    v-model='form.token_final_price.amount'>
+                  </v-text-field>
+                </v-flex>
+                <v-flex xs3>
+                <v-select
+                  v-bind:items="currency"
+                  v-model="form.token_final_price.currency"
+                  hint=""
+                  persistent-hint
+                        
+                  max-height='auto'></v-select>
+                </v-flex>
+              </v-layout>
             </v-flex>
           </v-layout>
           <v-layout row wrap>
@@ -282,13 +324,17 @@ export default class IcoForm extends Vue {
       cap_limit_currency: 'USD'
     },
     raised_funds_currency: 'USD',
+    token_final_price: {
+      currency: 'ETH'
+    },
+    token_distribution: {},
     dates: {
       start_date: {},
       end_date: {}
     }
   }
   next () {
-    console.log('ico')
+    console.log(this.form)
     const tmp = {
       is_ico: this.form.is_ico,
       phases: []

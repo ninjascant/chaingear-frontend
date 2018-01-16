@@ -19,14 +19,14 @@
               <v-text-field
                 name="input-1"
                 label='Project Name'
-                
+                :rules="[rules.required]"
                 v-model='form.project_name'>
               </v-text-field>
               <v-text-field
                 name="input-1"
                 label='Headline'
                 hint="It shouldn't be more than 50 symbols long"
-                
+                :rules="[rules.required]"
                 v-model='form.headline'>
               </v-text-field>
               <v-radio-group v-model="form.asset_type" label="Asset type" :mandatory="false" row>
@@ -37,7 +37,7 @@
                 v-bind:items="states"
                 v-model="form.state"
                 label="Project State"
-                
+                :rules="[rules.required]"
                 max-height='auto'
                 item-text="label"
                 item-value="value"></v-select>
@@ -45,7 +45,7 @@
                 v-bind:items="dependency"
                 v-model="form.dependency"
                 label="Dependency"
-                
+                :rules="[rules.required]"
                 hint="Select blockchain used to issue your tokens"
                 persistent-hint
                 max-height='auto'
@@ -58,7 +58,7 @@
                 autocomplete
                 hint="Select consensus algorithm, used in your project, or enter your own option"
                 persistent-hint
-                      
+                :rules="[rules.required]"     
                 max-height='auto'
                 item-text="label"
                 item-value="value"></v-select>
@@ -96,6 +96,9 @@ export default class BlockchainForm extends Vue {
     {value: 'DPOS', label: 'Delegated Proof-of-Stake'},
     {value: 'POA', label: 'Proof-of-Authority'},
     {value: 'POB', label: 'Proof-of-Burn'}]
+  rules = {
+    required: (value) => !!value || 'Required'
+  }
   next () {
     this.$emit('interface', {form: 'blockchain', data: this.form})
   }

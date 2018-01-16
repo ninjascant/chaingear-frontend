@@ -18,6 +18,7 @@
             <v-flex xs6>
               <v-text-field
                 label='Token Name'
+                :rules="[rules.required]"
                 v-model='form.name'>
               </v-text-field>
               <v-text-field
@@ -27,11 +28,13 @@
               <v-select
                 v-bind:items="purpose"
                 v-model="form.token_purpose"
+                :rules="[rules.required]"
                 label="Token purpose"
                 max-height='auto'></v-select>
               <v-select
                 v-bind:items="type"
                 v-model="form.token_type"
+                :rules="[rules.required]"
                 label="Token type"
                 max-height='auto'></v-select>
               <v-text-field
@@ -77,6 +80,9 @@ export default class Token extends Vue {
   purpose = ['ICO token', 'App token', 'Both']
   type = ['Core token', 'Blockchain issued token']
   form = {}
+  rules = {
+    required: (value) => !!value || 'Required'
+  }
   next () {
     this.$emit('interface', {form: 'token', data: this.form})
   }
