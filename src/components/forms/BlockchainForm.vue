@@ -67,6 +67,20 @@
             <v-layout row wrap>
               <v-btn color="primary" @click="next">Continue</v-btn>
             </v-layout>
+            <v-dialog v-model="notEnough" max-width="390">
+                <v-card dark> 
+                  <v-card-title class="headline">Error</v-card-title>
+                  <v-card-text>
+                    <v-alert color="error" icon="warning" v-show="notEnough" value="true">
+                      Please, fill all required fields
+                    </v-alert>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" flat="flat" @click.native="notEnough = false">Ok</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
           </v-container>
         </v-card-text>
       </v-card>
@@ -79,10 +93,12 @@ import {Component} from 'vue-property-decorator'
 @Component({})
 export default class BlockchainForm extends Vue {
   form = {}
+  notEnough = false
+  requiredFields = ['project_name', 'headline', 'state', 'asset_type', 'dependency', 'consensus']
   states = [
-    {value: 0, label: 'Project (before ICO begins)'},
-    {value: 1, label: 'Pre-public (ICO ends, but tokens ain`t tradable)'},
-    {value: 2, label: 'Public Project (tokens are tradable)'}]
+    {value: '0', label: 'Project (before ICO begins)'},
+    {value: '1', label: 'Pre-public (ICO ends, but tokens ain`t tradable)'},
+    {value: '2', label: 'Public Project (tokens are tradable)'}]
   dependency = [
     {value: 'Ethereum', label: 'Ethereum (ERC20/ERC223 Token)'},
     {value: 'Waves', label: 'Waves platform'},
@@ -100,7 +116,14 @@ export default class BlockchainForm extends Vue {
     required: (value) => !!value || 'Required'
   }
   next () {
-    this.$emit('interface', {form: 'blockchain', data: this.form})
+    this.requiredFields.forEach(field => {
+      if (this.form[field] === undefined) {
+        this.notEnough = true
+      }
+    })
+    if (this.notEnough !== true) {
+      this.$emit('interface', {form: 'blockchain', data: this.form})
+    }
   }
 }
 </script>

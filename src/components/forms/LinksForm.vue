@@ -17,7 +17,7 @@
           <v-layout row wrap>
             <v-flex xs6>
               <v-text-field
-                label='Website'
+                label='Website*'
                 :rules="[rules.required]"
                 v-model='form.website'>
               </v-text-field>
@@ -62,6 +62,20 @@
           <v-layout row wrap>
             <v-btn color="primary" @click="next">Continue</v-btn>
           </v-layout>
+          <v-dialog v-model="notEnough" max-width="390">
+                <v-card dark> 
+                  <v-card-title class="headline">Error</v-card-title>
+                  <v-card-text>
+                    <v-alert color="error" icon="warning" v-show="notEnough" value="true">
+                      Please, fill all required fields
+                    </v-alert>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" flat="flat" @click.native="notEnough = false">Ok</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
         </v-container>
       </v-card-text>
     </v-card>
@@ -77,30 +91,39 @@ export default class LinksForm extends Vue {
   rules = {
     required: (value) => !!value || 'Required'
   }
+  requiredFields = ['website']
+  notEnough = false
   next () {
-    const tmp = Object.keys(this.form).map(key => {
-      const link = {
-        type: key,
-        name: key.charAt(0).toUpperCase() + key.slice(1),
-        url: this.form[key],
-        tags: ['News']
+    this.requiredFields.forEach(field => {
+      if (this.form[field] === undefined) {
+        this.notEnough = true
       }
-      switch (key) {
-        case 'website':
-          link.tags = ['Main']
-          break
-        case 'paper':
-          link.tags = ['Main', 'Science']
-          break
-        case 'github':
-          link.tags = ['Main', 'Code']
-          break
-        case 'blog':
-          link.tags = ['Main', 'News']
-      }
-      return link
     })
-    this.$emit('interface', {form: 'links', data: tmp})
+    if (this.notEnough !== true) {
+      const tmp = Object.keys(this.form).map(key => {
+        const link = {
+          type: key,
+          name: key.charAt(0).toUpperCase() + key.slice(1),
+          url: this.form[key],
+          tags: ['News']
+        }
+        switch (key) {
+          case 'website':
+            link.tags = ['Main']
+            break
+          case 'paper':
+            link.tags = ['Main', 'Science']
+            break
+          case 'github':
+            link.tags = ['Main', 'Code']
+            break
+          case 'blog':
+            link.tags = ['Main', 'News']
+        }
+        return link
+      })
+      this.$emit('interface', {form: 'links', data: tmp})
+    }
   }
 }
 </script>

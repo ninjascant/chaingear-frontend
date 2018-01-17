@@ -5,13 +5,13 @@
           <v-layout row wrap>
             <v-flex xs10>
               <v-text-field
-                label='Address'
+                label='Contract address'
+                hint='Fill this field out only if dependency = "ERC20";  Ethereum tokensale address - a hexadecimal field format (base 16 notation)'
                 v-model='form.address'>
               </v-text-field>
               <v-text-field
-                label='Type'
-                :rules='[rules.required]'
-                hint='ETH, BTC, LTC etc'
+                label='Contract type'
+                hint='NameTag of Ethereum tokensale address (you can find it at https://etherscan.io page of contract in Contract Overview section)'
                 v-model.number='form.type'>
               </v-text-field>
             </v-flex>

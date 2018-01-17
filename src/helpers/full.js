@@ -31,8 +31,8 @@ module.exports = (formData) => {
         "phase_name": formData.ico.phase_name,
         "phase_status": formData.ico.phase_status,
         "registration": {
-          "start_date": new Date(formData.ico.reg_start_date.date),
-          "end_date": new Date(formData.ico.reg_end_date.date),
+          "start_date": new Date(formData.ico.reg_start_date_date),
+          "end_date": new Date(formData.ico.reg_end_date_date),
           "website": formData.ico.reg_url,
           "terms": formData.ico.reg_terms
         },
@@ -42,7 +42,7 @@ module.exports = (formData) => {
           "issued_tokens": formData.ico.issued_tokens,
           "sold_tokens": formData.ico.sold_tokens,
           "share_of_sold": 0,
-          "token_distribution_date": new Date(formData.ico.token_distr_date.date),
+          "token_distribution_date": new Date(formData.ico.token_distr_date_date),
           "cap_limit": [
             {
               "currency": formData.ico.cap_limit_currency,
@@ -59,14 +59,22 @@ module.exports = (formData) => {
           "crowdsale_addresses": formData.addresses.addresses
         },
         "dates": {
-          "start_date": new Date(formData.ico.ico_start_date.date),
-          "end_date": new Date(formData.ico.ico_end_date.date),
+          "start_date": new Date(formData.ico.ico_start_date_date),
+          "end_date": new Date(formData.ico.ico_end_date_date),
           "duration": ""
         },
         "raised_funds": [
           {
-            "currency": formData.ico.raised_funds_currency,
-            "amount": formData.ico.raised_funds_amount
+            "currency": 'USD',
+            "amount": formData.ico.raised_funds_amount_usd
+          },
+          {
+            "currency": 'ETH',
+            "amount": formData.ico.raised_funds_amount_eth
+          },
+          {
+            "currency": 'BTC',
+            "amount": formData.ico.raised_funds_amount_btc
           }
         ],
         "prices": {

@@ -95,7 +95,7 @@ export default class SubmitForm extends Vue {
     console.log('this.fullInfo')
     console.log(Object.keys(this.fullInfo))
     // const tmp = this.fullInfo
-    this.$http.post('http://localhost:8000/pullreq', JSON.stringify(convert(this.fullInfo)))
+    this.$http.post('http://ninja-analytics.ru/pullreq', JSON.stringify(convert(this.fullInfo)))
       .then(res => {
         this.loading = false
         this.successful = true

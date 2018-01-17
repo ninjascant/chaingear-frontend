@@ -5,23 +5,23 @@
           <v-layout row wrap>
             <v-flex xs10>
               <v-text-field
-                label='Address'
+                label='Wallet Address'
                 v-model='form.address'>
               </v-text-field>
               <v-text-field
                 label='Currency'
                 :rules='[rules.required]'
-                hint='ETH, BTC, LTC etc'
+                hint='Cryptocurrency in which contributions accepted (ETH, BTC, LTC etc)'
                 v-model.number='form.currency'>
               </v-text-field>
             </v-flex>
           </v-layout>
           <v-layout row wrap>
             <v-btn 
-                flat 
-                color='success' 
-                @click="send">Add address <v-icon right color="green darken-2">fa-plus-circle</v-icon>
-              </v-btn>
+              flat 
+              color='success' 
+              @click="send">Add address <v-icon right color="green darken-2">fa-plus-circle</v-icon>
+            </v-btn>
           </v-layout>
         </v-container>
     </v-card> 

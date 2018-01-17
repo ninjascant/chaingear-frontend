@@ -17,25 +17,25 @@
           <v-layout row wrap>
             <v-flex xs6>
               <v-text-field
-                label='Token Name'
+                label='Token Name*'
                 :rules="[rules.required]"
                 v-model='form.name'>
               </v-text-field>
               <v-text-field
-                label='Token Symbol'
+                label='Token Symbol*'
                 v-model='form.symbol'>
               </v-text-field>
               <v-select
                 v-bind:items="purpose"
                 v-model="form.token_purpose"
                 :rules="[rules.required]"
-                label="Token purpose"
+                label="Token purpose*"
                 max-height='auto'></v-select>
               <v-select
                 v-bind:items="type"
                 v-model="form.token_type"
                 :rules="[rules.required]"
-                label="Token type"
+                label="Token type*"
                 max-height='auto'></v-select>
               <v-text-field
                 label='Inflation rate'
@@ -66,6 +66,20 @@
           <v-layout row wrap>
             <v-btn color="primary" @click="next">Continue</v-btn>
           </v-layout>
+          <v-dialog v-model="notEnough" max-width="390">
+                <v-card dark> 
+                  <v-card-title class="headline">Error</v-card-title>
+                  <v-card-text>
+                    <v-alert color="error" icon="warning" v-show="notEnough" value="true">
+                      Please, fill all required fields
+                    </v-alert>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" flat="flat" @click.native="notEnough = false">Ok</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
         </v-container>
       </v-card-text>
     </v-card>
@@ -80,11 +94,20 @@ export default class Token extends Vue {
   purpose = ['ICO token', 'App token', 'Both']
   type = ['Core token', 'Blockchain issued token']
   form = {}
+  notEnough = false
+  requiredFields = ['name', 'symbol', 'token_purpose', 'token_type']
   rules = {
     required: (value) => !!value || 'Required'
   }
   next () {
-    this.$emit('interface', {form: 'token', data: this.form})
+    this.requiredFields.forEach(field => {
+      if (this.form[field] === undefined) {
+        this.notEnough = true
+      }
+    })
+    if (this.notEnough !== true) {
+      this.$emit('interface', {form: 'token', data: this.form})
+    }
   }
 }
 </script>
