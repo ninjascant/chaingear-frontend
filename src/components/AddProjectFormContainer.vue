@@ -38,7 +38,7 @@
               App
             </v-stepper-step>
             <v-stepper-content step="6">
-              <LinksForm @interface='nextPane'></LinksForm>
+              <AppForm @interface='nextPane'></AppForm>
             </v-stepper-content>
             <v-stepper-step step="7" editable v-bind:complete="e6 > 7">
               Roadmap
@@ -70,6 +70,7 @@ import {Component} from 'vue-property-decorator'
 import BlockchainForm from './forms/BlockchainForm'
 import IcoForm from './forms/IcoForm'
 import TokenForm from './forms/TokenForm'
+import AppForm from './forms/AppForm'
 import LinksForm from './forms/LinksForm'
 import SubmitForm from './forms/SubmitForm'
 import FundsFormContainer from './FundsFormContainer'
@@ -83,6 +84,7 @@ import RoadmapFormContainer from './RoadmapFormContainer'
     FundsFormContainer,
     AddressesFormContainer,
     TokenForm,
+    AppForm,
     RoadmapFormContainer,
     LinksForm,
     SubmitForm
