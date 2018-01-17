@@ -14,26 +14,19 @@
       </v-card-media>
       <v-card-text>
         <v-container fluid>
-          <MultipleValuesContainer
-            @interface='addProceeds'
+          <RoadmapValuesContainer
+            @interface='addMilestone'
             :firstField='firstField'
             :secondField='secondField'
+            :thirdField='thirdField'
+            :fourthField='fourthField'
+            :fifthField='fifthField'
             :color='color'
             :head='head'
             :buttonText='buttonText'
             :headers='headers'
-            :items='proceeds'>
-          </MultipleValuesContainer>
-          <MultipleValuesContainer
-            @interface='addDistr'
-            :firstField='firstField'
-            :secondField='secondField'
-            :color='color'
-            :head='head1'
-            :buttonText='buttonText'
-            :headers='headers'
-            :items='distr'>
-          </MultipleValuesContainer>
+            :items='milestones'>
+          </RoadmapValuesContainer>
         </v-container>
         <v-layout row wrap>
           <v-btn :disabled='disabled' color="primary" @click="next">Continue</v-btn>
@@ -45,62 +38,84 @@
 <script>
 import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
-import FundsForm from './forms/FundsForm'
-import MultipleValuesForm from './forms/MultipleValuesForm'
-import MultipleValuesContainer from './MultipleValuesContainer'
+import RoadmapValuesContainer from './RoadmapValuesContainer'
 
 @Component({
   components: {
-    FundsForm,
-    MultipleValuesForm,
-    MultipleValuesContainer
+    RoadmapValuesContainer
   }
 })
-export default class FundsFormContainer extends Vue {
+export default class RoadmapFormContainer extends Vue {
   firstField = {
-    key: 'description',
+    key: 'number',
     hint: '',
     type: 'str',
-    label: 'Description'
+    label: 'Milestone number'
   }
   secondField = {
-    key: 'percent',
+    key: 'name',
     hint: '',
-    type: 'num',
-    label: 'Percent'
+    type: 'str',
+    label: 'Short description'
+  }
+  thirdField = {
+    key: 'start_date',
+    hint: 'Date format: 2017-11-22T00:00:00 or "2018 Q4"',
+    type: 'str',
+    label: 'Start date'
+  }
+  fourthField = {
+    key: 'end_date',
+    hint: 'Date format: 2017-11-22T00:00:00 or "2018 Q4"',
+    type: 'str',
+    label: 'End date'
+  }
+  fifthField = {
+    key: 'current_status',
+    hint: 'Planned, In work, Completed',
+    type: 'str',
+    label: 'Current status'
   }
   buttonText = 'Add share'
   color = 'grey lighten-3'
   headers = [
     {
-      text: 'Description',
-      value: 'description'
+      text: '№',
+      value: 'number'
     },
     {
-      text: 'Percent',
-      value: 'percent'
+      text: 'Description',
+      value: 'name'
+    },
+    {
+      text: 'Start date',
+      value: 'start_date'
+    },
+    {
+      text: 'End date',
+      value: 'end_date'
+    },
+    {
+      text: 'Status',
+      value: 'current_status'
     }
   ]
   head = 'Use of proceeds'
   head1 = 'Token distribution'
   colors = ['red', 'green', 'blue']
   disabled = true
-  proceeds = []
-  distr = []
+  milestones = []
   selected = []
   i = 0
   isNumeric (value) {
     return !isNaN(value - parseFloat(value))
   }
-  addProceeds (data) {
-    this.proceeds.push(data)
+  addMilestone (data) {
+    this.milestones.push(data)
     this.disabled = false
   }
-  addDistr (data) {
-    this.distr.push(data)
-  }
   next () {
-    this.$emit('interface', {form: 'funds', data: {proceeds: this.proceeds, distr: this.distr}})
+    this.$emit('interface', {form: 'roadmap', data: {milestones: this.milestones}})
   }
 }
 </script>

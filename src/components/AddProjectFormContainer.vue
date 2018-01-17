@@ -35,15 +35,27 @@
               <TokenForm @interface='nextPane'></TokenForm>
             </v-stepper-content>
             <v-stepper-step step="6" editable v-bind:complete="e6 > 6">
-              Links to social networks
+              App
             </v-stepper-step>
             <v-stepper-content step="6">
               <LinksForm @interface='nextPane'></LinksForm>
             </v-stepper-content>
             <v-stepper-step step="7" editable v-bind:complete="e6 > 7">
-              Submit application
+              Roadmap
             </v-stepper-step>
             <v-stepper-content step="7">
+              <RoadmapFormContainer @interface='nextPane'></RoadmapFormContainer>
+            </v-stepper-content>
+            <v-stepper-step step="8" editable v-bind:complete="e6 > 8">
+              Links to social networks
+            </v-stepper-step>
+            <v-stepper-content step="8">
+              <LinksForm @interface='nextPane'></LinksForm>
+            </v-stepper-content>
+            <v-stepper-step step="9" editable v-bind:complete="e6 > 9">
+              Submit application
+            </v-stepper-step>
+            <v-stepper-content step="9">
               <SubmitForm @interface='lastPane' :fullInfo='fullInfo'></SubmitForm>
             </v-stepper-content>
           </v-stepper>
@@ -62,6 +74,7 @@ import LinksForm from './forms/LinksForm'
 import SubmitForm from './forms/SubmitForm'
 import FundsFormContainer from './FundsFormContainer'
 import AddressesFormContainer from './AddressesFormContainer'
+import RoadmapFormContainer from './RoadmapFormContainer'
 
 @Component({
   components: {
@@ -70,6 +83,7 @@ import AddressesFormContainer from './AddressesFormContainer'
     FundsFormContainer,
     AddressesFormContainer,
     TokenForm,
+    RoadmapFormContainer,
     LinksForm,
     SubmitForm
   }

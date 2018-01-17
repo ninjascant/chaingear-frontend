@@ -15,22 +15,24 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex xs5>
-              <MultipleValuesForm
+            <v-flex xs4>
+              <RoadmapValuesForm
                 @interface='changeValue'
                 :firstField='firstField'
                 :secondField='secondField'
+                :thirdField='thirdField'
+                :fourthField='fourthField'
+                :fifthField='fifthField'
                 :color='color'
                 :buttonText='buttonText'>
-              </MultipleValuesForm>
+              </RoadmapValuesForm>
             </v-flex>
-            <v-flex xs6>
+            <v-flex xs8>
               <v-data-table
                 v-bind:headers="headers"
                 v-bind:items="items"
                 v-model="selected"
                 item-key="item"
-                select-all
                 hide-actions 
               >
               <template slot="headerCell" slot-scope="props">
@@ -44,15 +46,12 @@
                 </v-tooltip>
               </template>
               <template slot="items" slot-scope="props">
-                <td>
-                  <v-checkbox
-                    primary
-                    hide-details
-                    v-model="props.selected"
-                  ></v-checkbox>
-                </td>
-                <td class="text-xs-right" color="grey lighten-4">{{ props.item[firstField.key] }}</td>
+    
+                <td class="text-xs-right">{{ props.item[firstField.key] }}</td>
                 <td class="text-xs-right">{{ props.item[secondField.key] }}</td>
+                <td class="text-xs-right">{{ props.item[thirdField.key] }}</td>
+                <td class="text-xs-right">{{ props.item[fourthField.key] }}</td>
+                <td class="text-xs-right">{{ props.item[fifthField.key] }}</td>
               </template>
               <template slot="no-data">
                 <span>Nothing to display yet</span>
@@ -68,18 +67,24 @@
 <script>
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
-import MultipleValuesForm from './forms/MultipleValuesForm'
+import RoadmapValuesForm from './forms/RoadmapValuesForm'
 
 @Component({
   components: {
-    MultipleValuesForm
+    RoadmapValuesForm
   }
 })
-export default class AddressesFormContainer extends Vue {
+export default class RoadmapValuesContainer extends Vue {
   @Prop({default: () => {}})
   firstField
   @Prop({default: () => {}})
   secondField
+  @Prop({default: () => {}})
+  thirdField
+  @Prop({default: () => {}})
+  fourthField
+  @Prop({default: () => {}})
+  fifthField
   @Prop({default: ''})
   buttonText
   @Prop({default: ''})
@@ -93,9 +98,15 @@ export default class AddressesFormContainer extends Vue {
   selected = []
   changeValue (data) {
     const tmp = {}
+    console.log('formData')
+    console.log(data)
     tmp[this.firstField.key] = data.formData[this.firstField.key]
     tmp[this.secondField.key] = data.formData[this.secondField.key]
+    tmp[this.thirdField.key] = data.formData[this.thirdField.key]
+    tmp[this.fourthField.key] = data.formData[this.fourthField.key]
+    tmp[this.fifthField.key] = data.formData[this.fifthField.key]
     tmp.value = false
+    console.log(tmp)
     this.$emit('interface', tmp)
   }
 }

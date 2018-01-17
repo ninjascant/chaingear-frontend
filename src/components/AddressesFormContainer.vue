@@ -68,7 +68,7 @@ export default class AddressesFormContainer extends Vue {
     label: 'Currency'
   }
   buttonText = 'Add address'
-  color = 'grey lighten-3'
+  color = 'cyan lighten-4'
   firstFieldContracts = {
     key: 'address',
     hint: '',
@@ -112,16 +112,6 @@ export default class AddressesFormContainer extends Vue {
   }
   addContracts (data) {
     this.contracts.push(data)
-  }
-  changeAddress (data) {
-    this.addresses.push({address: data.formData.address, currency: data.formData.currency, value: false})
-    this.disabled = false
-    console.log(this.addresses)
-  }
-  changeContracts (data) {
-    this.contracts.push({address: data.formData.address, type: data.formData.type, value: false})
-    this.disabled = false
-    console.log(this.contracts)
   }
   next () {
     this.$emit('interface', {form: 'addresses', data: {contracts: this.contracts, addresses: this.addresses}})
