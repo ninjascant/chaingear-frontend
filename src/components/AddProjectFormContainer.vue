@@ -53,9 +53,15 @@
               <LinksForm @interface='nextPane'></LinksForm>
             </v-stepper-content>
             <v-stepper-step step="9" editable v-bind:complete="e6 > 9">
-              Submit application
+              Short description
             </v-stepper-step>
             <v-stepper-content step="9">
+              <ShortDescriptionForm @interface='nextPane'></ShortDescriptionForm>
+            </v-stepper-content>
+            <v-stepper-step step="10" editable v-bind:complete="e6 > 10">
+              Submit application
+            </v-stepper-step>
+            <v-stepper-content step="10">
               <SubmitForm @interface='lastPane' :fullInfo='fullInfo'></SubmitForm>
             </v-stepper-content>
           </v-stepper>
@@ -76,6 +82,7 @@ import SubmitForm from './forms/SubmitForm'
 import FundsFormContainer from './FundsFormContainer'
 import AddressesFormContainer from './AddressesFormContainer'
 import RoadmapFormContainer from './RoadmapFormContainer'
+import ShortDescriptionForm from './forms/ShortDescriptionForm'
 
 @Component({
   components: {
@@ -87,6 +94,7 @@ import RoadmapFormContainer from './RoadmapFormContainer'
     AppForm,
     RoadmapFormContainer,
     LinksForm,
+    ShortDescriptionForm,
     SubmitForm
   }
 })
