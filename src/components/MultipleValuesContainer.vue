@@ -1,13 +1,13 @@
 <template>
   <div>
-    <v-card color="grey lighten-4" flat>
+    <v-card color="deep-purple lighten-4" flat class='mb-3'>
       <v-card-media
         height='50px'
-        src="/dist/static/doc-images/cards/docks2.png">
+      >
         <v-container fill-height fluid>
           <v-layout fill-height>
             <v-flex xs12 align-end flexbox>
-              <span class="headline">Use of proceeds</span>
+              <span class="headline">{{head}}</span>
             </v-flex>
           </v-layout>
         </v-container>
@@ -17,7 +17,7 @@
           <v-layout row wrap>
             <v-flex xs5>
               <MultipleValuesForm
-                @interface='changeShare'
+                @interface='changeValue'
                 :firstField='firstField'
                 :secondField='secondField'
                 :color='color'
@@ -29,7 +29,7 @@
                 v-bind:headers="headers"
                 v-bind:items="items"
                 v-model="selected"
-                item-key="description"
+                item-key="item"
                 select-all
                 hide-actions 
               >
@@ -51,8 +51,8 @@
                     v-model="props.selected"
                   ></v-checkbox>
                 </td>
-                <td class="text-xs-right" color="grey lighten-4">{{ props.item.description }}</td>
-                <td class="text-xs-right">{{ props.item.percent }}</td>
+                <td class="text-xs-right" color="grey lighten-4">{{ props.item[firstField.key] }}</td>
+                <td class="text-xs-right">{{ props.item[secondField.key] }}</td>
               </template>
               <template slot="no-data">
                 <span>Nothing to display yet</span>
@@ -61,76 +61,47 @@
             </v-flex>
           </v-layout>
         </v-container>
-        <v-layout row wrap>
-          <v-btn :disabled='disabled' color="primary" @click="next">Continue</v-btn>
-        </v-layout>
       </v-card-text>
     </v-card>
   </div>
 </template>
 <script>
 import Vue from 'vue'
-import {Component} from 'vue-property-decorator'
-import FundsForm from './forms/FundsForm'
+import {Component, Prop} from 'vue-property-decorator'
 import MultipleValuesForm from './forms/MultipleValuesForm'
 
 @Component({
   components: {
-    FundsForm,
     MultipleValuesForm
   }
 })
-export default class FundsFormContainer extends Vue {
-  firstField = {
-    key: 'description',
-    hint: '',
-    type: 'str',
-    label: 'Description'
-  }
-  secondField = {
-    key: 'percent',
-    hint: '',
-    type: 'num',
-    label: 'Percent'
-  }
-  buttonText = 'Add share'
-  color = 'grey'
-  headers = [
-    {
-      text: 'Description',
-      value: 'description'
-    },
-    {
-      text: 'Percent',
-      value: 'percent'
-    }
-  ]
-  colors = ['red', 'green', 'blue']
-  shares = [
-    {
-      percent: 0,
-      description: '',
-      id: 0
-    }
-  ]
-  disabled = true
-  items = []
+export default class AddressesFormContainer extends Vue {
+  @Prop({default: () => {}})
+  firstField
+  @Prop({default: () => {}})
+  secondField
+  @Prop({default: ''})
+  buttonText
+  @Prop({default: ''})
+  color
+  @Prop({default: () => {}})
+  headers
+  @Prop({default: () => []})
+  items
+  @Prop({default: ''})
+  head
   selected = []
-  i = 0
-  isNumeric (value) {
-    return !isNaN(value - parseFloat(value))
-  }
-  changeShare (data) {
-    this.items.push({percent: data.formData.percent, description: data.formData.description, value: false})
-    this.disabled = false
-  }
-  next () {
-    this.$emit('interface', {form: 'funds', data: {proceeds: this.items}})
+  changeValue (data) {
+    const tmp = {}
+    tmp[this.firstField.key] = data.formData[this.firstField.key]
+    tmp[this.secondField.key] = data.formData[this.secondField.key]
+    tmp.value = false
+    this.$emit('interface', tmp)
   }
 }
 </script>
 <style>
 tr {
-  background-color: #E0E0E0;
+  background-color: #EEEEEE;
 }
 </style>

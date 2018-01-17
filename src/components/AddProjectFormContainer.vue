@@ -22,7 +22,7 @@
             <v-stepper-content step="3">
               <FundsFormContainer @interface='nextPane'></FundsFormContainer>
             </v-stepper-content>
-             <v-stepper-step step="4" editable v-bind:complete="e6 > 4">
+            <v-stepper-step step="4" editable v-bind:complete="e6 > 4">
               Addresses and contracts
             </v-stepper-step>
             <v-stepper-content step="4">

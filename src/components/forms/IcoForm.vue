@@ -305,6 +305,7 @@ import {Component} from 'vue-property-decorator'
 export default class IcoForm extends Vue {
   status = ['Active', 'Finished']
   currency = ['USD', 'ETH', 'BTC']
+  notEnough = false
   requredFields = ['phase_num', 'phase_name', 'phase_status', 'ico_start_date_date', 'ico_end_date_date', 'sales_agreement', 'sales_url']
   modal = false
   modal1 = false

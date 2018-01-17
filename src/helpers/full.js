@@ -91,7 +91,7 @@ module.exports = (formData) => {
             }
           ]
         },
-        "contract": formData.addresses.contracts
+        "contract": (formData.addresses.contracts !== undefined)?formData.addresses.contracts:[]
       }
     ]
   },
