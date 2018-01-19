@@ -91,7 +91,8 @@ export default class SubmitForm extends Vue {
   testCommit () {
     // console.log(convert(this.fullInfo))
       const postString = postGenerator(this.fullInfo)
-      this.$http.post('http://localhost:8000/createPost', JSON.stringify({post: postString}))
+      this.$http.post('http://ninja-analytics.ru/createPost', JSON.stringify({post: postString}))
+        .then(res=>console.log(res))
   }
   makeCommit () {
     this.loading = true
