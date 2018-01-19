@@ -27,7 +27,7 @@
           <v-layout v-show="checked" row wrap>
             <v-flex xs6>
               <v-dialog v-model="submitError" max-width="390">
-                <v-card dark> 
+                <v-card dark>
                   <v-card-title class="headline">Error</v-card-title>
                   <v-card-text>
                     <v-alert color="error" icon="warning" v-show="submitError" value="true">
@@ -41,7 +41,7 @@
                 </v-card>
               </v-dialog>
               <v-dialog v-model="successful" max-width="390">
-              <v-card> 
+              <v-card>
                   <v-card-title class="headline">Successful!</v-card-title>
                   <v-card-text>
                     <v-alert color="success" icon="check_circle" value="true">
@@ -54,15 +54,15 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <v-btn 
-                class="white--text" 
-                color='success' 
+              <v-btn
+                class="white--text"
+                color='success'
                 :loading="loading"
                 @click="makeCommit">Commit changes<v-icon right dark>cloud_upload</v-icon>
               </v-btn>
-              <v-btn 
-                class="white--text" 
-                color='success' 
+              <v-btn
+                class="white--text"
+                color='success'
                 @click="testCommit">Test commit<v-icon right dark>cloud_upload</v-icon>
               </v-btn>
             </v-flex>
@@ -76,6 +76,7 @@
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
 import convert from '../../helpers/full.js'
+import postGenerator from '../../helpers/post_generator.js'
 
 @Component({})
 export default class SubmitForm extends Vue {
@@ -88,7 +89,9 @@ export default class SubmitForm extends Vue {
   successful = false
   htmlUrl = ''
   testCommit () {
-    console.log(convert(this.fullInfo))
+    // console.log(convert(this.fullInfo))
+    const postString = postGenerator(form)
+    this.$http.post('http://localhost:8000/createPost', postString)
   }
   makeCommit () {
     this.loading = true
