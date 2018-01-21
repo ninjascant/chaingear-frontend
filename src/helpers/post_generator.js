@@ -1,4 +1,5 @@
-const fs = require('fs')
+/* eslint-disable */
+
 const dateFormat = require('dateformat')
 const form = {
   short_description: {
@@ -31,7 +32,72 @@ const form = {
       {description: 'development', percent: 40},
       {description: 'marketing', percent: 50}
     ]
-  }
+  },
+  links: [
+    {
+                "type": "website",
+                "name": "adamant.im",
+                "url": "https://adamant.im/",
+                "tags": [
+                    "Main"
+                ]
+            },
+            {
+                "type": "paper",
+                "name": "ADAMANT Whitepaper",
+                "url": "https://adamant.im/whitepaper/adamant-whitepaper-en.pdf",
+                "tags": [
+                    "Main",
+                    "Science"
+                ]
+            },
+            {
+                "type": "github",
+                "name": "ADAMANT Github",
+                "url": "https://github.com/adamant-im",
+                "icon": "github.png",
+                "tags": [
+                    "Main",
+                    "Code"
+                ]
+            },
+            {
+                "type": "forum",
+                "name": "Bitcointalk",
+                "url": "https://bitcointalk.org/index.php?topic=2635646.0",
+                "icon": "bitcointalk.png",
+                "tags": [
+                    "News"
+                ]
+            },
+            {
+                "type": "twitter",
+                "name": "Twitter",
+                "url": "https://twitter.com/adamant_im",
+                "icon": "twitter.png",
+                "tags": [
+                    "News"
+                ]
+            },
+            {
+                "type": "custom",
+                "name": "ADAMANT Telegram",
+                "url": "https://t.me/adamant_im",
+                "icon": "telegram.png",
+                "tags": [
+                    "News"
+                ]
+            },
+            {
+                "type": "custom",
+                "name": "Facebook",
+                "url": "https://www.facebook.com/adamant.im/",
+                "icon": "facebook.png",
+                "tags": [
+                    "News"
+                ]
+            }
+  ]
 }
 const createPost = (form) => {
   // String for short description
@@ -100,11 +166,13 @@ const createPost = (form) => {
   --|--${fundsDistrStr}
 
   `
-
+  // Links string
+  const linksList = form.links.reduce((str, curr) => str += `\n* [${curr.name}](${curr.url})`, '')
+  const linksStr = `\n## Полезные ссылки\n${linksList}`
   // Full post string
-  const fullPost = `${descrStr}${tokenStr}${icoStr}`
-  return fullPost
-  // fs.writeFileSync('./test.md', fullPost)
+  const fullPost = `${descrStr}${tokenStr}${icoStr}${linksStr}`
+  // return fullPost
+  fs.writeFileSync('./test.md', fullPost)
 }
-module.exports = createPost
-// createPost(form)
+//module.exports = createPost
+createPost(form)

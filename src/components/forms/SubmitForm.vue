@@ -76,7 +76,6 @@
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
 import convert from '../../helpers/full.js'
-import postGenerator from '../../helpers/post_generator.js'
 
 @Component({})
 export default class SubmitForm extends Vue {
@@ -90,9 +89,8 @@ export default class SubmitForm extends Vue {
   htmlUrl = ''
   testCommit () {
     // console.log(convert(this.fullInfo))
-      const postString = postGenerator(this.fullInfo)
-      this.$http.post('http://ninja-analytics.ru/createPost', JSON.stringify({post: postString}))
-        .then(res=>console.log(res))
+    this.$http.post('http://ninja-analytics.ru/createPost', JSON.stringify({form: this.fullInfo}))
+      .then(res => console.log(res))
   }
   makeCommit () {
     this.loading = true

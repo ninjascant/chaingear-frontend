@@ -100,12 +100,9 @@ export default class RoadmapFormContainer extends Vue {
       value: 'current_status'
     }
   ]
-  head = 'Use of proceeds'
-  head1 = 'Token distribution'
-  colors = ['red', 'green', 'blue']
+  head = 'Roadmap'
   disabled = true
   milestones = []
-  selected = []
   i = 0
   isNumeric (value) {
     return !isNaN(value - parseFloat(value))

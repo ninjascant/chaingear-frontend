@@ -174,6 +174,11 @@
                 v-model='form.sales_url'>
               </v-text-field>
               <v-text-field
+                name="input-1"
+                label='Total supply'
+                v-model='form.supply'>
+              </v-text-field>
+              <v-text-field
                 label='Issued tokens'
                 v-model='form.issued_tokens'>
               </v-text-field>

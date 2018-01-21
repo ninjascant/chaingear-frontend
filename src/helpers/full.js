@@ -15,13 +15,8 @@ module.exports = (formData) => {
       "is_ico": true,
       "current_ico_phase": formData.ico.phase_num,
       "token_distribution": {
-        "total_supply": 0,
-        "shares": [
-          {
-            "description": "",
-            "percent": 0
-          }
-        ]
+        "total_supply": form.ico.supply,
+        "shares": formData.funds.distr
       },
       "use_of_proceeds": formData.funds.proceeds
     },
@@ -98,21 +93,13 @@ module.exports = (formData) => {
   "app": {
     "info": [
       {
-        "name": "",
-        "same_blockchain": false,
-        "sources_availability": true,
-        "app_status": 1,
-        "app_type": "",
-        "app_url": "",
-        "milestone": [
-          {
-            "number": 0,
-            "name": "",
-            "start_date": "",
-            "end_date": "",
-            "current_status": ""
-          }
-        ],
+        "name": formData.app.name,
+        "same_blockchain": formData.app.same,
+        "sources_availability": formData.app.availability,
+        "app_status": formData.app.status,
+        "app_type": formData.app.app_type,
+        "app_url": formData.app.app_url,
+        "milestone": formData.roadmap.milestones,
         "links": formData.links
       }
     ]
