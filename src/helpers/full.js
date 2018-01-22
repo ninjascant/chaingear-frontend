@@ -15,7 +15,7 @@ module.exports = (formData) => {
       "is_ico": true,
       "current_ico_phase": formData.ico.phase_num,
       "token_distribution": {
-        "total_supply": form.ico.supply,
+        "total_supply": formData.ico.supply,
         "shares": formData.funds.distr
       },
       "use_of_proceeds": formData.funds.proceeds

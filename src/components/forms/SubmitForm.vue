@@ -60,11 +60,6 @@
                 :loading="loading"
                 @click="makeCommit">Commit changes<v-icon right dark>cloud_upload</v-icon>
               </v-btn>
-              <v-btn
-                class="white--text"
-                color='success'
-                @click="testCommit">Test commit<v-icon right dark>cloud_upload</v-icon>
-              </v-btn>
             </v-flex>
           </v-layout>
         </v-container>
@@ -87,22 +82,21 @@ export default class SubmitForm extends Vue {
   errorCode = ''
   successful = false
   htmlUrl = ''
-  testCommit () {
-    // console.log(convert(this.fullInfo))
-    this.$http.post('http://ninja-analytics.ru/createPost', JSON.stringify({form: this.fullInfo}))
-      .then(res => console.log(res))
-  }
   makeCommit () {
     this.loading = true
-    console.log('this.fullInfo')
-    console.log(Object.keys(this.fullInfo))
-    // const tmp = this.fullInfo
     this.$http.post('http://ninja-analytics.ru/pullreq', JSON.stringify(convert(this.fullInfo)))
       .then(res => {
-        this.loading = false
         this.successful = true
         this.htmlUrl = res.body.html_url
-        // console.log(res.body)
+        const logged = localStorage.getItem('logged_in')
+        if (logged === 'true') {
+          this.fullInfo.username = localStorage.getItem('username')
+          this.$http.post('http://ninja-analytics.ru/createPost', JSON.stringify({form: this.fullInfo}))
+            .then(res => {
+              console.log(res)
+              this.loading = false
+            })
+        }
       })
       .catch(error => {
         console.log('error', error)
