@@ -15,7 +15,7 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex xs4>
+            <v-flex xs12>
               <RoadmapValuesForm
                 @interface='changeValue'
                 :firstField='firstField'
@@ -27,7 +27,7 @@
                 :buttonText='buttonText'>
               </RoadmapValuesForm>
             </v-flex>
-            <v-flex xs8>
+            <v-flex xs12>
               <v-data-table
                 v-bind:headers="headers"
                 v-bind:items="items"
@@ -46,8 +46,6 @@
                 </v-tooltip>
               </template>
               <template slot="items" slot-scope="props">
-    
-                <td class="text-xs-right">{{ props.item[firstField.key] }}</td>
                 <td class="text-xs-right">{{ props.item[secondField.key] }}</td>
                 <td class="text-xs-right">{{ props.item[thirdField.key] }}</td>
                 <td class="text-xs-right">{{ props.item[fourthField.key] }}</td>

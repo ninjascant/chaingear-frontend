@@ -19,6 +19,7 @@
               <span class="title">Please, check all info before submit your application</span>
               <v-card flat color="grey lighten-4">
                 <v-card-text>
+                  <v-btn color="default" @click="prev">Return to form</v-btn>
                   <v-switch v-bind:label="`${checked?'Checked':'Not yet'}`" v-model="checked"></v-switch>
                 </v-card-text>
               </v-card>
@@ -54,6 +55,7 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
+
               <v-btn
                 class="white--text"
                 color='success'
@@ -82,15 +84,29 @@ export default class SubmitForm extends Vue {
   errorCode = ''
   successful = false
   htmlUrl = ''
+  prev () {
+    this.$emit('interface', {action: 'previous'})
+  }
   makeCommit () {
     this.loading = true
-    this.$http.post('http://ninja-analytics.ru/pullreq', JSON.stringify(convert(this.fullInfo)))
+    let fullDoc
+    try {
+      fullDoc = convert(this.fullInfo)
+    } catch (e) {
+      console.log(e)
+      this.loading = false
+      this.errorCode = e
+      this.submitError = true
+      return
+    }
+    this.$http.post('http://ninja-analytics.ru/pullreq', JSON.stringify(fullDoc))
       .then(res => {
+        this.loading = false
         this.successful = true
         this.htmlUrl = res.body.html_url
-        const logged = localStorage.getItem('logged_in')
+        const logged = 'true' // localStorage.getItem('logged_in')
         if (logged === 'true') {
-          this.fullInfo.username = localStorage.getItem('username')
+          this.fullInfo.username = 'defaultUsername' // localStorage.getItem('username')
           this.$http.post('http://ninja-analytics.ru/createPost', JSON.stringify({form: this.fullInfo}))
             .then(res => {
               console.log(res)

@@ -7,7 +7,7 @@
         <v-container fill-height fluid>
           <v-layout fill-height>
             <v-flex xs12 align-end flexbox>
-              <span class="headline">Use of proceeds</span>
+              <span class="headline">Tokens and funds distribution</span>
             </v-flex>
           </v-layout>
         </v-container>
@@ -34,9 +34,20 @@
             :headers='headers'
             :items='distr'>
           </MultipleValuesContainer>
+          <MultipleValuesContainer
+            @interface='addBonuses'
+            :firstField='firstField1'
+            :secondField='secondField1'
+            :color='color'
+            :head='head2'
+            :buttonText='buttonText1'
+            :headers='headers1'
+            :items='bonuses'>
+          </MultipleValuesContainer>
         </v-container>
         <v-layout row wrap>
-          <v-btn :disabled='disabled' color="primary" @click="next">Continue</v-btn>
+          <v-btn color="default" @click="prev">Previous</v-btn>
+          <v-btn color="primary" @click="next">Continue</v-btn>
         </v-layout>
       </v-card-text>
     </v-card>
@@ -83,9 +94,34 @@ export default class FundsFormContainer extends Vue {
   ]
   head = 'Use of proceeds'
   head1 = 'Token distribution'
+  head2 = 'Bonuses'
   colors = ['red', 'green', 'blue']
   disabled = true
+  firstField1 = {
+    key: 'amount',
+    hint: '',
+    type: 'str',
+    label: 'Amount'
+  }
+  secondField1 = {
+    key: 'condition',
+    hint: '',
+    type: 'str',
+    label: 'Condition'
+  }
+  buttonText1 = 'Add bonus'
+  headers1 = [
+    {
+      text: 'Amount',
+      value: 'amount'
+    },
+    {
+      text: 'Condition',
+      value: 'condition'
+    }
+  ]
   proceeds = []
+  bonuses = []
   distr = []
   selected = []
   i = 0
@@ -93,14 +129,37 @@ export default class FundsFormContainer extends Vue {
     return !isNaN(value - parseFloat(value))
   }
   addProceeds (data) {
+    console.log(data)
     this.proceeds.push(data)
     this.disabled = false
   }
   addDistr (data) {
     this.distr.push(data)
   }
+  addBonuses (data) {
+    this.bonuses.push(data)
+  }
+  prev () {
+    this.$emit('interface', {action: 'previous'})
+  }
   next () {
-    this.$emit('interface', {form: 'funds', data: {proceeds: this.proceeds, distr: this.distr}})
+    console.log('len', this.distr.length)
+    this.distr = this.distr.map(dist => {
+      delete dist.value
+      delete dist.index
+      return dist
+    })
+    this.proceeds = this.proceeds.map(proceed => {
+      delete proceed.value
+      delete proceed.index
+      return proceed
+    })
+    this.bonuses = this.bonuses.map(bonus => {
+      delete bonus.value
+      delete bonus.index
+      return bonus
+    })
+    this.$emit('interface', {form: 'funds', data: {proceeds: this.proceeds, distr: this.distr, bonuses: this.bonuses}})
   }
 }
 </script>

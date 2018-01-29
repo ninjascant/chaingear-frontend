@@ -58,6 +58,7 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap>
+              <v-btn color="default" @click="prev">Previous</v-btn>
               <v-btn color="primary" @click="next">Continue</v-btn>
             </v-layout>
           <v-dialog v-model="notEnough" max-width="390">
@@ -107,6 +108,9 @@ export default class AppForm extends Vue {
   }
   requiredFields = ['app_type', 'app_url', 'availability', 'name', 'same', 'status']
   notEnough = false
+  prev () {
+    this.$emit('interface', {action: 'previous'})
+  }
   next () {
     this.requiredFields.forEach(field => {
       if (this.form[field] === undefined) {

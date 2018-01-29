@@ -1,13 +1,13 @@
 <template>
   <div>
-    <v-card color="grey lighten-4" flat>
+    <v-card  flat>
       <v-card-media
         height='50px'
         src="/dist/static/doc-images/cards/docks2.png">
         <v-container fill-height fluid>
           <v-layout fill-height>
             <v-flex xs12 align-end flexbox>
-              <span class="headline">Use of proceeds</span>
+              <span class="headline">Roadmap</span>
             </v-flex>
           </v-layout>
         </v-container>
@@ -29,6 +29,7 @@
           </RoadmapValuesContainer>
         </v-container>
         <v-layout row wrap>
+          <v-btn color="default" @click="prev">Previous</v-btn>
           <v-btn :disabled='disabled' color="primary" @click="next">Continue</v-btn>
         </v-layout>
       </v-card-text>
@@ -76,13 +77,9 @@ export default class RoadmapFormContainer extends Vue {
     type: 'str',
     label: 'Current status'
   }
-  buttonText = 'Add share'
+  buttonText = 'Add milestone'
   color = 'grey lighten-3'
   headers = [
-    {
-      text: '№',
-      value: 'number'
-    },
     {
       text: 'Description',
       value: 'name'
@@ -110,6 +107,9 @@ export default class RoadmapFormContainer extends Vue {
   addMilestone (data) {
     this.milestones.push(data)
     this.disabled = false
+  }
+  prev () {
+    this.$emit('interface', {action: 'previous'})
   }
   next () {
     this.$emit('interface', {form: 'roadmap', data: {milestones: this.milestones}})

@@ -3,7 +3,7 @@
   <v-app>  
       <Header :ls='ls'></Header>
       <v-content>
-      <v-container>
+      
         <v-layout row fluid>
           <v-flex xs3>
             <SideMenu></SideMenu>
@@ -12,9 +12,12 @@
             <router-view></router-view>
           </v-flex>
         </v-layout>
-      </v-container>
+      
       </v-content>
-    
+      <v-footer color="grey lighten-3" class="pa-3">
+        <v-spacer></v-spacer>
+        <div>© 2018</div>
+      </v-footer>
   </v-app>
   </div>
 </template>

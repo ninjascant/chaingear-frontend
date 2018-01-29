@@ -27,6 +27,7 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap>
+            <v-btn color="default" @click="prev">Previous</v-btn>
             <v-btn color="primary" @click="next">Continue</v-btn>
           </v-layout>
         </v-container>
@@ -45,6 +46,9 @@ export default class IcoForm extends Vue {
     required: (value) => !!value || 'Required'
   }
   requiredFields = ['text']
+  prev () {
+    this.$emit('interface', {action: 'previous'})
+  }
   next () {
     this.requiredFields.forEach(field => {
       if (this.form[field] === undefined) {

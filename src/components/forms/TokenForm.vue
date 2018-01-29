@@ -64,6 +64,7 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap>
+            <v-btn color="default" @click="prev">Previous</v-btn>
             <v-btn color="primary" @click="next">Continue</v-btn>
           </v-layout>
           <v-dialog v-model="notEnough" max-width="390">
@@ -93,11 +94,19 @@ import {Component} from 'vue-property-decorator'
 export default class Token extends Vue {
   purpose = ['ICO token', 'App token', 'Both']
   type = ['Core token', 'Blockchain issued token']
-  form = {}
+  form = {
+    inflation_rate: '',
+    circulation_terms: '',
+    governance_rights_org: '',
+    governance_rights_project: ''
+  }
   notEnough = false
   requiredFields = ['name', 'symbol', 'token_purpose', 'token_type']
   rules = {
     required: (value) => !!value || 'Required'
+  }
+  prev () {
+    this.$emit('interface', {action: 'previous'})
   }
   next () {
     this.requiredFields.forEach(field => {

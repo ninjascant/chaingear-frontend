@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Vuelidate from 'vuelidate'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueResource from 'vue-resource'
@@ -9,6 +10,7 @@ import router from './router'
 import App from './App'
 
 Vue.use(Vuex)
+Vue.use(Vuelidate)
 Vue.use(Vuetify)
 Vue.use(VueResource)
 Vue.config.productionTip = false
@@ -18,5 +20,6 @@ new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  validations: {}
 })

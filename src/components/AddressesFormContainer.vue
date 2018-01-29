@@ -36,6 +36,7 @@
           </MultipleValuesContainer>
         </v-container>
         <v-layout row wrap>
+          <v-btn color="default" @click="prev">Previous</v-btn>
           <v-btn color="primary" @click="next">Continue</v-btn>
         </v-layout>
       </v-card-text>
@@ -112,6 +113,9 @@ export default class AddressesFormContainer extends Vue {
   }
   addContracts (data) {
     this.contracts.push(data)
+  }
+  prev () {
+    this.$emit('interface', {action: 'previous'})
   }
   next () {
     this.$emit('interface', {form: 'addresses', data: {contracts: this.contracts, addresses: this.addresses}})

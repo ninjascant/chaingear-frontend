@@ -5,9 +5,8 @@
     
     <v-toolbar-side-icon class="hidden-md-and-up"></v-toolbar-side-icon>
     <v-toolbar-items class="hidden-sm-and-down ml-4">
-      <v-btn flat>Crowdsales</v-btn>
-      <v-btn flat>Add info</v-btn>
-      <v-btn flat>API</v-btn>
+      <router-link to='/crowdsales'><v-btn class='mt-3' flat>Crowdsales</v-btn></router-link>
+      <router-link to='/'><v-btn class='mt-3' flat>Add info</v-btn></router-link>
     </v-toolbar-items>
     <v-spacer></v-spacer>
     <v-toolbar-items>

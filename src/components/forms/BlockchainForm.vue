@@ -66,13 +66,14 @@
             </v-layout>
             <v-layout row wrap>
               <v-btn color="primary" @click="next">Continue</v-btn>
+              
             </v-layout>
             <v-dialog v-model="notEnough" max-width="390">
                 <v-card dark> 
                   <v-card-title class="headline">Error</v-card-title>
                   <v-card-text>
                     <v-alert color="error" icon="warning" v-show="notEnough" value="true">
-                      Please, fill all required fields
+                      {{errorMessage}}
                     </v-alert>
                   </v-card-text>
                   <v-card-actions>
@@ -88,13 +89,33 @@
 </template>
 <script>
 import Vue from 'vue'
+import { required, maxLength } from 'vuelidate/lib/validators'
 import {Component} from 'vue-property-decorator'
 
-@Component({})
+@Component({
+  validations: {
+    form: {
+      project_name: required,
+      headline: {
+        required,
+        maxLength: maxLength(50)
+      },
+      state: required,
+      dependency: required,
+      consensus: required
+    }
+  }
+})
 export default class BlockchainForm extends Vue {
-  form = {}
+  form = {
+    project_name: '',
+    headline: '',
+    state: '',
+    dependency: '',
+    consensus: ''
+  }
   notEnough = false
-  requiredFields = ['project_name', 'headline', 'state', 'asset_type', 'dependency', 'consensus']
+  errorMessage = ''
   states = [
     {value: '0', label: 'Project (before ICO begins)'},
     {value: '1', label: 'Pre-public (ICO ends, but tokens ain`t tradable)'},
@@ -116,13 +137,14 @@ export default class BlockchainForm extends Vue {
     required: (value) => !!value || 'Required'
   }
   next () {
-    this.requiredFields.forEach(field => {
-      if (this.form[field] === undefined) {
-        this.notEnough = true
-      }
-    })
-    if (this.notEnough !== true) {
+    if (this.$v.$invalid !== true) {
       this.$emit('interface', {form: 'blockchain', data: this.form})
+    } else if (this.$v.form.headline.maxLength === false) {
+      this.notEnough = true
+      this.errorMessage = 'Headline shouldn\'t be more than 50 symbols long'
+    } else {
+      this.notEnough = true
+      this.errorMessage = 'Please, fill all required fields'
     }
   }
 }
