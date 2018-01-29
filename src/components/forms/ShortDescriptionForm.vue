@@ -29,6 +29,20 @@
           <v-layout row wrap>
             <v-btn color="default" @click="prev">Previous</v-btn>
             <v-btn color="primary" @click="next">Continue</v-btn>
+            <v-dialog v-model="notEnough" max-width="390">
+              <v-card dark> 
+                <v-card-title class="headline">Error</v-card-title>
+                <v-card-text>
+                  <v-alert color="error" icon="warning" v-show="notEnough" value="true">
+                    {{errorMessage}}
+                  </v-alert>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat="flat" @click.native="notEnough = false">Ok</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-layout>
         </v-container>
       </v-card-text>
@@ -45,17 +59,20 @@ export default class IcoForm extends Vue {
   rules = {
     required: (value) => !!value || 'Required'
   }
+  notEnough = false
+  errorMessage = ''
   requiredFields = ['text']
   prev () {
     this.$emit('interface', {action: 'previous'})
   }
   next () {
-    this.requiredFields.forEach(field => {
-      if (this.form[field] === undefined) {
-        this.notEnough = true
-      }
-    })
-    if (this.notEnough !== true) {
+    if (!this.form.text) {
+      this.notEnough = true
+      this.errorMessage = 'Please, fill all required fields'
+    } else if (this.form.text.length < 500) {
+      this.notEnough = true
+      this.errorMessage = 'This description is too short. Please, write at least 1 paragraph'
+    } else {
       this.$emit('interface', {form: 'short_description', data: this.form})
     }
   }

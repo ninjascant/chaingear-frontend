@@ -18,43 +18,80 @@
             <v-flex xs6>
               <v-text-field
                 label='Website*'
-                :rules="[rules.required]"
+                :rules="[
+                  rules.required,
+                  () => $v.form.website.url !== false || 'Should be a valid url (for example: https://example.com)'
+                ]"
                 v-model='form.website'>
               </v-text-field>
               <v-text-field
                 label='Whitepaper'
+                :rules="[
+                  () => $v.form.paper.url !== false || 'Should be a valid url (for example: https://example.com)'
+                ]"
                 v-model='form.paper'>
               </v-text-field>
               <v-text-field
                 label='Github'
+                :rules="[
+                  () => $v.form.github.url !== false || 'Should be a valid url (for example: https://example.com)'
+                ]"
                 v-model='form.github'>
               </v-text-field>
               <v-text-field
                 label='Blog'
+                :rules="[
+                  () => $v.form.blog.url !== false || 'Should be a valid url (for example: https://example.com)'
+                ]"
                 v-model='form.blog'>
               </v-text-field>
               <v-text-field
+                label='Bitcointalk'
+                :rules="[
+                  () => $v.form.bitcointalk.url !== false || 'Should be a valid url (for example: https://example.com)'
+                ]"
+                v-model='form.bitcointalk'>
+              </v-text-field>
+              <v-text-field
                 label='Twitter'
+                :rules="[
+                  () => $v.form.twitter.url !== false || 'Should be a valid url (for example: https://example.com)'
+                ]"
                 v-model='form.twitter'>
               </v-text-field>
               <v-text-field
                 label='Telegram'
+                :rules="[
+                  () => $v.form.telegram.url !== false || 'Should be a valid url (for example: https://example.com)'
+                ]"
                 v-model='form.telegram'>
               </v-text-field>
               <v-text-field
                 label='Reddit'
+                :rules="[
+                  () => $v.form.reddit.url !== false || 'Should be a valid url (for example: https://example.com)'
+                ]"
                 v-model='form.reddit'>
               </v-text-field>
               <v-text-field
                 label='Slack'
+                :rules="[
+                  () => $v.form.slack.url !== false || 'Should be a valid url (for example: https://example.com)'
+                ]"
                 v-model='form.slack'>
               </v-text-field>
               <v-text-field
                 label='Rocket'
+                :rules="[
+                  () => $v.form.rocket.url !== false || 'Should be a valid url (for example: https://example.com)'
+                ]"
                 v-model='form.rocket'>
               </v-text-field>
               <v-text-field
                 label='Facebook'
+                :rules="[
+                  () => $v.form.facebook.url !== false || 'Should be a valid url (for example: https://example.com)'
+                ]"
                 v-model='form.facebook'>
               </v-text-field>
             </v-flex>
@@ -68,7 +105,7 @@
                   <v-card-title class="headline">Error</v-card-title>
                   <v-card-text>
                     <v-alert color="error" icon="warning" v-show="notEnough" value="true">
-                      Please, fill all required fields
+                      {{errorMessage}}
                     </v-alert>
                   </v-card-text>
                   <v-card-actions>
@@ -84,9 +121,29 @@
 </template>
 <script>
 import Vue from 'vue'
+import { required, url } from 'vuelidate/lib/validators'
 import {Component} from 'vue-property-decorator'
 
-@Component({})
+@Component({
+  validations: {
+    form: {
+      website: {
+        required,
+        url
+      },
+      paper: {url},
+      github: {url},
+      blog: {url},
+      twitter: {url},
+      bitcointalk: {url},
+      telegram: {url},
+      reddit: {url},
+      slack: {url},
+      rocket: {url},
+      facebook: {url},
+    }
+  }
+})
 export default class LinksForm extends Vue {
   form = {}
   rules = {
@@ -94,16 +151,12 @@ export default class LinksForm extends Vue {
   }
   requiredFields = ['website']
   notEnough = false
+  errorMessage = ''
   prev () {
     this.$emit('interface', {action: 'previous'})
   }
   next () {
-    this.requiredFields.forEach(field => {
-      if (this.form[field] === undefined) {
-        this.notEnough = true
-      }
-    })
-    if (this.notEnough !== true) {
+    if (this.$v.$invalid !== true) {
       const tmp = Object.keys(this.form).map(key => {
         const link = {
           type: key,
@@ -127,6 +180,12 @@ export default class LinksForm extends Vue {
         return link
       })
       this.$emit('interface', {form: 'links', data: tmp})
+    } else if (this.$v.form.website.required === false) {
+      this.notEnough = true
+      this.errorMessage = 'Please, enter a link to website'
+    } else {
+      this.notEnough = true
+      this.errorMessage = 'Please, enter valid URLs'
     }
   }
 }

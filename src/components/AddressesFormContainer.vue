@@ -59,12 +59,12 @@ export default class AddressesFormContainer extends Vue {
   firstField = {
     key: 'address',
     hint: '',
-    type: 'str',
+    type: 'address',
     label: 'Address'
   }
   secondField = {
     key: 'currency',
-    hint: '',
+    hint: 'For example, ETH, BTC, LTC',
     type: 'str',
     label: 'Currency'
   }

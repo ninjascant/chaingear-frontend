@@ -3985,6 +3985,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+jssha@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/jssha/-/jssha-1.6.0.tgz#67acf0b90fdebb9bb3fe3a44e6016cf2cf0670b9"
+
 karma@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/karma/-/karma-2.0.0.tgz#a02698dd7f0f05ff5eb66ab8f65582490b512e58"
@@ -7017,6 +7021,12 @@ vuetify@0.17.6:
 vuex@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.0.1.tgz#e761352ebe0af537d4bb755a9b9dc4be3df7efd2"
+
+wallet-address-validator@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/wallet-address-validator/-/wallet-address-validator-0.1.1.tgz#e7023b702d6307e82e80a6cfaaaaa0a9c37df1b7"
+  dependencies:
+    jssha "1.6.0"
 
 watchpack@^1.4.0:
   version "1.4.0"

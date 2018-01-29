@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card  flat>
+    <v-card color="grey lighten-4" flat>
       <v-card-media
         height='50px'
         src="/dist/static/doc-images/cards/docks2.png">
@@ -30,7 +30,7 @@
         </v-container>
         <v-layout row wrap>
           <v-btn color="default" @click="prev">Previous</v-btn>
-          <v-btn :disabled='disabled' color="primary" @click="next">Continue</v-btn>
+          <v-btn color="primary" @click="next">Continue</v-btn>
         </v-layout>
       </v-card-text>
     </v-card>

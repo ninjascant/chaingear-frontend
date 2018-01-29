@@ -26,7 +26,10 @@
                 name="input-1"
                 label='Headline'
                 hint="It shouldn't be more than 50 symbols long"
-                :rules="[rules.required]"
+                :rules="[
+                  rules.required,
+                  () => $v.form.headline.maxLength !== false || 'Too long'
+                ]"
                 v-model='form.headline'>
               </v-text-field>
               <v-radio-group v-model="form.asset_type" label="Asset type" :mandatory="false" row>
@@ -66,22 +69,21 @@
             </v-layout>
             <v-layout row wrap>
               <v-btn color="primary" @click="next">Continue</v-btn>
-              
             </v-layout>
             <v-dialog v-model="notEnough" max-width="390">
-                <v-card dark> 
-                  <v-card-title class="headline">Error</v-card-title>
-                  <v-card-text>
-                    <v-alert color="error" icon="warning" v-show="notEnough" value="true">
-                      {{errorMessage}}
-                    </v-alert>
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="primary" flat="flat" @click.native="notEnough = false">Ok</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+              <v-card dark> 
+                <v-card-title class="headline">Error</v-card-title>
+                <v-card-text>
+                  <v-alert color="error" icon="warning" v-show="notEnough" value="true">
+                    {{errorMessage}}
+                  </v-alert>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat="flat" @click.native="notEnough = false">Ok</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-container>
         </v-card-text>
       </v-card>

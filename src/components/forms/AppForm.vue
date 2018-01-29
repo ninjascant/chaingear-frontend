@@ -52,7 +52,10 @@
               </v-text-field>
               <v-text-field
                 label='URL to app*'
-                :rules="[rules.required]"
+                :rules="[
+                  rules.required,
+                  () => $v.form.app_url.url !== false || 'Should be a valid url (for example: https://example.com)'
+                ]"
                 v-model='form.app_url'>
               </v-text-field>
             </v-flex>
@@ -66,7 +69,7 @@
               <v-card-title class="headline">Error</v-card-title>
               <v-card-text>
                 <v-alert color="error" icon="warning" v-show="notEnough" value="true">
-                  Please, fill all required fields
+                  {{errorMessage}}
                 </v-alert>
               </v-card-text>
               <v-card-actions>
@@ -82,11 +85,33 @@
 </template>
 <script>
 import Vue from 'vue'
+import { required, url } from 'vuelidate/lib/validators'
 import {Component} from 'vue-property-decorator'
 
-@Component({})
+@Component({
+  validations: {
+    form: {
+      name: {required},
+      same: {required},
+      availability: {required},
+      status: {required},
+      app_type: {required},
+      app_url: {
+        required,
+        url
+      }
+    }
+  }
+})
 export default class AppForm extends Vue {
-  form = {}
+  form = {
+    name: '',
+    same: '',
+    availability: '',
+    status: '',
+    app_type: '',
+    app_url: ''
+  }
   available = [{label: 'Available', value: 'true'}, {label: 'Not available', value: 'false'}]
   same = [{label: 'No', value: 'false'}, {label: 'Yes', value: 'true'}]
   status = [
@@ -112,13 +137,15 @@ export default class AppForm extends Vue {
     this.$emit('interface', {action: 'previous'})
   }
   next () {
-    this.requiredFields.forEach(field => {
-      if (this.form[field] === undefined) {
-        this.notEnough = true
-      }
-    })
-    if (this.notEnough !== true) {
+    console.log(this.$v.form.app_url.url)
+    if (this.$v.$invalid !== true) {
       this.$emit('interface', {form: 'app', data: this.form})
+    } else if (this.$v.form.app_url.url === false) {
+      this.notEnough = true
+      this.errorMessage = 'Please, enter a valid url to app'
+    } else {
+      this.notEnough = true
+      this.errorMessage = 'Please, fill all required fields'
     }
   }
 }
