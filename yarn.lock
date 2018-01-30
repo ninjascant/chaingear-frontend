@@ -3133,9 +3133,9 @@ globby@^6.1.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
-golos-js@0.5.28:
-  version "0.5.28"
-  resolved "https://registry.yarnpkg.com/golos-js/-/golos-js-0.5.28.tgz#c5e98e319828daa76eb34462be74e6fb708d8fd1"
+golos-js@^0.5.30:
+  version "0.5.30"
+  resolved "https://registry.yarnpkg.com/golos-js/-/golos-js-0.5.30.tgz#8419d5deb53b1ee6dc67da85236293077391e59b"
   dependencies:
     bigi "^1.4.2"
     bluebird "^3.4.6"

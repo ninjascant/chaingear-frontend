@@ -18,14 +18,7 @@
           <v-layout row wrap>
             <v-flex xs8>
               <!-- Phase number, name, status -->
-              <v-text-field
-                :rules="[
-                  rules.required,
-                  () => $v.form.phase_num.numeric !== false || 'Should be a number!'
-                ]"
-                label='Current ICO phase number*'
-                v-model='form.phase_num'>
-              </v-text-field>
+              <span class="title">Common info</span>
               <v-text-field
                 :rules="[rules.required]"
                 label='Current ICO phase name*'
@@ -37,10 +30,37 @@
                   v-model="form.phase_status"
                   hint=""
                   persistent-hint
-                  label="Current phase status*"  
+                  label="Current phase status*"
                   max-height='auto'></v-select>
-              <v-subheader>Registration</v-subheader>
-              <v-layout row wrap>
+                  <v-text-field
+                    label='Sales agreement*'
+                    :rules="[
+                      rules.required,
+                      () => $v.form.sales_agreement.url !== false || 'Should be a valid url (for example: https://example.com)'
+                    ]"
+                    v-model='form.sales_agreement'>
+                  </v-text-field>
+                  <v-text-field
+                    label='Sales website*'
+                    :rules="[
+                      rules.required,
+                      () => $v.form.sales_url.url !== false || 'Should be a valid url (for example: https://example.com)'
+                    ]"
+                    v-model='form.sales_url'>
+                  </v-text-field>
+                  <v-text-field
+                    name="input-1"
+                    label='Total supply'
+                    :rules="[
+                      () => $v.form.supply.numeric !== false || 'Should be a number!'
+                    ]"
+                    v-model='form.supply'>
+                  </v-text-field>
+              <div class="title">Crowdsale phase info</div>
+
+                <div class="subheading mt-2">Registration</div>
+
+              <v-layout>
                 <v-flex xs6>
                 <!-- Registration Dates -->
                 <v-dialog
@@ -112,7 +132,8 @@
                 ]"
                 v-model='form.reg_url'>
               </v-text-field>
-              <v-subheader>Crowdsale</v-subheader><v-layout row wrap>
+              <span class="subheading">Crowdsale</span>
+              <v-layout row wrap>
                 <v-flex xs6>
                 <v-dialog
                   persistent
@@ -171,30 +192,6 @@
                   </v-flex>
                 </v-layout>
               <v-text-field
-                label='Sales agreement*'
-                :rules="[
-                  rules.required,
-                  () => $v.form.sales_agreement.url !== false || 'Should be a valid url (for example: https://example.com)'
-                ]"
-                v-model='form.sales_agreement'>
-              </v-text-field>
-              <v-text-field
-                label='Sales website*'
-                :rules="[
-                  rules.required,
-                  () => $v.form.sales_url.url !== false || 'Should be a valid url (for example: https://example.com)'
-                ]"
-                v-model='form.sales_url'>
-              </v-text-field>
-              <v-text-field
-                name="input-1"
-                label='Total supply'
-                :rules="[
-                  () => $v.form.supply.numeric !== false || 'Should be a number!'
-                ]"
-                v-model='form.supply'>
-              </v-text-field>
-              <v-text-field
                 label='Issued tokens'
                 :rules="[
                   () => $v.form.issued_tokens.numeric !== false || 'Should be a number!'
@@ -252,7 +249,7 @@
                   v-bind:items="currency"
                   v-model="form.cap_limit_currency"
                   hint="Select currency"
-                  persistent-hint    
+                  persistent-hint
                   max-height='auto'></v-select>
                 </v-flex>
               </v-layout>
@@ -311,7 +308,7 @@
                   v-model="form.token_final_price.currency"
                   hint="Select currency"
                   persistent-hint
-                        
+
                   max-height='auto'></v-select>
                 </v-flex>
               </v-layout>
@@ -322,7 +319,7 @@
             <v-btn color="primary" @click="next">Continue</v-btn>
           </v-layout>
           <v-dialog v-model="notEnough" max-width="390">
-                <v-card dark> 
+                <v-card dark>
                   <v-card-title class="headline">Error</v-card-title>
                   <v-card-text>
                     <v-alert color="error" icon="warning" v-show="notEnough" value="true">
@@ -349,10 +346,6 @@ import {Component} from 'vue-property-decorator'
 @Component({
   validations: {
     form: {
-      phase_num: {
-        numeric,
-        required
-      },
       reg_terms: {url},
       reg_url: {url},
       sales_agreement: {

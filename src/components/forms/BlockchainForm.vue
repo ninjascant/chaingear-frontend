@@ -56,12 +56,13 @@
                 item-value="value"></v-select>
               <v-select
                 v-bind:items="consensus"
+                v-show='form.dependency === "independent"'
                 v-model="form.consensus"
                 label="Consensus"
                 autocomplete
                 hint="Select consensus algorithm, used in your project, or enter your own option"
                 persistent-hint
-                :rules="[rules.required]"     
+                :rules="[rules.required]"
                 max-height='auto'
                 item-text="label"
                 item-value="value"></v-select>
@@ -71,7 +72,7 @@
               <v-btn color="primary" @click="next">Continue</v-btn>
             </v-layout>
             <v-dialog v-model="notEnough" max-width="390">
-              <v-card dark> 
+              <v-card dark>
                 <v-card-title class="headline">Error</v-card-title>
                 <v-card-text>
                   <v-alert color="error" icon="warning" v-show="notEnough" value="true">
@@ -130,11 +131,11 @@ export default class BlockchainForm extends Vue {
     {value: 'Graphene', label: 'Bitshares/Graphene'},
     {value: 'independent', label: 'Core token of standalone blockchain'}]
   consensus = [
-    {value: 'POW', label: 'Proof-of-Work'},
-    {value: 'POS', label: 'Proof-of-Stake'},
-    {value: 'DPOS', label: 'Delegated Proof-of-Stake'},
-    {value: 'POA', label: 'Proof-of-Authority'},
-    {value: 'POB', label: 'Proof-of-Burn'}]
+    {value: 'Proof-of-Work', label: 'Proof-of-Work'},
+    {value: 'Proof-of-Stake', label: 'Proof-of-Stake'},
+    {value: 'Delegated Proof-of-Stake', label: 'Delegated Proof-of-Stake'},
+    {value: 'Proof-of-Authority', label: 'Proof-of-Authority'},
+    {value: 'Proof-of-Burn', label: 'Proof-of-Burn'}]
   rules = {
     required: (value) => !!value || 'Required'
   }

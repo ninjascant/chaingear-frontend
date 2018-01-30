@@ -17,13 +17,20 @@
           </v-flex>
         </v-layout>
         <v-layout row wrap>
-          <v-btn 
-            flat 
-            color='success' 
+          <v-btn
+            flat
+            class="hidden-sm-and-down"
+            color='success'
             @click="send">{{buttonText}} <v-icon right color="green darken-2">fa-plus-circle</v-icon>
           </v-btn>
+          <v-btn
+            flat
+            class="hidden-md-and-up"
+            color='success'
+            @click="send"><v-icon color="green darken-2">fa-plus-circle</v-icon>
+          </v-btn>
           <v-dialog v-model="notEnough" max-width="390">
-              <v-card dark> 
+              <v-card dark>
                 <v-card-title class="headline">Error</v-card-title>
                 <v-card-text>
                   <v-alert color="error" icon="warning" v-show="notEnough" value="true">
@@ -38,7 +45,7 @@
             </v-dialog>
         </v-layout>
       </v-container>
-    </v-card> 
+    </v-card>
   </div>
 </template>
 <script>
@@ -85,9 +92,11 @@ export default class MultipleValuesForm extends Vue {
         }
       }
       const type = this.firstField.type,
+        secondType = this.secondField.type,
         secondValue = this.form[this.secondField.key].toLowerCase(),
         firstValue = this.form[this.firstField.key]
-      if (type === 'num' && isNum === false) {
+      console.log(type)
+      if (secondType === 'num' && isNum === false) {
         this.notEnough = true
         this.errorMessage = 'Percent must be a number'
       } else if (type === 'address' && secondValue === 'eth' && !checkEthAddress(firstValue)) {
