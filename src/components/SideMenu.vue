@@ -1,6 +1,6 @@
 <template>
   <div>
-  <v-navigation-drawer class="mt-2" clipped  color='grey' light>
+  <v-navigation-drawer class="mt-2 elevation-0" clipped  color='grey' light>
     <v-list dense>
       <v-list-tile v-for="item in items" :key="item.title" @click="">
         <v-list-tile-action>

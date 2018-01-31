@@ -15,7 +15,7 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex xs5>
+            <v-flex xs12 md5>
               <MultipleValuesForm
                 @interface='changeValue'
                 :firstField='firstField'
@@ -24,7 +24,7 @@
                 :buttonText='buttonText'>
               </MultipleValuesForm>
             </v-flex>
-            <v-flex xs7>
+            <v-flex xs12 md7>
               <v-data-table
                 v-bind:headers="headers"
                 v-bind:items="items"

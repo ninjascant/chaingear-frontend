@@ -16,7 +16,7 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex xs8>
+            <v-flex xs12 md8>
               <!-- Phase number, name, status -->
               <span class="title">Common info</span>
               <v-text-field
@@ -59,21 +59,6 @@
                   v-model='form.supply'>
                 </v-text-field>
               </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-              <div class="title">Crowdsale phase info</div>
-            </v-layout>
-            <v-layout row wrap>
-              <v-expansion-panel class="pa-2 mt-4">
-                <v-expansion-panel-content
-                  v-bind:value="phase === form.phases[n]"
-                  v-for="(phase, i) in form.phases" :key="i">
-                  <div slot="header">Item</div>
-                  <PhaseFormComponent
-                    :num='i'
-                    @interface='addPhase'></PhaseFormComponent>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
             </v-layout>
           <v-layout row wrap>
             <v-btn color="default" @click="prev">Previous</v-btn>
@@ -131,9 +116,6 @@ import PhaseFormComponent from './PhaseFormComponent'
         amount: {numeric}
       }
     }
-  },
-  components: {
-    PhaseFormComponent
   }
 })
 export default class IcoForm extends Vue {
@@ -142,15 +124,6 @@ export default class IcoForm extends Vue {
   currency = ['USD', 'ETH', 'BTC']
   notEnough = false
   errorMessage = ''
-  requredFields = ['phase_num', 'phase_name', 'phase_status', 'ico_start_date_date', 'ico_end_date_date', 'sales_agreement', 'sales_url']
-  modal = false
-  modal1 = false
-  modal2 = false
-  modal3 = false
-  modal4 = false
-  typeNum () {
-    console.log(this.$v.form.reg_terms)
-  }
   rules = {
     required: (value) => !!value || 'Required'
   }
@@ -240,7 +213,7 @@ export default class IcoForm extends Vue {
   }
   next () {
     if (this.$v.$invalid !== true) {
-      this.$emit('interface', {form: 'blockchain', data: this.form})
+      this.$emit('interface', {form: 'ico', data: this.form})
     } /*else if (this.$v.form.headline.maxLength === false) {
       this.notEnough = true
       this.errorMessage = 'Headline shouldn\'t be more than 50 symbols long'

@@ -2,22 +2,23 @@
   <div >
     <v-toolbar app clipped-left>
     <v-toolbar-title>Chaingear</v-toolbar-title>
-    
+
     <v-toolbar-side-icon class="hidden-md-and-up"></v-toolbar-side-icon>
-    <v-toolbar-items class="hidden-sm-and-down ml-4">
-      <router-link to='/crowdsales'><v-btn class='mt-3' flat>Crowdsales</v-btn></router-link>
-      <router-link to='/'><v-btn class='mt-3' flat>Add info</v-btn></router-link>
+    <v-toolbar-items class="ml-4">
+      <v-btn flat @click="crowdsalesRedirect">Crowdsales</v-btn>
+      <v-btn flat @click="addInfoRedirect">Add info</v-btn>
     </v-toolbar-items>
     <v-spacer></v-spacer>
     <v-toolbar-items>
-      <LoginForm :locstorage='ls'></LoginForm>
+      <LoginForm v-if='!loggedIn'></LoginForm>
+      <v-btn flat v-else='loggedIn'>{{username}}</v-btn>
     </v-toolbar-items>
   </v-toolbar>
   </div>
 </template>
 <script>
 import Vue from 'vue'
-import {Component, Prop} from 'vue-property-decorator'
+import {Component} from 'vue-property-decorator'
 import LoginForm from './forms/LoginForm'
 
 @Component({
@@ -26,7 +27,18 @@ import LoginForm from './forms/LoginForm'
   }
 })
 export default class IcoForm extends Vue {
-  @Prop({default: () => {}})
-  ls
+  username
+  loggedIn
+  beforeCreate () {
+    this.loggedIn = (localStorage.getItem('logged_in') === 'true')
+    if (this.loggedIn === true) this.username = localStorage.getItem('username')
+    console.log('ls', this.username)
+  }
+  crowdsalesRedirect () {
+    this.$router.push('/crowdsales')
+  }
+  addInfoRedirect () {
+    this.$router.push('/add_info')
+  }
 }
 </script>

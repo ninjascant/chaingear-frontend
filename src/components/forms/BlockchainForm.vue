@@ -15,7 +15,7 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex>
+            <v-flex xs12 md8>
               <v-text-field
                 name="input-1"
                 label='Project Name*'

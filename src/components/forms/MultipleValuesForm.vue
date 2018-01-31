@@ -3,7 +3,7 @@
     <v-card :color='color' class='mb-1 pt-0'>
       <v-container fluid>
         <v-layout row wrap>
-          <v-flex xs10>
+          <v-flex xs12>
             <v-text-field
               :label='firstField.label'
               :hint='firstField.hint'

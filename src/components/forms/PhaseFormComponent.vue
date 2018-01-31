@@ -2,7 +2,7 @@
   <div>
     <v-card flat color='grey lighten-4'>
     <v-layout row wrap>
-      <v-flex xs5>
+      <v-flex>
       <v-text-field
         label="Phase name"
         v-model="form.phase_name"
@@ -12,8 +12,11 @@
         v-model="form.phase_status"
         label="Phase status*"
         max-height='auto'></v-select>
+      </v-flex>
+    </v-layout>
       <div class="subheading mt-2">Registration</div>
       <!-- Registration Dates -->
+      <v-layout row wrap>
       <v-dialog
         persistent
         v-model="modal"
@@ -38,7 +41,6 @@
           </template>
         </v-date-picker>
       </v-dialog>
-      </v-flex>
       </v-layout>
       <v-layout row wrap>
         <v-flex xs5>

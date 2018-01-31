@@ -1,11 +1,11 @@
 <template>
   <div id="app">
   <v-app>
-      <Header :ls='ls'></Header>
+      <Header></Header>
       <v-content>
         <v-container fluid grid-list-md>
-            <router-view></router-view>
-      </v-container>
+          <router-view></router-view>
+        </v-container>
       </v-content>
       <v-footer color="grey lighten-3" class="pa-3">
         <v-spacer></v-spacer>
@@ -19,7 +19,6 @@
 /* eslint-disable */
 import {Component} from 'vue-property-decorator'
 import Vue from 'vue'
-import SecureLS from 'secure-ls'
 import Header from './components/Header'
 import AddProjectFormContainer from './components/AddProjectFormContainer'
 import FinishedFormContainer from './components/FinishedFormContainer'
@@ -33,10 +32,7 @@ import SideMenu from './components/SideMenu'
     FinishedFormContainer
   }
 })
-export default class App extends Vue {
-  ls = new SecureLS({encodingType: 'aes'})
-  loggedIn = this.ls.get('logged_in')
-}
+export default class App extends Vue {}
 </script>
 <style>
 </style>

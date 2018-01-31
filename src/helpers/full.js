@@ -21,7 +21,7 @@ module.exports = (formData) => {
       },
       "use_of_proceeds": (formData.funds.proceeds.length !== 0) ? formData.funds.proceeds : [{description: '', percent: 0}]
     },
-    "phases": formData.ico.phases
+    "phases": formData.phases
   },
   "app": {
     "info": [

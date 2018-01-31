@@ -1,35 +1,28 @@
 <template>
   <div>
-    <v-container grid-list-xl>
+    <v-container grid-list-md>
       <v-layout row wrap>
-        <v-flex xs12 lg6>
+        <v-flex xs12 md8>
           <v-stepper v-model="e6">
-
             <v-stepper-content step="1">
               <!--<BonusesFormContainer @interface='nextPane'></BonusesFormContainer>-->
               <BlockchainForm @interface='nextPane'></BlockchainForm>
             </v-stepper-content>
-
             <v-stepper-content step="2">
               <IcoForm @interface='nextPane'></IcoForm>
             </v-stepper-content>
-
             <v-stepper-content step="3">
-              <FundsFormContainer @interface='nextPane'></FundsFormContainer>
+              <PhasesFormContainer @interface='nextPane'></PhasesFormContainer>
             </v-stepper-content>
-
             <v-stepper-content step="4">
               <AddressesFormContainer @interface='nextPane'></AddressesFormContainer>
             </v-stepper-content>
-
             <v-stepper-content step="5">
               <TokenForm @interface='nextPane'></TokenForm>
             </v-stepper-content>
-
             <v-stepper-content step="6">
               <AppForm @interface='nextPane'></AppForm>
             </v-stepper-content>
-
             <v-stepper-content step="7">
               <RoadmapFormContainer @interface='nextPane'></RoadmapFormContainer>
             </v-stepper-content>
@@ -57,6 +50,7 @@ import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
 import BlockchainForm from './forms/BlockchainForm'
 import IcoForm from './forms/IcoForm'
+import PhasesFormContainer from './PhasesFormContainer'
 import TokenForm from './forms/TokenForm'
 import AppForm from './forms/AppForm'
 import LinksForm from './forms/LinksForm'
@@ -71,6 +65,7 @@ import ShortDescriptionForm from './forms/ShortDescriptionForm'
   components: {
     BlockchainForm,
     IcoForm,
+    PhasesFormContainer,
     FundsFormContainer,
     // BonusesFormContainer,
     AddressesFormContainer,

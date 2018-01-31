@@ -3,7 +3,7 @@
     <v-layout row justify-center>
       <v-dialog v-model="dialog" max-width="500px">
         <v-btn flat slot="activator">Login</v-btn>
-        <v-card v-if='!loggedIn'>
+        <v-card>
           <v-card-title>
             <span class="headline">Login</span>
           </v-card-title>
@@ -13,11 +13,11 @@
                 <v-text-field v-model='username' label="Golos username" required></v-text-field>
               </v-layout>
               <v-layout row wrap>
-                <v-text-field 
+                <v-text-field
                   v-model='posting'
-                  label="Private posting key" 
+                  label="Private posting key"
                   hint='It will be used only for username verification. It will not be stored in your browser or sent to server'
-                  type='password' 
+                  type='password'
                   required></v-text-field>
               </v-layout>
               <v-layout row wrap>
@@ -31,7 +31,7 @@
                 </v-alert>
               </v-layout>
               <v-layout row wrap>
-                <v-btn 
+                <v-btn
                   color='success'
                   :loading='loading'
                   :disabled='loading'
@@ -47,7 +47,7 @@
   </div>
 </template>
 <script>
-/* eslint-disable */ 
+/* eslint-disable */
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
 import golos from 'golos-js'
@@ -55,7 +55,7 @@ import golos from 'golos-js'
 @Component({})
 export default class IcoForm extends Vue {
   @Prop({default: () => {}})
-  lstorage 
+  lstorage
   dialog = false
   locstorage
   username = ''
@@ -63,9 +63,7 @@ export default class IcoForm extends Vue {
   loading = false
   incorrectWif = false
   successfulLogin = false
-  loggedIn = localStorage.getItem('logged_in')==='true'
   checkWif () {
-    console.log(typeof localStorage.getItem('logged_in'))
     this.loading = true
     golos.api.getDynamicGlobalProperties((err, res) => {
       const mockTx = {
@@ -97,6 +95,9 @@ export default class IcoForm extends Vue {
           localStorage.setItem('username', this.username)
           localStorage.setItem('logged_in', true)
           this.posting = ''
+          setTimeout(() => {
+            this.dialog = false
+          }, 3000)
         })
         .catch(error => {
           this.incorrectWif = true
