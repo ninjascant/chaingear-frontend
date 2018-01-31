@@ -15,9 +15,9 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex xs8>
+            <v-flex xs12 md8>
               <v-text-field
-                
+
                 label='Your text'
                 multi-line
                 :rules='[rules.required]'
@@ -30,7 +30,7 @@
             <v-btn color="default" @click="prev">Previous</v-btn>
             <v-btn color="primary" @click="next">Continue</v-btn>
             <v-dialog v-model="notEnough" max-width="390">
-              <v-card dark> 
+              <v-card dark>
                 <v-card-title class="headline">Error</v-card-title>
                 <v-card-text>
                   <v-alert color="error" icon="warning" v-show="notEnough" value="true">

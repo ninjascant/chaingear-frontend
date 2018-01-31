@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-container grid-list-md fluid>
+    <v-container grid-list-xl>
       <v-layout row wrap>
-        <v-flex xs9>
+        <v-flex xs12 lg6>
           <v-stepper v-model="e6">
 
             <v-stepper-content step="1">

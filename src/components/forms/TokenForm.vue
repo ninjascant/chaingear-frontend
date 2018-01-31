@@ -15,7 +15,7 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex xs6>
+            <v-flex xs12 md8>
               <v-text-field
                 label='Token Name*'
                 :rules="[rules.required]"
@@ -68,7 +68,7 @@
             <v-btn color="primary" @click="next">Continue</v-btn>
           </v-layout>
           <v-dialog v-model="notEnough" max-width="390">
-                <v-card dark> 
+                <v-card dark>
                   <v-card-title class="headline">Error</v-card-title>
                   <v-card-text>
                     <v-alert color="error" icon="warning" v-show="notEnough" value="true">
