@@ -34,16 +34,6 @@
             :headers='headers'
             :items='distr'>
           </MultipleValuesContainer>
-          <MultipleValuesContainer
-            @interface='addBonuses'
-            :firstField='firstField1'
-            :secondField='secondField1'
-            :color='color'
-            :head='head2'
-            :buttonText='buttonText1'
-            :headers='headers1'
-            :items='bonuses'>
-          </MultipleValuesContainer>
         </v-container>
         <v-layout row wrap>
           <v-btn color="default" @click="prev">Previous</v-btn>
@@ -121,7 +111,6 @@ export default class FundsFormContainer extends Vue {
     }
   ]
   proceeds = []
-  bonuses = []
   distr = []
   selected = []
   i = 0
@@ -129,15 +118,11 @@ export default class FundsFormContainer extends Vue {
     return !isNaN(value - parseFloat(value))
   }
   addProceeds (data) {
-    console.log(data)
     this.proceeds.push(data)
     this.disabled = false
   }
   addDistr (data) {
     this.distr.push(data)
-  }
-  addBonuses (data) {
-    this.bonuses.push(data)
   }
   prev () {
     this.$emit('interface', {action: 'previous'})
@@ -153,11 +138,6 @@ export default class FundsFormContainer extends Vue {
       delete proceed.value
       delete proceed.index
       return proceed
-    })
-    this.bonuses = this.bonuses.map(bonus => {
-      delete bonus.value
-      delete bonus.index
-      return bonus
     })
     this.$emit('interface', {form: 'funds', data: {proceeds: this.proceeds, distr: this.distr, bonuses: this.bonuses}})
   }

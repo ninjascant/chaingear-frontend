@@ -15,7 +15,7 @@
               <PhasesFormContainer @interface='nextPane'></PhasesFormContainer>
             </v-stepper-content>
             <v-stepper-content step="4">
-              <AddressesFormContainer @interface='nextPane'></AddressesFormContainer>
+              <FundsFormContainer @interface='nextPane'></FundsFormContainer>
             </v-stepper-content>
             <v-stepper-content step="5">
               <TokenForm @interface='nextPane'></TokenForm>

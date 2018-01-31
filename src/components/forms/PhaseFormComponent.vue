@@ -262,6 +262,38 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap>
+    <MultipleValuesContainer
+      @interface='addBonuses'
+      :firstField='firstField1'
+      :secondField='secondField1'
+      :color='color'
+      :head='head2'
+      :buttonText='buttonText1'
+      :headers='headers1'
+      :items='form.bonuses'>
+    </MultipleValuesContainer>
+    <MultipleValuesContainer
+      @interface='addAddresses'
+      :firstField='firstField'
+      :secondField='secondField'
+      :color='color'
+      :head='head'
+      :buttonText='buttonText'
+      :headers='headers'
+      :items='form.addresses'>
+    </MultipleValuesContainer>
+    <MultipleValuesContainer
+      @interface='addContracts'
+      :firstField='firstFieldContracts'
+      :secondField='secondFieldContracts'
+      :color='color'
+      :head='head1'
+      :buttonText='buttonTextContracts'
+      :headers='headers2'
+      :items='form.contracts'>
+    </MultipleValuesContainer>
+  </v-layout>
+    <v-layout row wrap>
       <v-btn
         @click='clear'
         v-if='!commited'>
@@ -282,8 +314,12 @@
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
 import { required, numeric, url } from 'vuelidate/lib/validators'
+import MultipleValuesContainer from '../MultipleValuesContainer'
 
 @Component({
+  components: {
+    MultipleValuesContainer
+  },
   validations: {
     form: {
       phase_name: {required},
@@ -319,6 +355,9 @@ export default class PhaseFormComponent extends Vue {
   modal3 = false
   modal4 = false
   form = {
+    addresses: [],
+    bonuses: [],
+    contracts: [],
     phase_name: '',
     phase_status: '',
     reg_start_date_date: '',
@@ -341,8 +380,91 @@ export default class PhaseFormComponent extends Vue {
   rules = {
     required: (value) => !!value || 'Required'
   }
+  firstField1 = {
+    key: 'amount',
+    hint: '',
+    type: 'str',
+    label: 'Amount'
+  }
+  secondField1 = {
+    key: 'condition',
+    hint: '',
+    type: 'str',
+    label: 'Condition'
+  }
+  buttonText1 = 'Add bonus'
+  head2 = 'Bonuses'
+  color = 'grey lighten-3'
+  headers1 = [
+    {
+      text: 'Amount',
+      value: 'amount'
+    },
+    {
+      text: 'Condition',
+      value: 'condition'
+    }
+  ]
+  head = 'Crowdsale wallets'
+  head1 = 'Crowdsale contracts'
+  firstField = {
+    key: 'address',
+    hint: '',
+    type: 'address',
+    label: 'Address'
+  }
+  secondField = {
+    key: 'currency',
+    hint: 'For example, ETH, BTC, LTC',
+    type: 'str',
+    label: 'Currency'
+  }
+  buttonText = 'Add address'
+  color = 'cyan lighten-4'
+  firstFieldContracts = {
+    key: 'address',
+    hint: '',
+    type: 'str',
+    label: 'Contract address'
+  }
+  secondFieldContracts = {
+    key: 'type',
+    hint: '',
+    type: 'str',
+    label: 'Contract type'
+  }
+  buttonTextContracts = 'Add contract'
+  headers = [
+    {
+      text: 'Address',
+      value: 'address'
+    },
+    {
+      text: 'currency',
+      value: 'currency'
+    }
+  ]
+  headers2 = [
+    {
+      text: 'Address',
+      value: 'address'
+    },
+    {
+      text: 'Type',
+      value: 'type'
+    }
+  ]
   notEnough = false
   errorMessage = ''
+  addAddresses (data) {
+    this.form.addresses.push(data)
+  }
+  addContracts (data) {
+    this.form.contracts.push(data)
+  }
+  addBonuses (data) {
+    this.form.bonuses.push(data)
+  }
   clear () {
     if (this.$v.$invalid !== true) {
       this.$emit('interface', this.form)

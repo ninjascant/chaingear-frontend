@@ -15,7 +15,7 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex xs12 md8>
+            <v-flex xs12 md12>
             <v-expansion-panel class="pa-2 mt-4">
               <v-expansion-panel-content
                 v-bind:value="phase === form.phases[n]"
@@ -84,7 +84,7 @@ export default class PhasesFormContainer extends Vue {
             "lockup_date": ""
           }
         ],
-        "crowdsale_addresses": [{address: '', currency: ''}]
+        "crowdsale_addresses": data.addresses
       },
       "dates": {
         "start_date": new Date(formData.ico_start_date_date),
@@ -105,6 +105,7 @@ export default class PhasesFormContainer extends Vue {
           "amount": formData.raised_funds_amount_btc || 0
         }
       ],
+      "contract": data.contracts,
       "prices": {
         "token_final_price": [
           {
@@ -112,6 +113,7 @@ export default class PhasesFormContainer extends Vue {
             "price": formData.token_final_price.amount || 0
           }
         ],
+        bonuses: data.bonuses
       }
     }
     if (data.n !== undefined) {
