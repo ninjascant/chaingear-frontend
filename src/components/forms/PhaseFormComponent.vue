@@ -95,7 +95,6 @@
         <v-text-field
           slot="activator"
           label="ICO start date*"
-          :rules="[rules.required]"
           v-model="form.ico_start_date_date"
           prepend-icon="event"
           readonly
@@ -124,7 +123,6 @@
             <v-text-field
               slot="activator"
               label="ICO end date*"
-              :rules="[rules.required]"
               v-model="form.ico_end_date_date"
               prepend-icon="event"
               readonly
@@ -263,9 +261,16 @@
     </v-layout>
     <v-layout row wrap>
       <v-btn
-        @click='clear'>
-        Add another phase description
+        @click='clear'
+        v-if='!commited'>
+        Add phase description
       </v-btn>
+      <v-btn
+        @click='update'
+        v-else='commited'>
+        Update description
+      </v-btn>
+    </v-layout>
     </v-layout>
   </v-flex>
 </v-card>
@@ -273,7 +278,7 @@
 </template>
 <script>
 import Vue from 'vue'
-import {Component} from 'vue-property-decorator'
+import {Component, Prop} from 'vue-property-decorator'
 import { required, numeric, url } from 'vuelidate/lib/validators'
 
 @Component({
@@ -301,8 +306,11 @@ import { required, numeric, url } from 'vuelidate/lib/validators'
   }
 })
 export default class PhaseFormComponent extends Vue {
+  @Prop({default: 0})
+  num
   currency = ['USD', 'ETH', 'BTC']
   statuses = ['Planned', 'Active', 'Finished']
+  commited = false
   modal = false
   modal1 = false
   modal2 = false
@@ -335,8 +343,8 @@ export default class PhaseFormComponent extends Vue {
   errorMessage = ''
   clear () {
     if (this.$v.$invalid !== true) {
-      console.log('it works')
       this.$emit('interface', this.form)
+      this.commited = true
       // eslint-disable-next-line
       /*Object.keys(this.form).forEach(key => this.form[key] = '')
       this.form.token_final_price = {}
@@ -346,6 +354,9 @@ export default class PhaseFormComponent extends Vue {
       this.notEnough = true
       this.errorMessage = 'Not all fields are valid'
     }
+  }
+  update () {
+    this.$emit('interface', {form: this.form, n: this.num})
   }
 }
 </script>

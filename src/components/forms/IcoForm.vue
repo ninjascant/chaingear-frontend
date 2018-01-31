@@ -70,6 +70,7 @@
                   v-for="(phase, i) in form.phases" :key="i">
                   <div slot="header">Item</div>
                   <PhaseFormComponent
+                    :num='i'
                     @interface='addPhase'></PhaseFormComponent>
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -162,26 +163,27 @@ export default class IcoForm extends Vue {
     phases: [null]
   }
   addPhase (data) {
+    const formData = data.form || data
     const tmp = {
-      "phase_name": data.phase_name,
-      "phase_status": data.phase_status,
+      "phase_name": formData.phase_name,
+      "phase_status": formData.phase_status,
       "registration": {
-        "start_date": data.reg_start_date_date ? new Date(data.reg_start_date_date) : "",
-        "end_date": data.reg_end_date_date ? new Date(data.reg_end_date_date) : "",
-        "website": data.reg_url || "",
-        "terms": data.reg_terms || ""
+        "start_date": formData.reg_start_date_date ? new Date(formData.reg_start_date_date) : "",
+        "end_date": formData.reg_end_date_date ? new Date(formData.reg_end_date_date) : "",
+        "website": formData.reg_url || "",
+        "terms": formData.reg_terms || ""
       },
       "terms": {
-        "sales_agreement": data.sales_agreement,
-        "sales_url": data.sales_url,
-        "issued_tokens": data.issued_tokens || 0,
-        "sold_tokens": data.sold_tokens || 0,
+        "sales_agreement": formData.sales_agreement,
+        "sales_url": formData.sales_url,
+        "issued_tokens": formData.issued_tokens || 0,
+        "sold_tokens": formData.sold_tokens || 0,
         "share_of_sold": 0,
-        "token_distribution_date": data.token_distr_date_date ? new Date(data.token_distr_date_date) : "",
+        "token_distribution_date": formData.token_distr_date_date ? new Date(formData.token_distr_date_date) : "",
         "cap_limit": [
           {
-            "currency": data.cap_limit_currency || '',
-            "amount": data.cap_limit_amount || 0
+            "currency": formData.cap_limit_currency || '',
+            "amount": formData.cap_limit_amount || 0
           }
         ],
         "vesting": [
@@ -194,38 +196,44 @@ export default class IcoForm extends Vue {
         "crowdsale_addresses": [{address: '', currency: ''}]
       },
       "dates": {
-        "start_date": new Date(data.ico_start_date_date),
-        "end_date": new Date(data.ico_end_date_date),
+        "start_date": new Date(formData.ico_start_date_date),
+        "end_date": new Date(formData.ico_end_date_date),
         "duration": ""
       },
       "raised_funds": [
         {
           "currency": 'USD',
-          "amount": data.raised_funds_amount_usd || 0
+          "amount": formData.raised_funds_amount_usd || 0
         },
         {
           "currency": 'ETH',
-          "amount": data.raised_funds_amount_eth || 0
+          "amount": formData.raised_funds_amount_eth || 0
         },
         {
           "currency": 'BTC',
-          "amount": data.raised_funds_amount_btc || 0
+          "amount": formData.raised_funds_amount_btc || 0
         }
       ],
       "prices": {
         "token_final_price": [
           {
-            "currency": data.token_final_price.currency || '',
-            "price": data.token_final_price.amount || 0
+            "currency": formData.token_final_price.currency || '',
+            "price": formData.token_final_price.amount || 0
           }
         ],
       }
     }
-    this.form.phases = this.form.phases.filter(item => item !== null)
-    this.form.phases.push(tmp)
-    this.form.phases.push(null)
-    console.log(this.form.phases)
-    this.n += 1
+    if (data.n !== undefined) {
+      console.log('hi')
+      this.form.phases[data.n] = tmp
+      console.log(this.form.phases)
+    } else {
+      this.form.phases = this.form.phases.filter(item => item !== null)
+      this.form.phases.push(tmp)
+      this.form.phases.push(null)
+      console.log(this.form.phases)
+      this.n += 1
+    }
   }
   prev () {
     this.$emit('interface', {action: 'previous'})
