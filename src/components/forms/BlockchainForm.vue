@@ -18,13 +18,13 @@
             <v-flex xs6>
               <v-text-field
                 name="input-1"
-                label='Project Name'
+                label='Project Name*'
                 :rules="[rules.required]"
                 v-model='form.project_name'>
               </v-text-field>
               <v-text-field
                 name="input-1"
-                label='Headline'
+                label='Headline*'
                 hint="It shouldn't be more than 50 symbols long"
                 :rules="[
                   rules.required,
@@ -39,7 +39,7 @@
               <v-select
                 v-bind:items="states"
                 v-model="form.state"
-                label="Project State"
+                label="Project State*"
                 :rules="[rules.required]"
                 max-height='auto'
                 item-text="label"
@@ -47,7 +47,7 @@
               <v-select
                 v-bind:items="dependency"
                 v-model="form.dependency"
-                label="Dependency"
+                label="Dependency*"
                 :rules="[rules.required]"
                 hint="Select blockchain used to issue your tokens"
                 persistent-hint

@@ -64,20 +64,6 @@
               <v-btn color="default" @click="prev">Previous</v-btn>
               <v-btn color="primary" @click="next">Continue</v-btn>
             </v-layout>
-          <v-dialog v-model="notEnough" max-width="390">
-            <v-card dark> 
-              <v-card-title class="headline">Error</v-card-title>
-              <v-card-text>
-                <v-alert color="error" icon="warning" v-show="notEnough" value="true">
-                  {{errorMessage}}
-                </v-alert>
-              </v-card-text>
-              <v-card-actions>
-              <v-spacer></v-spacer>
-                <v-btn color="primary" flat="flat" @click.native="notEnough = false">Ok</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
         </v-container>
       </v-card-text>
     </v-card>
@@ -137,16 +123,7 @@ export default class AppForm extends Vue {
     this.$emit('interface', {action: 'previous'})
   }
   next () {
-    console.log(this.$v.form.app_url.url)
-    if (this.$v.$invalid !== true) {
-      this.$emit('interface', {form: 'app', data: this.form})
-    } else if (this.$v.form.app_url.url === false) {
-      this.notEnough = true
-      this.errorMessage = 'Please, enter a valid url to app'
-    } else {
-      this.notEnough = true
-      this.errorMessage = 'Please, fill all required fields'
-    }
+    this.$emit('interface', {form: 'app', data: this.form})
   }
 }
 </script>

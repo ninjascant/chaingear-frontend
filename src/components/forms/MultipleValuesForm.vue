@@ -49,6 +49,7 @@
   </div>
 </template>
 <script>
+/* eslint-disable */
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
 import WAValidator from 'wallet-address-validator'

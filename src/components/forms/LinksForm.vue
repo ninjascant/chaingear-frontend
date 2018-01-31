@@ -101,7 +101,7 @@
             <v-btn color="primary" @click="next">Continue</v-btn>
           </v-layout>
           <v-dialog v-model="notEnough" max-width="390">
-                <v-card dark> 
+                <v-card dark>
                   <v-card-title class="headline">Error</v-card-title>
                   <v-card-text>
                     <v-alert color="error" icon="warning" v-show="notEnough" value="true">
@@ -140,7 +140,7 @@ import {Component} from 'vue-property-decorator'
       reddit: {url},
       slack: {url},
       rocket: {url},
-      facebook: {url},
+      facebook: {url}
     }
   }
 })
