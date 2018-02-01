@@ -55,6 +55,8 @@ export default class PhasesFormContainer extends Vue {
   n = 0
   addPhase (data) {
     const formData = data.form || data
+    console.log(Object.keys(formData))
+    console.log(formData)
     const tmp = {
       "phase_name": formData.phase_name,
       "phase_status": formData.phase_status,
@@ -84,7 +86,8 @@ export default class PhasesFormContainer extends Vue {
             "lockup_date": ""
           }
         ],
-        "crowdsale_addresses": data.addresses
+        "crowdsale_addresses": (formData.addresses.length !== 0) ? formData.addresses
+          : [{'currency': '', 'address': ''}]
       },
       "dates": {
         "start_date": new Date(formData.ico_start_date_date),
@@ -105,7 +108,8 @@ export default class PhasesFormContainer extends Vue {
           "amount": formData.raised_funds_amount_btc || 0
         }
       ],
-      "contract": data.contracts,
+      "contract": (formData.contracts.length !== 0) ? formData.contracts.length
+        : [{address: '', type: ''}],
       "prices": {
         "token_final_price": [
           {
@@ -113,7 +117,8 @@ export default class PhasesFormContainer extends Vue {
             "price": formData.token_final_price.amount || 0
           }
         ],
-        bonuses: data.bonuses
+        "bonuses": (formData.bonuses.length !== 0) ? formData.bonuses
+          : [{'description': '', percent: ''}]
       }
     }
     if (data.n !== undefined) {

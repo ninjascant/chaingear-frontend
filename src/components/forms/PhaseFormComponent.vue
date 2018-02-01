@@ -467,7 +467,7 @@ export default class PhaseFormComponent extends Vue {
   }
   clear () {
     if (this.$v.$invalid !== true) {
-      this.$emit('interface', this.form)
+      this.$emit('interface', {form: this.form, addresses: this.addresses, bonuses: this.bonuses, contracts: this.contracts})
       this.commited = true
       // eslint-disable-next-line
       /*Object.keys(this.form).forEach(key => this.form[key] = '')

@@ -1,5 +1,7 @@
 /* eslint-disable */
 module.exports = (formData) => {
+  formData.phases.phases = formData.phases.phases.filter(phase => phase !== null)
+  console.log(formData.phases.phases)
   const full = {
   "blockchain": {
     "project_name": formData.blockchain.project_name,
@@ -13,15 +15,17 @@ module.exports = (formData) => {
   "ico": {
     "common_info": {
       "is_ico": true,
-      "current_ico_phase": formData.ico.phase_num,
+      "current_ico_phase": formData.phases.phases.length - 1,
       "current_phase_status": formData.ico.phase_status,
       "token_distribution": {
         "total_supply": formData.ico.supply || 0,
-        "shares": (formData.funds.distr.length !== 0) ? formData.funds.distr : [{description: '', percent: 0}]
+        "shares": (formData.ico.distr.length !== 0) ? formData.ico.distr
+          : [{description: '', percent: 0}]
       },
-      "use_of_proceeds": (formData.funds.proceeds.length !== 0) ? formData.funds.proceeds : [{description: '', percent: 0}]
+      "use_of_proceeds": (formData.ico.proceeds.length !== 0) ? formData.ico.proceeds
+        : [{description: '', percent: 0}]
     },
-    "phases": formData.phases
+    "phases": formData.phases.phases
   },
   "app": {
     "info": [
@@ -65,5 +69,11 @@ module.exports = (formData) => {
     }
   ]
 }
+full.ico.phases = full.ico.phases.filter(phase => phase !== null).map((phase, i) => {
+  phase.terms.sales_agreement = formData.ico.sales_agreement
+  phase.terms.sales_url = formData.ico.sales_url
+  phase.phase_num  = i
+  return phase
+})
 return full
 }

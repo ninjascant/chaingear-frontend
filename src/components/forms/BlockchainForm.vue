@@ -91,6 +91,7 @@
   </div>
 </template>
 <script>
+/* eslint-disable */
 import Vue from 'vue'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import {Component} from 'vue-property-decorator'
@@ -141,6 +142,29 @@ export default class BlockchainForm extends Vue {
   }
   next () {
     if (this.$v.$invalid !== true) {
+      console.log('consensus', typeof this.form.consensus);
+      if (this.form.consensus === '') {
+        switch (this.form.dependency) {
+          case 'Ethereum':
+            this.form.consensus = 'Proof-of-Work'
+            break
+          case 'Waves':
+            this.form.consensus = 'Proof-of-Stake'
+            break
+          case 'NEM Mosaic':
+            this.form.consensus = 'Proof-of-Importance'
+            break;
+          case 'Bitcoin':
+            this.form.consensus = 'Proof-of-Work'
+            break
+          case 'Graphene':
+            this.form.consensus = 'Delegated Proof-of-Stake'
+          default:
+              this.form.consensus = 'Unknown'
+          break
+        }
+      }
+      console.log(this.form)
       this.$emit('interface', {form: 'blockchain', data: this.form})
     } else if (this.$v.form.headline.maxLength === false) {
       this.notEnough = true

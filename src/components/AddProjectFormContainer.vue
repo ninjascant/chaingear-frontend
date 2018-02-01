@@ -9,33 +9,27 @@
               <BlockchainForm @interface='nextPane'></BlockchainForm>
             </v-stepper-content>
             <v-stepper-content step="2">
-              <IcoForm @interface='nextPane'></IcoForm>
-            </v-stepper-content>
-            <v-stepper-content step="3">
               <PhasesFormContainer @interface='nextPane'></PhasesFormContainer>
             </v-stepper-content>
-            <v-stepper-content step="4">
-              <FundsFormContainer @interface='nextPane'></FundsFormContainer>
+            <v-stepper-content step="3">
+              <IcoForm @interface='nextPane'></IcoForm>
             </v-stepper-content>
-            <v-stepper-content step="5">
+            <v-stepper-content step="4">
               <TokenForm @interface='nextPane'></TokenForm>
             </v-stepper-content>
-            <v-stepper-content step="6">
+            <v-stepper-content step="5">
               <AppForm @interface='nextPane'></AppForm>
             </v-stepper-content>
-            <v-stepper-content step="7">
+            <v-stepper-content step="6">
               <RoadmapFormContainer @interface='nextPane'></RoadmapFormContainer>
             </v-stepper-content>
-
-            <v-stepper-content step="8">
+            <v-stepper-content step="7">
               <LinksForm @interface='nextPane'></LinksForm>
             </v-stepper-content>
-
-            <v-stepper-content step="9">
+            <v-stepper-content step="8">
               <ShortDescriptionForm @interface='nextPane'></ShortDescriptionForm>
             </v-stepper-content>
-
-            <v-stepper-content step="10">
+            <v-stepper-content step="9">
               <SubmitForm @interface='nextPane' :fullInfo='fullInfo'></SubmitForm>
             </v-stepper-content>
           </v-stepper>
