@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import StartInfoPage from '../components/StartInfoPage'
 import AddProjectFormContainer from '../components/AddProjectFormContainer'
 import FinishedFormContainer from '../components/FinishedFormContainer'
+import ApplicationsContainer from '../components/ApplicationsContainer'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ export default new Router({
       path: '/finished',
       name: 'Update info',
       component: FinishedFormContainer
+    },
+    {
+      path: '/review',
+      name: 'Review applications',
+      component: ApplicationsContainer
     }
   ]
 })

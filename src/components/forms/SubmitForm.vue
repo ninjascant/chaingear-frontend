@@ -16,6 +16,10 @@
         <v-container fluid>
           <v-layout row wrap>
             <v-flex xs6>
+              <v-text-field
+                label='Contact email*'
+                v-model='form.email'>
+              </v-text-field>
               <span class="title">Please, check all info before submit your application</span>
               <v-card flat color="grey lighten-4">
                 <v-card-text>
@@ -46,7 +50,7 @@
                   <v-card-title class="headline">Successful!</v-card-title>
                   <v-card-text>
                     <v-alert color="success" icon="check_circle" value="true">
-                      You successfully created a pull request to Chaingear! You can track it on <a v-bind:href="htmlUrl">this page</a>
+                      You successfully created a pull request to Chaingear!
                     </v-alert>
                   </v-card-text>
                   <v-card-actions>
@@ -78,6 +82,7 @@ import convert from '../../helpers/full.js'
 export default class SubmitForm extends Vue {
   @Prop({default: {}})
   fullInfo
+  form = {}
   checked = false
   loading = false
   submitError = false
@@ -91,28 +96,32 @@ export default class SubmitForm extends Vue {
     this.loading = true
     let fullDoc
     try {
-      fullDoc = convert(this.fullInfo)
+      fullDoc = {
+        creator_email: this.form.email,
+        project_name: this.fullInfo.blockchain.project_name,
+        timestamp: new Date().toISOString(),
+        project_info: convert(this.fullInfo)
+      }
     } catch (e) {
-      console.log(e)
       this.loading = false
       this.errorCode = e
       this.submitError = true
       return
     }
-    this.$http.post('http://ninja-analytics.ru/pullreq', JSON.stringify(fullDoc))
+    this.$http.post('http://ninja-analytics.ru:8000/create-application', JSON.stringify(fullDoc))
       .then(res => {
         this.loading = false
         this.successful = true
         this.htmlUrl = res.body.html_url
         const logged = 'true' // localStorage.getItem('logged_in')
-        if (logged === 'true') {
+        /*if (logged === 'true') {
           this.fullInfo.username = 'defaultUsername' // localStorage.getItem('username')
-          this.$http.post('http://ninja-analytics.ru/createPost', JSON.stringify({form: this.fullInfo}))
+          this.$http.post('http://ninja-analytics.ru:8000/createPost', JSON.stringify({form: this.fullInfo}))
             .then(res => {
               console.log(res)
               this.loading = false
             })
-        }
+        }*/
       })
       .catch(error => {
         console.log('error', error)
