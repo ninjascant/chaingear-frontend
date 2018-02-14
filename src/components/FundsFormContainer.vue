@@ -68,9 +68,11 @@ export default class FundsFormContainer extends Vue {
     return !isNaN(value - parseFloat(value))
   }
   addProceeds (data) {
+    this.proceeds.push(data)
     this.$emit('interface', {key: 'proceeds', value: data})
   }
   addDistr (data) {
+    this.distr.push(data)
     this.$emit('interface', {key: 'distr', value: data})
   }
   prev () {

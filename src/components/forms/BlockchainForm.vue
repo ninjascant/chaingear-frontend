@@ -15,7 +15,7 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex xs12 md8>
+            <v-flex xs12 sm8 md8>
               <v-text-field
                 name="input-1"
                 label='Project Name*'
@@ -142,7 +142,7 @@ export default class BlockchainForm extends Vue {
   }
   next () {
     if (this.$v.$invalid !== true) {
-      console.log('consensus', typeof this.form.consensus);
+      console.log('consensus', this.form.dependency);
       if (this.form.consensus === '') {
         switch (this.form.dependency) {
           case 'Ethereum':
@@ -159,6 +159,7 @@ export default class BlockchainForm extends Vue {
             break
           case 'Graphene':
             this.form.consensus = 'Delegated Proof-of-Stake'
+            break
           default:
               this.form.consensus = 'Unknown'
           break

@@ -117,7 +117,7 @@ export default class IcoForm extends Vue {
     if (data.key === 'proceeds') {
       this.proceeds.push(data.value)
     } else if (data.key === 'distr') {
-      this.distr.push(data)
+      this.distr.push(data.value)
     } else {
       return
     }

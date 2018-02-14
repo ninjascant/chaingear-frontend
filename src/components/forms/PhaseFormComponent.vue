@@ -2,7 +2,7 @@
   <div>
     <v-card flat color='grey lighten-4'>
     <v-layout row wrap>
-      <v-flex>
+      <v-flex xs12 sm8 md8>
       <v-text-field
         label="Phase name"
         v-model="form.phase_name"
@@ -70,20 +70,24 @@
           </v-dialog>
         </v-flex>
       </v-layout>
-    <v-text-field
-      label='Registration terms'
-      :rules="[
-        () => $v.form.reg_terms.url !== false || 'Should be a valid url (for example: https://example.com)'
-      ]"
-      v-model='form.reg_terms'>
-    </v-text-field>
-    <v-text-field
-      label='Registration website'
-      :rules="[
-        () => $v.form.reg_url.url !== false || 'Should be a valid url (for example: https://example.com)'
-      ]"
-      v-model='form.reg_url'>
-    </v-text-field>
+      <v-layout row wrap>
+      <v-flex xs12 sm8>
+        <v-text-field
+          label='Registration terms'
+          :rules="[
+            () => $v.form.reg_terms.url !== false || 'Should be a valid url (for example: https://example.com)'
+          ]"
+          v-model='form.reg_terms'>
+        </v-text-field>
+        <v-text-field
+          label='Registration website'
+          :rules="[
+            () => $v.form.reg_url.url !== false || 'Should be a valid url (for example: https://example.com)'
+          ]"
+          v-model='form.reg_url'>
+        </v-text-field>
+      </v-flex>
+    </v-layout>
     <span class="subheading">Crowdsale</span>
     <v-layout row wrap>
       <v-flex xs6>
@@ -141,6 +145,8 @@
           </v-dialog>
         </v-flex>
       </v-layout>
+      <v-layout row wrap>
+        <v-flex xs12 sm8>
     <v-text-field
       label='Issued tokens'
       :rules="[
@@ -155,6 +161,8 @@
       ]"
       v-model='form.sold_tokens'>
     </v-text-field>
+    </v-flex>
+  </v-layout>
     <v-layout row wrap>
       <v-flex xs6>
       <!-- Token distribution Dates -->
@@ -467,13 +475,23 @@ export default class PhaseFormComponent extends Vue {
   }
   clear () {
     if (this.$v.$invalid !== true) {
+      this.addresses = this.addresses.map(address => {
+        delete address.index
+        delete address.value
+        return address
+      })
+      this.contracts = this.contracts.map(contract => {
+        delete contract.index
+        delete contract.value
+        return contract
+      })
+      this.bonuses = this.bonuses.map(bonus => {
+        delete bonus.index
+        delete bonus.value
+        return bonus
+      })
       this.$emit('interface', {form: this.form, addresses: this.addresses, bonuses: this.bonuses, contracts: this.contracts})
       this.commited = true
-      // eslint-disable-next-line
-      /*Object.keys(this.form).forEach(key => this.form[key] = '')
-      this.form.token_final_price = {}
-      this.form.token_final_price.currency = 'BTC'
-      this.form.token_final_price.amount = ''*/
     } else {
       this.notEnough = true
       this.errorMessage = 'Not all fields are valid'

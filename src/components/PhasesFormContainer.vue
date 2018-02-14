@@ -55,8 +55,6 @@ export default class PhasesFormContainer extends Vue {
   n = 0
   addPhase (data) {
     const formData = data.form || data
-    console.log(Object.keys(formData))
-    console.log(formData)
     const tmp = {
       "phase_name": formData.phase_name,
       "phase_status": formData.phase_status,

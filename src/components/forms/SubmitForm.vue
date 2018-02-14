@@ -74,6 +74,7 @@
   </div>
 </template>
 <script>
+/* eslint-disable */
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
 import convert from '../../helpers/full.js'
