@@ -72,7 +72,7 @@ export default class IcoForm extends Vue {
       this.errorMessage = 'Please, fill all required fields'
     } else if (this.form.text.length < 500) {
       this.notEnough = true
-      this.errorMessage = 'This description is too short. Please, write at least 1 paragraph'
+      this.errorMessage = 'This description is too short. Please, write at least 2 paragraphs (500 symbols long)'
     } else {
       this.$emit('interface', {form: 'short_description', data: this.form})
     }
