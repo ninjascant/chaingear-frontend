@@ -111,6 +111,6 @@ export default class RoadmapValuesContainer extends Vue {
 </script>
 <style>
 tr {
-  background-color: #EEEEEE;
+  background-color: #F5F5F5;
 }
 </style>

@@ -34,5 +34,3 @@ import SideMenu from './components/SideMenu'
 })
 export default class App extends Vue {}
 </script>
-<style>
-</style>

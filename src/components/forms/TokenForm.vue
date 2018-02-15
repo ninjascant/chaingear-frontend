@@ -25,18 +25,42 @@
                 label='Token Symbol*'
                 v-model='form.symbol'>
               </v-text-field>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-flex xs10 sm8>
               <v-select
                 v-bind:items="purpose"
                 v-model="form.token_purpose"
                 :rules="[rules.required]"
                 label="Token purpose*"
                 max-height='auto'></v-select>
+            </v-flex>
+            <v-flex xs2 sm3 align-center justify-center class='mt-3'>
+              <v-tooltip right>
+                <v-icon color="default" slot="activator">info</v-icon>
+                <span>Is token used in ICO, app or both?</span>
+              </v-tooltip>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-flex xs10 sm8>
               <v-select
                 v-bind:items="type"
                 v-model="form.token_type"
                 :rules="[rules.required]"
                 label="Token type*"
                 max-height='auto'></v-select>
+              </v-flex>
+            <v-flex xs2 sm3 class='mt-3'>
+              <v-tooltip right>
+                <v-icon color="default" slot="activator">info</v-icon>
+                <span>Core token - if token if issued using your own blockchain. Blockchain issued token - if token is issued using some existing blockchain (for example, Ethereum)</span>
+              </v-tooltip>
+            </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+              <v-flex xs10 sm8>
               <v-text-field
                 label='Inflation rate'
                 multi-line

@@ -84,7 +84,3 @@ export default class FundsFormContainer extends Vue {
 }
 </script>
 <style>
-tr {
-  background-color: #E0E0E0;
-}
-</style>

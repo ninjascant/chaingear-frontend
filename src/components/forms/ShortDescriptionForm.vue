@@ -66,6 +66,7 @@ export default class IcoForm extends Vue {
     this.$emit('interface', {action: 'previous'})
   }
   next () {
+    console.log(this.form.text.length)
     if (!this.form.text) {
       this.notEnough = true
       this.errorMessage = 'Please, fill all required fields'

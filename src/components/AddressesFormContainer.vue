@@ -123,7 +123,3 @@ export default class AddressesFormContainer extends Vue {
 }
 </script>
 <style>
-tr {
-  background-color: #E0E0E0;
-}
-</style>

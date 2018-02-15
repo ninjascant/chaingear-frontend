@@ -98,8 +98,3 @@ export default class VestingFormContainer extends Vue {
   }
 }
 </script>
-<style>
-tr {
-  background-color: #E0E0E0;
-}
-</style>

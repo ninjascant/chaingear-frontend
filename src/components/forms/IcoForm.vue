@@ -12,6 +12,7 @@
           <v-layout row wrap>
             <v-flex xs12 md12>
               <span class="title">Common info</span>
+              <v-flex xs12 sm8>
               <v-select
                 v-bind:items="status"
                 :rules="[rules.required]"
@@ -45,6 +46,7 @@
                 ]"
                 v-model='form.supply'>
               </v-text-field>
+              </v-flex>
             </v-flex>
           </v-layout>
           <!-- Funds -->

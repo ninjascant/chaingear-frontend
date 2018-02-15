@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container grid-list-md>
-      <v-layout row wrap justify-center align-center>
+      <v-layout row wrap justify-center>
         <v-flex xs12 md8>
           <v-stepper v-model="e6">
             <v-stepper-content step="1">

@@ -16,17 +16,15 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap justify-center align-center>
-            <v-flex xs4>
-              <a v-bind:href='website.url'>{{website.name}}</a>
+            <v-flex xs3>
+              <a class="buttoned" v-bind:href='website.url'><v-btn flat><v-icon medium left>fa-link</v-icon>Site</v-btn></a>
             </v-flex>
-            <v-flex v-if='paper' xs4>
-              <a v-bind:href='paper'>Whitepaper</a>
+            <v-flex xs3>
+              <a class="buttoned" v-bind:href='paper'><v-btn flat><v-icon medium left>fa-file</v-icon>Paper</v-btn></a>
             </v-flex>
-            <v-flex v-if='git' xs4>
-              <a v-bind:href='git'>Github</a>
+            <v-flex xs3>
+              <a class="buttoned" v-bind:href='git'><v-btn flat><v-icon medium left>fa-github-square</v-icon>Github</v-btn></a>
             </v-flex>
-          </v-layout>
-          <v-layout row wrap justify-center align-center>
             <v-flex xs3>
               <v-btn flat><v-icon medium color='green lighten-1'>fa-edit</v-icon></v-btn>
             </v-flex>
@@ -67,3 +65,8 @@ export default class ApplicationCard extends Vue {
   }
 }
 </script>
+<style>
+.buttoned {
+  text-decoration: none;
+}
+</style>

@@ -32,7 +32,7 @@
           </template>
           <template slot="items" slot-scope="props">
             <tr @click="props.expanded = !props.expanded">
-              <td class="text-xs-right" color="grey lighten-4">{{ props.item[firstField.key] }}</td>
+              <td class="text-xs-right" color="grey lighten-3">{{ props.item[firstField.key] }}</td>
               <td class="text-xs-right">{{ props.item[secondField.key] }}</td>
             </tr>
           </template>
@@ -143,8 +143,3 @@ export default class AddressesFormContainer extends Vue {
   }
 }
 </script>
-<style>
-tr {
-  background-color: #EEEEEE;
-}
-</style>

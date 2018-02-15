@@ -2,11 +2,13 @@
   <div>
     <v-card flat color='grey lighten-4'>
     <v-layout row wrap>
-      <v-flex xs12 sm8 md8>
+      <v-flex xs8 sm5>
       <v-text-field
         label="Phase name"
         v-model="form.phase_name"
       ></v-text-field>
+      </v-flex>
+      <v-flex xs8 sm5>
       <v-select
         v-bind:items='statuses'
         v-model="form.phase_status"
@@ -17,6 +19,7 @@
       <div class="subheading mt-2">Registration</div>
       <!-- Registration Dates -->
       <v-layout row wrap>
+      <v-flex xs8 sm5>
       <v-dialog
         persistent
         v-model="modal"
@@ -41,9 +44,8 @@
           </template>
         </v-date-picker>
       </v-dialog>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex xs5>
+      </v-flex>
+      <v-flex xs8 sm5>
           <v-dialog
             persistent
             v-model="modal1"
@@ -71,7 +73,7 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap>
-      <v-flex xs12 sm8>
+      <v-flex xs8 sm5>
         <v-text-field
           label='Registration terms'
           :rules="[
@@ -79,6 +81,8 @@
           ]"
           v-model='form.reg_terms'>
         </v-text-field>
+        </v-flex>
+        <v-flex xs8 sm5>
         <v-text-field
           label='Registration website'
           :rules="[
@@ -90,7 +94,7 @@
     </v-layout>
     <span class="subheading">Crowdsale</span>
     <v-layout row wrap>
-      <v-flex xs6>
+      <v-flex xs8 sm5>
       <v-dialog
         persistent
         v-model="modal2"
@@ -116,9 +120,7 @@
         </v-date-picker>
       </v-dialog>
       </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex xs6>
+      <v-flex xs8 sm5>
           <v-dialog
             persistent
             v-model="modal3"
@@ -146,7 +148,7 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap>
-        <v-flex xs12 sm8>
+        <v-flex xs8 sm5>
     <v-text-field
       label='Issued tokens'
       :rules="[
@@ -154,6 +156,8 @@
       ]"
       v-model='form.issued_tokens'>
     </v-text-field>
+    </v-flex>
+    <v-flex xs8 sm5>
     <v-text-field
       label='Sold tokens'
       :rules="[

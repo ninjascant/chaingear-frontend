@@ -21,6 +21,10 @@
                 :rules="[rules.required]"
                 v-model='form.name'>
               </v-text-field>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-flex xs10 sm8>
               <v-select
                 v-bind:items="same"
                 v-model="form.same"
@@ -29,6 +33,16 @@
                 item-text="label"
                 item-value="value">
               </v-select>
+            </v-flex>
+            <v-flex xs2 sm3 class='mt-3'>
+              <v-tooltip right>
+                <v-icon color="default" slot="activator">info</v-icon>
+                <span>Does your app use the same blockchain as in ICO?</span>
+              </v-tooltip>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-flex xs10 sm8>
               <v-select
                 v-bind:items="available"
                 v-model="form.availability"
@@ -37,6 +51,16 @@
                 item-text="label"
                 item-value="value">
               </v-select>
+            </v-flex>
+            <v-flex xs2 sm3 class='mt-3'>
+              <v-tooltip right>
+                <v-icon color="default" slot="activator">info</v-icon>
+                <span>Is your project source code available on Github/Bitbucket/Gitlab?</span>
+              </v-tooltip>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-flex xs10 sm8>
               <v-select
                 v-bind:items="status"
                 v-model="form.status"
@@ -45,11 +69,25 @@
                 item-text="label"
                 item-value="value">
               </v-select>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-flex xs10 md8>
               <v-text-field
                 label='App type*'
                 :rules="[rules.required]"
                 v-model='form.app_type'>
               </v-text-field>
+            </v-flex>
+            <v-flex xs2 sm3 class='mt-3'>
+              <v-tooltip right>
+                <v-icon color="default" slot="activator">info</v-icon>
+                <span>Type of your app: Wallet, Marketplace etc</span>
+              </v-tooltip>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-flex xs10 sm8>
               <v-text-field
                 label='URL to app*'
                 :rules="[

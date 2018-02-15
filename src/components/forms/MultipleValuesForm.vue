@@ -1,6 +1,5 @@
 <template>
   <div>
-    <v-card :color='color' class='mb-1 pt-0'>
       <v-container fluid>
         <v-layout row wrap>
           <v-flex xs12>
@@ -45,7 +44,7 @@
             </v-dialog>
         </v-layout>
       </v-container>
-    </v-card>
+    
   </div>
 </template>
 <script>
