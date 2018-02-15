@@ -55,7 +55,7 @@
             <v-flex xs2 sm3 class='mt-3'>
               <v-tooltip right>
                 <v-icon color="default" slot="activator">info</v-icon>
-                <span>Core token - if token if issued using your own blockchain. Blockchain issued token - if token is issued using some existing blockchain (for example, Ethereum)</span>
+                <span>Core token - if token if issued using your own blockchain. <br>Blockchain issued token - if token is issued using some <br> existing blockchain (for example, Ethereum)</span>
               </v-tooltip>
             </v-flex>
             </v-layout>
