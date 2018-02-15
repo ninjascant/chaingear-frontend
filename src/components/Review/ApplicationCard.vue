@@ -5,10 +5,22 @@
         v-bind:class='[color]'
         height='70px'
         >
-        <v-container fill-height fluid>
-          <v-layout fill-height>
-            <v-flex xs12 align-end flexbox>
+        <v-container fluid>
+          <v-layout justify-space-between>
+            <v-flex xs4 class='mt-2'>
               <span class="headline">{{project.project_name}}</span>
+            </v-flex>
+            <v-flex xs3>
+            <div class='rounded grey lighten-4'>
+              <v-tooltip right>
+                <v-btn flat icon slot='activator'><v-icon color="success" medium>fa-check-circle</v-icon></v-btn>
+                <span>Submit</span>
+              </v-tooltip>
+              <v-tooltip right>
+                <v-btn flat icon slot='activator'><v-icon color='error' medium>fa-ban</v-icon></v-btn>
+                <span>Reject</span>
+              </v-tooltip>
+            </div>
             </v-flex>
           </v-layout>
         </v-container>
@@ -20,10 +32,10 @@
               <a class="buttoned" v-bind:href='website.url'><v-btn flat><v-icon medium left>fa-link</v-icon>Site</v-btn></a>
             </v-flex>
             <v-flex xs3>
-              <a class="buttoned" v-bind:href='paper'><v-btn flat><v-icon medium left>fa-file</v-icon>Paper</v-btn></a>
+              <a class="buttoned" v-bind:href='paper'><v-btn :disabled='!paper' flat><v-icon medium left>fa-file</v-icon>Paper</v-btn></a>
             </v-flex>
             <v-flex xs3>
-              <a class="buttoned" v-bind:href='git'><v-btn flat><v-icon medium left>fa-github-square</v-icon>Github</v-btn></a>
+              <a class="buttoned" v-bind:href='git'><v-btn :disabled='!git' flat><v-icon medium left>fa-github-square</v-icon>Github</v-btn></a>
             </v-flex>
             <v-flex xs3>
               <v-btn flat><v-icon medium color='green lighten-1'>fa-edit</v-icon></v-btn>
@@ -66,6 +78,9 @@ export default class ApplicationCard extends Vue {
 }
 </script>
 <style>
+.rounded {
+  border-radius: 10px;
+}
 .buttoned {
   text-decoration: none;
 }

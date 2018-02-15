@@ -2,11 +2,10 @@
   <div >
     <v-toolbar app clipped-left>
     <v-toolbar-title>Chaingear</v-toolbar-title>
-
     <v-toolbar-side-icon class="hidden-md-and-up"></v-toolbar-side-icon>
     <v-toolbar-items class="ml-4">
-      <v-btn flat @click="crowdsalesRedirect">Crowdsales</v-btn>
       <v-btn flat @click="addInfoRedirect">Add info</v-btn>
+      <v-btn flat @click="crowdsalesRedirect">Applications</v-btn>
     </v-toolbar-items>
     <v-spacer></v-spacer>
     <v-toolbar-items>
@@ -35,7 +34,7 @@ export default class IcoForm extends Vue {
     console.log('ls', this.username)
   }
   crowdsalesRedirect () {
-    this.$router.push('/crowdsales')
+    this.$router.push('/review')
   }
   addInfoRedirect () {
     this.$router.push('/add_info')

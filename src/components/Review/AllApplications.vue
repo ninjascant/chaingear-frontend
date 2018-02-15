@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-layout row wrap>
+    <v-layout row wrap justify-center align-center>
+      <v-progress-circular v-show='loading' indeterminate color="green"></v-progress-circular>
+    </v-layout>
+    <v-layout row wrap v-show='!loading'>
       <v-flex xs8>
         <ApplicationCard
           v-for='(project, i) in pageContent'
@@ -30,6 +33,7 @@ export default class AllApplications extends Vue {
   pageContent = []
   page = 0
   total = 0
+  loading = true
   colors = ['green lighten-4', 'lime lighten-4', 'amber lighten-4', 'blue-grey lighten-4', 'deep-purple lighten-4',
     'pink lighten-4', 'purple lighten-3']
   mounted () {
@@ -49,9 +53,12 @@ export default class AllApplications extends Vue {
         this.applications = chunk(sorted, 10)
         console.log(this.applications.length)
         this.pageContent = this.applications[0]
-        this.total = this.applications.length 
+        this.total = this.applications.length
+        this.loading = false
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+      })
   }
   handleCurrentChange (e) {
     this.projects = this.allProjects[e-1]
