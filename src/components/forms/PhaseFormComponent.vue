@@ -1,13 +1,15 @@
 <template>
   <div>
     <v-card flat color='grey lighten-4'>
+    <!-- Phase name and status -->
     <v-layout row wrap>
       <v-flex xs8 sm5>
-      <v-text-field
-        label="Phase name"
-        v-model="form.phase_name"
-      ></v-text-field>
+        <v-text-field
+          label="Phase name*"
+          v-model="form.phase_name"
+        ></v-text-field>
       </v-flex>
+      <v-flex xs1></v-flex>
       <v-flex xs8 sm5>
       <v-select
         v-bind:items='statuses'
@@ -16,225 +18,130 @@
         max-height='auto'></v-select>
       </v-flex>
     </v-layout>
-      <div class="subheading mt-2">Registration</div>
+      <div class="title mt-2 mb-3">Registration</div>
       <!-- Registration Dates -->
       <v-layout row wrap>
-      <v-flex xs8 sm5>
-      <v-dialog
-        persistent
-        v-model="modal"
-        lazy
-        full-width
-        width="290px"
-      >
-        <v-text-field
-          slot="activator"
-          label="Registration start date"
-          v-model="form.reg_start_date_date"
-          prepend-icon="event"
-          readonly
-        ></v-text-field>
-        <v-date-picker v-model="form.reg_start_date_date" scrollable actions>
-          <template slot-scope="{ save, cancel }">
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-              <v-btn flat color="primary" @click="save">OK</v-btn>
-            </v-card-actions>
-          </template>
-        </v-date-picker>
-      </v-dialog>
-      </v-flex>
-      <v-flex xs8 sm5>
-          <v-dialog
-            persistent
-            v-model="modal1"
-            lazy
-            full-width
-            width="290px"
-          >
-            <v-text-field
-              slot="activator"
-              label="Registration end date"
-              v-model="form.reg_end_date_date"
-              prepend-icon="event"
-              readonly
-            ></v-text-field>
-            <v-date-picker v-model="form.reg_end_date_date" scrollable actions>
-              <template slot-scope="{ save, cancel }">
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-                  <v-btn flat color="primary" @click="save">OK</v-btn>
-                </v-card-actions>
-              </template>
-            </v-date-picker>
-          </v-dialog>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-      <v-flex xs8 sm5>
-        <v-text-field
-          label='Registration terms'
-          :rules="[
-            () => $v.form.reg_terms.url !== false || 'Should be a valid url (for example: https://example.com)'
-          ]"
-          v-model='form.reg_terms'>
-        </v-text-field>
-        </v-flex>
         <v-flex xs8 sm5>
-        <v-text-field
-          label='Registration website'
-          :rules="[
-            () => $v.form.reg_url.url !== false || 'Should be a valid url (for example: https://example.com)'
-          ]"
-          v-model='form.reg_url'>
-        </v-text-field>
-      </v-flex>
-    </v-layout>
-    <span class="subheading">Crowdsale</span>
-    <v-layout row wrap>
-      <v-flex xs8 sm5>
-      <v-dialog
-        persistent
-        v-model="modal2"
-        lazy
-        full-width
-        width="290px"
-      >
-        <v-text-field
-          slot="activator"
-          label="ICO start date*"
-          v-model="form.ico_start_date_date"
-          prepend-icon="event"
-          readonly
-        ></v-text-field>
-        <v-date-picker v-model="form.ico_start_date_date" scrollable actions>
-          <template slot-scope="{ save, cancel }">
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-              <v-btn flat color="primary" @click="save">OK</v-btn>
-            </v-card-actions>
-          </template>
-        </v-date-picker>
-      </v-dialog>
-      </v-flex>
-      <v-flex xs8 sm5>
-          <v-dialog
-            persistent
-            v-model="modal3"
-            lazy
-            full-width
-            width="290px"
-          >
-            <v-text-field
-              slot="activator"
-              label="ICO end date*"
-              v-model="form.ico_end_date_date"
-              prepend-icon="event"
-              readonly
-            ></v-text-field>
-            <v-date-picker v-model="form.ico_end_date_date" scrollable actions>
-              <template slot-scope="{ save, cancel }">
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-                  <v-btn flat color="primary" @click="save">OK</v-btn>
-                </v-card-actions>
-              </template>
-            </v-date-picker>
-          </v-dialog>
+          <v-text-field
+            label='Registration start date'
+            suffix='UTC'
+            v-model='form.reg_start_date_date'
+            type='date'></v-text-field>
+        </v-flex>
+        <v-flex xs1></v-flex>
+        <v-flex xs8 sm5>
+          <v-text-field
+            label='Registration end date'
+            suffix='UTC'
+            v-model='form.reg_end_date_date'
+            type='date'></v-text-field>
         </v-flex>
       </v-layout>
       <v-layout row wrap>
         <v-flex xs8 sm5>
-    <v-text-field
-      label='Issued tokens'
-      :rules="[
-        () => $v.form.issued_tokens.numeric !== false || 'Should be a number!'
-      ]"
-      v-model='form.issued_tokens'>
-    </v-text-field>
-    </v-flex>
-    <v-flex xs8 sm5>
-    <v-text-field
-      label='Sold tokens'
-      :rules="[
-        () => $v.form.sold_tokens.numeric !== false || 'Should be a number!'
-      ]"
-      v-model='form.sold_tokens'>
-    </v-text-field>
-    </v-flex>
-  </v-layout>
-    <v-layout row wrap>
-      <v-flex xs6>
-      <!-- Token distribution Dates -->
-      <v-dialog
-        persistent
-        v-model="modal4"
-        lazy
-        full-width
-        width="290px"
-      >
-        <v-text-field
-          slot="activator"
-          label="Token distribution date"
-          v-model="form.token_distr_date"
-          prepend-icon="event"
-          readonly
-        ></v-text-field>
-        <v-date-picker v-model="form.token_distr_date" scrollable actions>
-          <template slot-scope="{ save, cancel }">
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-              <v-btn flat color="primary" @click="save">OK</v-btn>
-            </v-card-actions>
-          </template>
-        </v-date-picker>
-      </v-dialog>
-      </v-flex>
+          <v-text-field
+            label='Registration terms'
+            :rules="[
+              () => $v.form.reg_terms.url !== false || 'Should be a valid url (for example: https://example.com)'
+            ]"
+            v-model='form.reg_terms'>
+          </v-text-field>
+        </v-flex>
+        <v-flex xs1></v-flex>
+        <v-flex xs8 sm5>
+          <v-text-field
+            label='Registration website'
+            :rules="[
+              () => $v.form.reg_url.url !== false || 'Should be a valid url (for example: https://example.com)'
+            ]"
+            v-model='form.reg_url'>
+          </v-text-field>
+        </v-flex>
       </v-layout>
-    <v-layout row wrap>
-      <v-flex xs8>
-        <v-text-field
-          label='Cap limit'
-          :rules="[
-        () => $v.form.cap_limit_amount.numeric !== false || 'Should be a number!'
-      ]"
-          v-model='form.cap_limit_amount'>
-        </v-text-field>
-      </v-flex>
-      <v-flex xs3>
-      <v-select
-        v-bind:items="currency"
-        v-model="form.cap_limit_currency"
-        hint="Select currency"
-        persistent-hint
-        max-height='auto'></v-select>
-      </v-flex>
-    </v-layout>
+      <span class="title">Crowdsale</span>
+      <v-layout row wrap>
+        <v-flex xs8 sm5>
+          <v-text-field
+            label='ICO start date'
+            suffix='UTC'
+            v-model='form.ico_start_date_date'
+            type='date'></v-text-field>
+        </v-flex>
+        <v-flex xs1></v-flex>
+        <v-flex xs8 sm5>
+          <v-text-field
+            label='ICO end date'
+            suffix='UTC'
+            v-model='form.ico_end_date_date'
+            type='date'></v-text-field>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex xs8 sm5>
+          <v-text-field
+            label='Issued tokens'
+            :rules="[
+              () => isNum(form.issued_tokens) !== false || 'Should be a number!'
+            ]"
+            v-model='form.issued_tokens'>
+          </v-text-field>
+        </v-flex>
+        <v-flex xs1></v-flex>
+        <v-flex xs8 sm5>
+          <v-text-field
+            label='Sold tokens'
+            :rules="[
+              () => isNum(form.sold_tokens) !== false || 'Should be a number!'
+            ]"
+            v-model='form.sold_tokens'>
+          </v-text-field>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex xs6>
+        <!-- Token distribution Dates -->
+          
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex xs8>
+          <v-text-field
+            label='Cap limit'
+            :rules="[
+              () => isNum(form.cap_limit_amount) !== false || 'Should be a number!'
+            ]"
+            v-model='form.cap_limit_amount'>
+          </v-text-field>
+        </v-flex>
+        <v-flex xs3>
+        <v-select
+          v-bind:items="currency"
+          v-model="form.cap_limit_currency"
+          hint="Select currency"
+          persistent-hint
+          max-height='auto'></v-select>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex xs8>
+          <v-text-field
+            label='Raised funds'
+            :rules="[
+              () => isNum(form.raised_funds_amount_usd) !== false || 'Should be a number!'
+            ]"
+            hint="Fill this field only if your ICO already started"
+            suffix='USD'
+            v-model='form.raised_funds_amount_usd'>
+          </v-text-field>
+        </v-flex>
+      </v-layout>
     <v-layout row wrap>
       <v-flex xs8>
         <v-text-field
           label='Raised funds'
           :rules="[
-        () => $v.form.raised_funds_amount_usd.numeric !== false || 'Should be a number!'
-      ]"
-          hint="Fill this field only if your ICO already started"
-          suffix='USD'
-          v-model='form.raised_funds_amount_usd'>
-        </v-text-field>
-      </v-flex>
-    </v-layout>
-    <v-layout row wrap>
-      <v-flex xs8>
-        <v-text-field
-          label='Raised funds'
-          :rules="[
-        () => $v.form.raised_funds_amount_eth.numeric !== false || 'Should be a number!'
-      ]"
+              () => isNum(form.raised_funds_amount_eth) !== false || 'Should be a number!'
+            ]"
           hint="Fill this field only if your ICO already started"
           suffix='ETH'
           v-model='form.raised_funds_amount_eth'>
@@ -246,8 +153,8 @@
         <v-text-field
           label='Raised funds'
           :rules="[
-        () => $v.form.raised_funds_amount_btc.numeric !== false || 'Should be a number!'
-      ]"
+              () => isNum(form.raised_funds_amount_btc) !== false || 'Should be a number!'
+            ]"
           hint="Fill this field only if your ICO already started"
           suffix='BTC'
           v-model='form.raised_funds_amount_btc'>
@@ -255,12 +162,12 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap>
-      <v-flex xs8>
+      <v-flex xs8 sm5>
         <v-text-field
           label='Token final price'
           :rules="[
-        () => $v.form.token_final_price.amount.numeric !== false || 'Should be a number!'
-      ]"
+              () => isNum(form.token_final_price.amount) !== false || 'Should be a number!'
+            ]"
           v-model='form.token_final_price.amount'>
         </v-text-field>
       </v-flex>
@@ -274,6 +181,15 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap>
+      <v-flex xs8 sm5>
+        <v-text-field
+            label='Token distribution date'
+            suffix='UTC'
+            v-model='form.token_distr_date'
+            type='date'></v-text-field>
+      </v-flex>
+    </v-layout>
+    <v-layout row wrap>
     <MultipleValuesContainer
       @interface='addBonuses'
       :firstField='firstField1'
@@ -284,6 +200,8 @@
       :headers='headers1'
       :items='form.bonuses'>
     </MultipleValuesContainer>
+    </v-layout>
+    <v-layout row wrap>
     <MultipleValuesContainer
       @interface='addAddresses'
       :firstField='firstField'
@@ -294,6 +212,8 @@
       :headers='headers'
       :items='form.addresses'>
     </MultipleValuesContainer>
+    </v-layout>
+    <v-layout row wrap>
     <MultipleValuesContainer
       @interface='addContracts'
       :firstField='firstFieldContracts'
@@ -361,11 +281,9 @@ export default class PhaseFormComponent extends Vue {
   currency = ['USD', 'ETH', 'BTC']
   statuses = ['Planned', 'Active', 'Finished']
   commited = false
-  modal = false
-  modal1 = false
-  modal2 = false
-  modal3 = false
-  modal4 = false
+  isNum (value) {
+    return !isNaN(value - parseFloat(value))
+  }
   form = {
     addresses: [],
     bonuses: [],
