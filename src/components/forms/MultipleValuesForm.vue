@@ -2,7 +2,7 @@
   <div>
       <v-container fluid>
         <v-layout row wrap>
-          <v-flex xs12>
+          <v-flex xs8 sm8>
             <v-text-field
               :label='firstField.label'
               :hint='firstField.hint'

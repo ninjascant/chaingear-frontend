@@ -7,7 +7,7 @@
         <v-container fill-height fluid>
           <v-layout fill-height>
             <v-flex xs12 align-end flexbox>
-              <span class="headline">ICO Phases descriptions</span>
+              <span class="first headline">ICO Phases descriptions</span>
             </v-flex>
           </v-layout>
         </v-container>

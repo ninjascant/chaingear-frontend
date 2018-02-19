@@ -145,6 +145,8 @@ export default class IcoForm extends Vue {
       this.form.distr = this.distr
       this.form.proceeds = this.proceeds
       this.$emit('interface', {form: 'ico', data: this.form})
+      const container = document.querySelector('.first')
+      container.scrollIntoView(false)
     } else {
       this.notEnough = true
       this.errorMessage = 'Please, fill all required fields'

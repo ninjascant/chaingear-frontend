@@ -6,16 +6,16 @@
           <v-stepper v-model="e6">
             <v-stepper-content step="1">
               <!--<BonusesFormContainer @interface='nextPane'></BonusesFormContainer>-->
-              <BlockchainForm @interface='nextPane'></BlockchainForm>
+              <BlockchainForm  @interface='nextPane'></BlockchainForm>
             </v-stepper-content>
             <v-stepper-content step="2">
-              <PhasesFormContainer @interface='nextPane'></PhasesFormContainer>
+              <PhasesFormContainer  @interface='nextPane'></PhasesFormContainer>
             </v-stepper-content>
             <v-stepper-content step="3">
-              <IcoForm @interface='nextPane'></IcoForm>
+              <IcoForm  @interface='nextPane'></IcoForm>
             </v-stepper-content>
             <v-stepper-content step="4">
-              <TokenForm @interface='nextPane'></TokenForm>
+              <TokenForm  @interface='nextPane'></TokenForm>
             </v-stepper-content>
             <v-stepper-content step="5">
               <AppForm @interface='nextPane'></AppForm>
@@ -61,7 +61,6 @@ import ShortDescriptionForm from './forms/ShortDescriptionForm'
     IcoForm,
     PhasesFormContainer,
     FundsFormContainer,
-    // BonusesFormContainer,
     AddressesFormContainer,
     TokenForm,
     AppForm,

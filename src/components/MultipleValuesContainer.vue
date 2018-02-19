@@ -4,7 +4,7 @@
       <div class="title ma-3">{{head}}</div>
     </v-layout>
     <v-layout row wrap>
-      <v-flex xs12 sm9 md5>
+      <v-flex xs12 sm4>
         <MultipleValuesForm
           @interface='changeValue'
           :firstField='firstField'
@@ -13,33 +13,64 @@
           :buttonText='buttonText'>
         </MultipleValuesForm>
       </v-flex>
-      <v-flex xs12 md7>
-        <table>
+      <v-flex xs12 sm8>
+        <table class="mt-3">
+          <tr>
+            <th>
+              <v-flex xs6 class='ml-2 mt-2 mb-1'>
+                {{firstField.label}}
+              </v-flex>
+            </th>
+            <th>
+              <v-flex xs6 class='ml-2 mt-2 mb-1 mr-2'>
+                {{secondField.label}}
+              </v-flex>
+            </th>
+          </tr>
           <!--<TableRowComponent 
             v-for='item in items' 
             :row='item' 
             key='item.index'
             @interface='changeRow'></TableRowComponent>-->
           <tr v-for='item in items' v-if='items.length > 0'>
-            <td>
-              <span @click='expanded = !expanded'>{{item[firstField.key]}}</span>
-              <v-text-field
-                v-if='expanded'
+            <td class="custom-table-cell">
+            <v-flex xs6 class='ma-2'>
+              <!--<span @click='item.value = !item.value'>{{item[firstField.key]}}</span>-->
+              <input
+                v-if='!item.value'
                 label=''
-                v-model='item[firstField.key]'></v-text-field>
+                type='text'
+                value='item[firstField.key]'
+                v-model='item[firstField.key]'>
+              </v-flex>
             </td>
-            <td>
-              <span @click='expanded = !expanded'>{{item[secondField.key]}}</span>
-              <v-text-field
-                v-if='expanded'
+            <td class="custom-table-cell">
+              <v-flex xs6 class='ma-2'>
+              <!--<span @click='item = changeItem(item)'>{{item[secondField.key]}}</span>-->
+              <input
+                v-if='!item.value'
                 label=''
-                v-model='item[secondField.key]'></v-text-field>
+                value='item[secondField.key]'
+                v-model='item[secondField.key]'>
+              </v-flex>
             </td>
           </tr>
-          <tr v-if='items.length === 0'><span>Nothing to display yet</span></tr>
+          <tr v-if='items.length === 0'>
+          <td class="custom-table-cell">
+          <v-flex xs6 class='ma-2'>
+            <input type="text" value="" disabled>
+            </v-flex>
+          </td>
+          <td class="custom-table-cell">
+          <v-flex xs6 class='ma-2'>
+            <input type="text" value="" disabled>
+            </v-flex>
+          </td>
+          </tr>
         </table>
+        <div><i>Click on row to change data inside it</i></div>
       </v-flex>
-      <div class="ma-2 caption hidden-md-and-up"><i>Click on row to change data inside it</i></div>
+      
     </v-layout>
   </div>
 </template>
@@ -74,6 +105,10 @@ export default class AddressesFormContainer extends Vue {
   selected = []
   expanded = false
   i = 0
+  changeItem (item) {
+    item.value = !item.value
+    return item
+  }
   changeValue (data) {
     const tmp = {}
     tmp[this.firstField.key] = data.formData[this.firstField.key]
@@ -88,3 +123,17 @@ export default class AddressesFormContainer extends Vue {
   }
 }
 </script>
+<style>
+.custom-table-cell {
+  text-align: left;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+}
+tr:hover {background-color:#f5f5f5;}
+th {
+  background-color: white;
+}
+.invisible {
+  color: white;
+}
+</style>

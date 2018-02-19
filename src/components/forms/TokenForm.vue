@@ -7,7 +7,7 @@
         <v-container fill-height fluid>
           <v-layout fill-height>
             <v-flex xs12 align-end flexbox>
-              <span class="headline">Token</span>
+              <span id='first' ref='scrollElem' class="first headline">Token</span>
             </v-flex>
           </v-layout>
         </v-container>
@@ -15,7 +15,7 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex xs12 md8>
+            <v-flex xs10 sm8>
               <v-text-field
                 label='Token Name*'
                 :rules="[rules.required]"
@@ -112,10 +112,12 @@
 </template>
 <script>
 import Vue from 'vue'
-import {Component} from 'vue-property-decorator'
+import {Component, Prop} from 'vue-property-decorator'
 
 @Component({})
 export default class Token extends Vue {
+  @Prop({default: false})
+  backToTop
   purpose = ['ICO token', 'App token', 'Both']
   type = ['Core token', 'Blockchain issued token']
   form = {
@@ -125,6 +127,7 @@ export default class Token extends Vue {
     governance_rights_project: ''
   }
   notEnough = false
+  selector = '#first'
   requiredFields = ['name', 'symbol', 'token_purpose', 'token_type']
   rules = {
     required: (value) => !!value || 'Required'
@@ -133,6 +136,12 @@ export default class Token extends Vue {
     this.$emit('interface', {action: 'previous'})
   }
   next () {
+    // const container = document.querySelector('#first')
+    // let event = new CustomEvent('scroll')
+    // container.scrollIntoView(false)
+    // window.scrollTo(0, 10)
+    // this.$vuetify.goTo(10, {duration: 300, offset: 800, easing: 'easeInOutCubic'})
+    // console.log(this.backToTop)
     this.requiredFields.forEach(field => {
       if (this.form[field] === undefined) {
         this.notEnough = true

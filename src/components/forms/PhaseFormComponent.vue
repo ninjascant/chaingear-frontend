@@ -190,6 +190,7 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap>
+    <v-flex xs12>
     <MultipleValuesContainer
       @interface='addBonuses'
       :firstField='firstField1'
@@ -200,6 +201,7 @@
       :headers='headers1'
       :items='form.bonuses'>
     </MultipleValuesContainer>
+    </v-flex>
     </v-layout>
     <v-layout row wrap>
     <MultipleValuesContainer
@@ -397,26 +399,32 @@ export default class PhaseFormComponent extends Vue {
   }
   clear () {
     if (this.$v.$invalid !== true) {
-      this.addresses = this.addresses.map(address => {
+      this.form.addresses = this.form.addresses.map(address => {
         delete address.index
         delete address.value
         return address
       })
-      this.contracts = this.contracts.map(contract => {
+      this.form.contracts = this.form.contracts.map(contract => {
         delete contract.index
         delete contract.value
         return contract
       })
-      this.bonuses = this.bonuses.map(bonus => {
+      this.form.bonuses = this.form.bonuses.map(bonus => {
         delete bonus.index
         delete bonus.value
         return bonus
       })
-      this.$emit('interface', {form: this.form, addresses: this.addresses, bonuses: this.bonuses, contracts: this.contracts})
+      console.log(this.form.bonuses)
+      this.$emit('interface', {
+        form: this.form,
+        addresses: this.form.addresses,
+        bonuses: this.form.bonuses,
+        contracts: this.form.contracts})
       this.commited = true
     } else {
       this.notEnough = true
       this.errorMessage = 'Not all fields are valid'
+      console.log('notEnough')
     }
   }
   update () {
