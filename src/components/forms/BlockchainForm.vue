@@ -66,6 +66,17 @@
                 max-height='auto'
                 item-text="label"
                 item-value="value"></v-select>
+              <v-select
+                v-bind:items="yesNo"
+                v-model="form.isICO"
+                label="Is ICO?"
+                autocomplete
+                hint="Do you plan to run an ICO?"
+                persistent-hint
+                :rules="[rules.required]"
+                max-height='auto'
+                item-text="label"
+                item-value="value"></v-select>
               </v-flex>
             </v-layout>
             <v-layout row wrap>
@@ -137,6 +148,10 @@ export default class BlockchainForm extends Vue {
     {value: 'Delegated Proof-of-Stake', label: 'Delegated Proof-of-Stake'},
     {value: 'Proof-of-Authority', label: 'Proof-of-Authority'},
     {value: 'Proof-of-Burn', label: 'Proof-of-Burn'}]
+  yesNo = [
+    {value: true, label: 'Yes'},
+    {value: false, label: 'No'}
+  ]
   rules = {
     required: (value) => !!value || 'Required'
   }

@@ -2,7 +2,7 @@
   <div>
     <v-container grid-list-md>
       <v-layout row wrap justify-center align-center>
-        <v-flex xs12 md8>
+        <v-flex xs12 md12>
           <AllApplications></AllApplications>
         </v-flex>
       </v-layout>
