@@ -2,7 +2,7 @@
   <div>
     <v-card flat color='grey lighten-4'>
     <!-- Phase name and status -->
-    <v-layout row wrap>
+    <v-layout row wrap class='mt-3'>
       <v-flex xs8 sm5>
         <v-text-field
           label="Phase name*"
@@ -241,6 +241,11 @@
     </v-layout>
     </v-layout>
   </v-flex>
+  <WarnComponent
+    @interface='okClick'
+    :notEnough='notEnough'
+    :errorMessage='errorMessage'>
+  </WarnComponent>
 </v-card>
   </div>
 </template>
@@ -249,10 +254,12 @@ import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
 import { required, numeric, url } from 'vuelidate/lib/validators'
 import MultipleValuesContainer from '../MultipleValuesContainer'
+import WarnComponent from '../WarnComponent'
 
 @Component({
   components: {
-    MultipleValuesContainer
+    MultipleValuesContainer,
+    WarnComponent
   },
   validations: {
     form: {
@@ -263,8 +270,6 @@ import MultipleValuesContainer from '../MultipleValuesContainer'
       supply: {
         numeric
       },
-      ico_start_date_date: {required},
-      ico_end_date_date: {required},
       issued_tokens: {numeric},
       sold_tokens: {numeric},
       cap_limit_amount: {numeric},
@@ -283,6 +288,8 @@ export default class PhaseFormComponent extends Vue {
   currency = ['USD', 'ETH', 'BTC']
   statuses = ['Planned', 'Active', 'Finished']
   commited = false
+  notEnough = false
+  errorMessage = ''
   isNum (value) {
     return !isNaN(value - parseFloat(value))
   }
@@ -397,6 +404,9 @@ export default class PhaseFormComponent extends Vue {
   addBonuses (data) {
     this.form.bonuses.push(data)
   }
+  okClick (data) {
+    this.notEnough = false
+  }
   clear () {
     if (this.$v.$invalid !== true) {
       this.form.addresses = this.form.addresses.map(address => {
@@ -414,7 +424,6 @@ export default class PhaseFormComponent extends Vue {
         delete bonus.value
         return bonus
       })
-      console.log(this.form.bonuses)
       this.$emit('interface', {
         form: this.form,
         addresses: this.form.addresses,
@@ -424,7 +433,6 @@ export default class PhaseFormComponent extends Vue {
     } else {
       this.notEnough = true
       this.errorMessage = 'Not all fields are valid'
-      console.log('notEnough')
     }
   }
   update () {

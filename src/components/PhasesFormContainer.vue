@@ -7,7 +7,7 @@
         <v-container fill-height fluid>
           <v-layout fill-height>
             <v-flex xs12 align-end flexbox>
-              <span class="first headline">ICO Phases descriptions</span>
+              <span id='anchor-top' class="first headline">ICO Phases descriptions</span>
             </v-flex>
           </v-layout>
         </v-container>
@@ -16,23 +16,39 @@
         <v-container fluid>
           <v-layout row wrap>
             <v-flex xs12 md12>
-            <v-expansion-panel class="pa-2 mt-4">
-              <v-expansion-panel-content
-                v-bind:value="phase === form.phases[n]"
-                v-for="(phase, i) in form.phases" :key="i">
-                <div slot="header">Item</div>
-                <PhaseFormComponent
-                  :num='i'
-                  @interface='addPhase'></PhaseFormComponent>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-flex>
+              <v-tabs
+                v-model="active"
+                color="cyan"
+                dark
+                slider-color="yellow">
+                <v-tab
+                  v-for="(phase, i) in form.phases" 
+                  :key="i"
+                  >
+                  Phase {{ i + 1 }}
+                </v-tab>
+                <v-tab-item
+                  v-for="(phase, i) in form.phases" 
+                  :key="i">
+                  <v-flex class='ma-3'>
+                    <PhaseFormComponent
+                      :num='i'
+                      @interface='addPhase'></PhaseFormComponent>
+                  </v-flex>
+                </v-tab-item>
+              </v-tabs>
+            </v-flex>
           </v-layout>
-          <v-layout row wrap>
+          <v-layout row wrap class='mt-2'>
             <v-btn color="default" @click="prev">Previous</v-btn>
             <v-btn color="primary" @click="next">Continue</v-btn>
           </v-layout>
         </v-container>
+        <WarnComponent
+          @interface='okClick'
+          :notEnough='notEnough'
+          :errorMessage='errorMessage'>
+        </WarnComponent>
       </v-card-text>
     </v-card>
   </div>
@@ -42,17 +58,22 @@
 import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
 import PhaseFormComponent from './forms/PhaseFormComponent'
+import WarnComponent from './WarnComponent'
 
 @Component({
   components: {
-    PhaseFormComponent
+    PhaseFormComponent,
+    WarnComponent
   }
 })
 export default class PhasesFormContainer extends Vue {
   form = {
-    phases: [null]
+    phases: [null, null, null]
   }
   n = 0
+  active = 0
+  notEnough = false
+  errorMessage = ''
   addPhase (data) {
     const formData = data.form || data
     const tmp = {
@@ -106,7 +127,7 @@ export default class PhasesFormContainer extends Vue {
           "amount": formData.raised_funds_amount_btc || 0
         }
       ],
-      "contract": (formData.contracts.length !== 0) ? formData.contracts.length
+      "contract": (formData.contracts.length !== 0) ? formData.contracts
         : [{address: '', type: ''}],
       "prices": {
         "token_final_price": [
@@ -120,30 +141,32 @@ export default class PhasesFormContainer extends Vue {
       }
     }
     if (data.n !== undefined) {
-      console.log('hi')
       this.form.phases[data.n] = tmp
-      console.log(this.form.phases)
     } else {
-      this.form.phases = this.form.phases.filter(item => item !== null)
-      this.form.phases.push(tmp)
-      this.form.phases.push(null)
-      console.log(this.form.phases)
-      this.n += 1
+      this.form.phases.unshift(tmp)
+      this.active = (parseInt(this.active) + 1).toString()
+      this.$nextTick(() => {
+        setTimeout(() => {
+          const container = document.querySelector('#anchor-top')
+          container.scrollIntoView(false)
+        }, 100)
+      })
     }
+  }
+  okClick (data) {
+    this.notEnough = false
   }
   prev () {
     this.$emit('interface', {action: 'previous'})
   }
   next () {
-    // if (this.$v.$invalid !== true) {
-      this.$emit('interface', {form: 'phases', data: this.form})
-    // } /*else if (this.$v.form.headline.maxLength === false) {
-    /*  this.notEnough = true
-      this.errorMessage = 'Headline shouldn\'t be more than 50 symbols long'
-    } else {
+    const filtered = this.form.phases.filter(p => p !== null)
+    if (filtered.length === 0) {
       this.notEnough = true
-      this.errorMessage = 'Please, fill all required fields'
-    }*/
+      this.errorMessage = 'Please, describe at least one ICO phase'
+    } else {
+      this.$emit('interface', {form: 'phases', data: this.form})
+    }
   }
 }
 </script>

@@ -21,16 +21,15 @@ import {Component} from 'vue-property-decorator'
 import Vue from 'vue'
 import Header from './components/Header'
 import AddProjectFormContainer from './components/AddProjectFormContainer'
-import FinishedFormContainer from './components/FinishedFormContainer'
 import SideMenu from './components/SideMenu'
 
 @Component({
   components: {
     Header,
     SideMenu,
-    AddProjectFormContainer,
-    FinishedFormContainer
+    AddProjectFormContainer
   }
 })
 export default class App extends Vue {}
 </script>
+

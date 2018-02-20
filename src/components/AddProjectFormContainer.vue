@@ -5,7 +5,6 @@
         <v-flex xs12 md8>
           <v-stepper v-model="e6">
             <v-stepper-content step="1">
-              <!--<BonusesFormContainer @interface='nextPane'></BonusesFormContainer>-->
               <BlockchainForm  @interface='nextPane'></BlockchainForm>
             </v-stepper-content>
             <v-stepper-content step="2">
@@ -50,8 +49,6 @@ import AppForm from './forms/AppForm'
 import LinksForm from './forms/LinksForm'
 import SubmitForm from './forms/SubmitForm'
 import FundsFormContainer from './FundsFormContainer'
-// import BonusesFormContainer from './BonusesFormContainer'
-import AddressesFormContainer from './AddressesFormContainer'
 import RoadmapFormContainer from './RoadmapFormContainer'
 import ShortDescriptionForm from './forms/ShortDescriptionForm'
 
@@ -60,8 +57,6 @@ import ShortDescriptionForm from './forms/ShortDescriptionForm'
     BlockchainForm,
     IcoForm,
     PhasesFormContainer,
-    FundsFormContainer,
-    AddressesFormContainer,
     TokenForm,
     AppForm,
     RoadmapFormContainer,
