@@ -104,7 +104,7 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap>
-        <v-flex xs8>
+        <v-flex xs8 sm6>
           <v-text-field
             label='Cap limit'
             :rules="[
@@ -113,7 +113,7 @@
             v-model='form.cap_limit_amount'>
           </v-text-field>
         </v-flex>
-        <v-flex xs3>
+        <v-flex xs2>
         <v-select
           v-bind:items="currency"
           v-model="form.cap_limit_currency"
@@ -162,7 +162,7 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap>
-      <v-flex xs8 sm5>
+      <v-flex xs8 sm6>
         <v-text-field
           label='Token final price'
           :rules="[
@@ -171,7 +171,7 @@
           v-model='form.token_final_price.amount'>
         </v-text-field>
       </v-flex>
-      <v-flex xs3>
+      <v-flex xs2>
       <v-select
         v-bind:items="currency"
         v-model="form.token_final_price.currency"

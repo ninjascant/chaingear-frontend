@@ -42,7 +42,7 @@
               <v-text-field
                 label='Total supply'
                 :rules="[
-                  () => $v.form.supply.numeric !== false || 'Should be a number!'
+                  () => isNum(form.supply) !== false || 'Should be a number!'
                 ]"
                 v-model='form.supply'>
               </v-text-field>
@@ -92,10 +92,7 @@ import WarnComponent from '../WarnComponent'
       sales_url: {
         required,
         url
-      },
-      supply: {
-        numeric
-      },
+      }
     }
   }
 })
@@ -106,6 +103,9 @@ export default class IcoForm extends Vue {
   errorMessage = ''
   rules = {
     required: (value) => !!value || 'Required'
+  }
+  isNum (value) {
+    return !isNaN(value - parseFloat(value))
   }
   form = {
     phase_status: '',
@@ -131,7 +131,23 @@ export default class IcoForm extends Vue {
     this.$emit('interface', {action: 'previous'})
   }
   next () {
-    if (this.$v.$invalid !== true) {
+    const distrSum = this.distr.reduce((sum, curr) => sum += parseInt(curr.percent), 0)
+    const proceedsSum = this.proceeds.reduce((sum, curr) => sum += parseInt(curr.percent), 0)
+
+    if (this.distr.length > 0 && distrSum > 100) {
+      this.notEnough = true
+      this.errorMessage = 'Please, change Token distribution form: sum of shares can\'t be more than 100'
+    } else if (this.distr.length > 0 && distrSum < 100) {
+      this.notEnough = true
+      this.errorMessage = 'Please, change Token distribution form: sum of shares can\'t be less than 100'
+    } else if (this.proceeds.length > 0 && proceedsSum > 100) {
+      this.notEnough = true
+      console.log(proceedsSum)
+      this.errorMessage = 'Please, change Funds distribution form: sum of shares can\'t more than 100'
+    } else if (this.proceeds.length > 0 && proceedsSum < 100) {
+      this.notEnough = true
+      this.errorMessage = 'Please, change Funds distribution form: sum of shares can\'t less than 100'
+    } else if (this.$v.$invalid !== true) {
       this.distr = this.distr.map(dist => {
         delete dist.value
         delete dist.index

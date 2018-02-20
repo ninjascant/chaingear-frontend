@@ -15,7 +15,7 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex xs12 md8>
+            <v-flex xs12 sm8>
               <v-text-field
                 label='App name*'
                 :rules="[rules.required]"
@@ -72,7 +72,7 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap>
-            <v-flex xs10 md8>
+            <v-flex xs10 sm8>
               <v-text-field
                 label='App type*'
                 :rules="[rules.required]"
