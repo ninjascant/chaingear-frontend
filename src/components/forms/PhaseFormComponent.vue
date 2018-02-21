@@ -275,19 +275,7 @@ import WarnComponent from '../WarnComponent'
       reg_terms: {url},
       reg_url: {url},
       ico_start_date_date: {required},
-      ico_end_date_date: {required},
-      supply: {
-        numeric
-      },
-      issued_tokens: {numeric},
-      sold_tokens: {numeric},
-      cap_limit_amount: {numeric},
-      raised_funds_amount_btc: {numeric},
-      raised_funds_amount_eth: {numeric},
-      raised_funds_amount_usd: {numeric},
-      token_final_price: {
-        amount: {numeric}
-      }
+      ico_end_date_date: {required}
     }
   }
 })
