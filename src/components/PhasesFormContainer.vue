@@ -23,9 +23,8 @@
             <v-flex xs12 md12>
               <v-tabs
                 v-model="active"
-                color="cyan"
-                dark
-                slider-color="yellow">
+                color="grey lighten-2"
+                slider-color="black">
                 <v-tab
                   v-for="(phase, i) in form.phases" 
                   :key="i"
@@ -45,8 +44,7 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap class='mt-2'>
-            <v-btn color="default" @click="prev">Previous</v-btn>
-            <v-btn color="primary" @click="next">Continue</v-btn>
+            
           </v-layout>
         </v-container>
         <WarnComponent
@@ -73,13 +71,16 @@ import WarnComponent from './WarnComponent'
 })
 export default class PhasesFormContainer extends Vue {
   form = {
-    phases: [null, null, null]
+    phases: [null]
   }
   n = 0
   active = 0
   notEnough = false
   errorMessage = ''
   addPhase (data) {
+    if (data.prev === true) {
+      this.$emit('interface', {action: 'previous'})
+    }
     const formData = data.form || data
     const tmp = {
       "phase_name": formData.phase_name,
@@ -147,15 +148,18 @@ export default class PhasesFormContainer extends Vue {
     }
     if (data.n !== undefined) {
       this.form.phases[data.n] = tmp
-    } else {
+    } else if (data.nextPage !== true) {
       this.form.phases.unshift(tmp)
-      this.active = (parseInt(this.active) + 1).toString()
       this.$nextTick(() => {
         setTimeout(() => {
+          this.active = (parseInt(this.active) + 1).toString()
           const container = document.querySelector('#anchor-top')
           container.scrollIntoView(false)
         }, 100)
       })
+    } else {
+      this.form.phases.unshift(tmp)
+      this.next()
     }
   }
   okClick (data) {

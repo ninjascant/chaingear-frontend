@@ -109,6 +109,8 @@ export default class AllApplications extends Vue {
   page = 0
   total = 0
   loading = true
+  dialog = false
+  
   formTitle = 'All applications'
   headers = [
     { text: 'Status', align: 'left', sortable: false, value: 'name' },

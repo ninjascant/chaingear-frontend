@@ -1,16 +1,17 @@
 /* eslint-disable */
 module.exports = (formData) => {
   formData.phases.phases = formData.phases.phases.filter(phase => phase !== null)
-  console.log(formData.tokens)
   const full = {
   "blockchain": {
     "project_name": formData.blockchain.project_name,
     "headline": formData.blockchain.headline,
+    "short_description": formData.blockchain.text,
     "logo": "",
     "state": formData.blockchain.state,
     "asset_type": formData.blockchain.asset_type,
     "dependency": formData.blockchain.dependency,
-    "consensus_name": formData.blockchain.consensus
+    "consensus_name": formData.blockchain.consensus,
+    "links": formData.links
   },
   "ico": {
     "common_info": {

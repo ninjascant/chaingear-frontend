@@ -81,9 +81,9 @@ export default class PhasesFormContainer extends Vue {
       this.form.apps[data.n] = formData
     } else {
       this.form.apps.unshift(formData)
-      this.active = (parseInt(this.active) + 1).toString()
       this.$nextTick(() => {
         setTimeout(() => {
+          this.active = (parseInt(this.active) + 1).toString()
           const container = document.querySelector('#anchor-top2')
           container.scrollIntoView(false)
         }, 100)

@@ -237,10 +237,12 @@
     </MultipleValuesContainer>
   </v-layout>
     <v-layout row wrap>
+      <v-btn color="default" @click="prev">Previous</v-btn>
       <v-btn
-        @click='clear'
+        @click.native='question = true'
+        color='primary'
         v-if='!commited'>
-        Add new phase
+        Continue
       </v-btn>
       <v-btn
         @click='update'
@@ -255,6 +257,17 @@
     :notEnough='notEnough'
     :errorMessage='errorMessage'>
   </WarnComponent>
+  <v-dialog v-model="question" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Describe another phase?</v-card-title>
+        <v-card-text></v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat="flat" @click="move">No</v-btn>
+          <v-btn color="green darken-1" flat="flat" @click="stay">Yes</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 </v-card>
   </div>
 </template>
@@ -392,6 +405,15 @@ export default class PhaseFormComponent extends Vue {
   ]
   notEnough = false
   errorMessage = ''
+  question = false
+  ask () {
+    if (this.$v.$invalid !== true) {
+      this.question = true
+    } else {
+      this.notEnough = true
+      this.errorMessage = 'Not all fields are valid'
+    }
+  }
   addAddresses (data) {
     this.form.addresses.push(data)
   }
@@ -404,23 +426,15 @@ export default class PhaseFormComponent extends Vue {
   okClick (data) {
     this.notEnough = false
   }
-  clear () {
-    if (this.$v.$invalid !== true) {
-      this.form.addresses = this.form.addresses.map(address => {
-        delete address.index
-        delete address.value
-        return address
-      })
-      this.form.contracts = this.form.contracts.map(contract => {
-        delete contract.index
-        delete contract.value
-        return contract
-      })
-      this.form.bonuses = this.form.bonuses.map(bonus => {
-        delete bonus.index
-        delete bonus.value
-        return bonus
-      })
+  stay () {
+    this.clear()
+  }
+  move () {
+    this.clear(true)
+  }
+  clear (nextPage) {
+    this.question = false
+    if (nextPage !== true) {
       this.$emit('interface', {
         form: this.form,
         addresses: this.form.addresses,
@@ -428,12 +442,20 @@ export default class PhaseFormComponent extends Vue {
         contracts: this.form.contracts})
       this.commited = true
     } else {
-      this.notEnough = true
-      this.errorMessage = 'Not all fields are valid'
+      this.$emit('interface', {
+        nextPage: true,
+        form: this.form,
+        addresses: this.form.addresses,
+        bonuses: this.form.bonuses,
+        contracts: this.form.contracts})
+      this.commited = true
     }
   }
   update () {
     this.$emit('interface', {form: this.form, n: this.num})
+  }
+  prev () {
+    this.$emit('interface', {prev: true})
   }
 }
 </script>
