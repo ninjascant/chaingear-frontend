@@ -2,16 +2,14 @@
   <div>
     <v-card color="grey lighten-4" flat>
       <v-card-media
-        height='100px'
+        height='130px'
         src="/dist/static/doc-images/cards/docks2.png">
         <v-container fill-height fluid>
           <v-layout fill-height>
             <v-flex xs12 align-end>
               <div id='anchor-top' class="first display-1">Tokensale</div>
-              <div class="title mt-3">Phase description</div>
-            </v-flex>
-            <v-flex xs12>
-            
+              <div class="title mt-3 ml-1">Phase description</div>
+              <div class="caption mt-3 ml-2">* - required</div>
             </v-flex>
           </v-layout>
           <v-layout row wrap>

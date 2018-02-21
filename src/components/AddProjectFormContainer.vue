@@ -26,9 +26,6 @@
               <LinksForm @interface='nextPane'></LinksForm>
             </v-stepper-content>
             <v-stepper-content step="8">
-              <ShortDescriptionForm @interface='nextPane'></ShortDescriptionForm>
-            </v-stepper-content>
-            <v-stepper-content step="9">
               <SubmitForm @interface='nextPane' :fullInfo='fullInfo'></SubmitForm>
             </v-stepper-content>
           </v-stepper>

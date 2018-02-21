@@ -106,7 +106,7 @@ Blockchain issued token - token uses an existing blockchain (Ex. Ethereum)</span
               </v-flex>
           </v-layout>
           <v-layout row wrap>
-            <v-btn color="primary" @click="addToken">Add new token</v-btn>
+            <v-btn color="success" @click="addToken">Add new token</v-btn>
           </v-layout>
           <v-dialog v-model="notEnough" max-width="390">
                 <v-card dark>

@@ -34,7 +34,7 @@
                 v-model='form.sales_url'>
               </v-text-field>
               <v-text-field
-                label='Total supply'
+                label='Total token supply'
                 :rules="[
                   () => isNum(form.supply) !== false || 'Should be a number!'
                 ]"

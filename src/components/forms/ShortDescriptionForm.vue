@@ -15,16 +15,7 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex xs12 md8>
-              <v-text-field
-
-                label='Your text'
-                multi-line
-                :rules='[rules.required]'
-                hint="Write short project description (2-3 paragraphs long)"
-                v-model='form.text'>
-              </v-text-field>
-            </v-flex>
+            
           </v-layout>
           <v-layout row wrap>
             <v-btn color="default" @click="prev">Previous</v-btn>

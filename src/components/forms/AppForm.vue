@@ -87,7 +87,7 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap>
-              <v-btn color="primary" @click="addApp">Add new app</v-btn>
+              <v-btn color="success" @click="addApp">Add new app</v-btn>
             </v-layout>
         </v-container>
       </v-card-text>

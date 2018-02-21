@@ -7,7 +7,8 @@
         <v-container fill-height fluid>
           <v-layout fill-height>
             <v-flex xs12 align-end flexbox>
-              <span class="headline">Blockchain</span>
+              <div class="headline">Blockchain</div>
+              <div class="caption mt-3 ml-2">* - required</div>
             </v-flex>
           </v-layout>
         </v-container>
@@ -26,11 +27,20 @@
                 name="input-1"
                 label='Headline*'
                 hint="It shouldn't be more than 50 symbols long"
+                persistent-hint
                 :rules="[
                   rules.required,
                   () => $v.form.headline.maxLength !== false || 'Too long'
                 ]"
                 v-model='form.headline'>
+              </v-text-field>
+              <v-text-field
+                label='Short project description*'
+                multi-line
+                :rules='[rules.required]'
+                hint="Write short project description (2-3 paragraphs long)"
+                persistent-hint
+                v-model='form.text'>
               </v-text-field>
               <v-radio-group v-model="form.asset_type" label="Asset type" :mandatory="false" row>
                 <v-radio label="App" value="blockchain_app"></v-radio>

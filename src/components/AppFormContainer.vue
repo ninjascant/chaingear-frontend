@@ -7,7 +7,8 @@
         <v-container fill-height fluid>
           <v-layout fill-height>
             <v-flex xs12 align-end>
-              <div id='anchor-top1' class="first display-1">Application</div>
+              <div id='anchor-top2' class="first display-1">Application</div>
+              <div class="caption mt-3 ml-2">* - required</div>
             </v-flex>
           </v-layout>
         </v-container>
@@ -83,7 +84,7 @@ export default class PhasesFormContainer extends Vue {
       this.active = (parseInt(this.active) + 1).toString()
       this.$nextTick(() => {
         setTimeout(() => {
-          const container = document.querySelector('#anchor-top1')
+          const container = document.querySelector('#anchor-top2')
           container.scrollIntoView(false)
         }, 100)
       })

@@ -8,6 +8,7 @@
           <v-layout fill-height>
             <v-flex xs12 align-end>
               <div id='anchor-top1' class="first display-1">Token</div>
+              <div class="caption mt-3 ml-2">* - required</div>
             </v-flex>
           </v-layout>
           <v-layout row wrap>

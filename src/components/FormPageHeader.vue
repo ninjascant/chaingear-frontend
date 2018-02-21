@@ -5,7 +5,8 @@
     <v-container fill-height fluid>
       <v-layout fill-height>
         <v-flex xs12 align-end flexbox>
-          <span class="headline">{{cardHeadline}}</span>
+          <div class="headline">{{cardHeadline}}</div>
+          <div class="caption mt-3 ml-2">* - required</div>
         </v-flex>
       </v-layout>
     </v-container>
