@@ -57,7 +57,7 @@ export default class RoadmapFormContainer extends Vue {
     key: 'name',
     hint: '',
     type: 'str',
-    label: 'Short description'
+    label: 'Milestone'
   }
   thirdField = {
     key: 'start_date',
@@ -81,7 +81,7 @@ export default class RoadmapFormContainer extends Vue {
   color = 'grey lighten-3'
   headers = [
     {
-      text: 'Description',
+      text: 'Name',
       value: 'name'
     },
     {
@@ -97,7 +97,7 @@ export default class RoadmapFormContainer extends Vue {
       value: 'current_status'
     }
   ]
-  head = 'Roadmap'
+  head = ''
   disabled = true
   milestones = []
   i = 0

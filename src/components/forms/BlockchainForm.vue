@@ -69,9 +69,9 @@
               <v-select
                 v-bind:items="yesNo"
                 v-model="form.isICO"
-                label="Is ICO?"
+                label="Is Tokensale?"
                 autocomplete
-                hint="Do you plan to run an ICO?"
+                hint="Do you plan to run a tokensale?"
                 persistent-hint
                 :rules="[rules.required]"
                 max-height='auto'
@@ -132,8 +132,8 @@ export default class BlockchainForm extends Vue {
   notEnough = false
   errorMessage = ''
   states = [
-    {value: '0', label: 'Project (before ICO begins)'},
-    {value: '1', label: 'Pre-public (ICO ends, but tokens ain`t tradable)'},
+    {value: '0', label: 'Project (before tokensale begins)'},
+    {value: '1', label: 'Pre-public (tokensale ends, but tokens ain`t tradable)'},
     {value: '2', label: 'Public Project (tokens are tradable)'}]
   dependency = [
     {value: 'Ethereum', label: 'Ethereum (ERC20/ERC223 Token)'},

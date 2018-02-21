@@ -5,7 +5,7 @@
     <v-layout row wrap class='mt-3'>
       <v-flex xs8 sm5>
         <v-text-field
-          label="Phase name*"
+          label="Phase name"
           v-model="form.phase_name"
         ></v-text-field>
       </v-flex>
@@ -14,16 +14,16 @@
       <v-select
         v-bind:items='statuses'
         v-model="form.phase_status"
-        label="Phase status*"
+        label="Phase status"
         max-height='auto'></v-select>
       </v-flex>
     </v-layout>
-      <div class="title mt-2 mb-3">Registration</div>
+      <div class="title mt-2 mb-3">Application for tokensale participation</div>
       <!-- Registration Dates -->
       <v-layout row wrap>
         <v-flex xs8 sm5>
           <v-text-field
-            label='Registration start date'
+            label='Application opens'
             suffix='UTC'
             v-model='form.reg_start_date_date'
             type='date'></v-text-field>
@@ -31,7 +31,7 @@
         <v-flex xs1></v-flex>
         <v-flex xs8 sm5>
           <v-text-field
-            label='Registration end date'
+            label='Application closes'
             suffix='UTC'
             v-model='form.reg_end_date_date'
             type='date'></v-text-field>
@@ -40,7 +40,9 @@
       <v-layout row wrap>
         <v-flex xs8 sm5>
           <v-text-field
-            label='Registration terms'
+            label='Application terms'
+            hint='Link to the web page with the conditions of registration'
+            persistent-hint
             :rules="[
               () => $v.form.reg_terms.url !== false || 'Should be a valid url (for example: https://example.com)'
             ]"
@@ -50,7 +52,7 @@
         <v-flex xs1></v-flex>
         <v-flex xs8 sm5>
           <v-text-field
-            label='Registration website'
+            label='Application website'
             :rules="[
               () => $v.form.reg_url.url !== false || 'Should be a valid url (for example: https://example.com)'
             ]"
@@ -58,11 +60,11 @@
           </v-text-field>
         </v-flex>
       </v-layout>
-      <span class="title">Crowdsale</span>
+      <div class="title mt-3 mb-3">Tokensale terms</div>
       <v-layout row wrap>
         <v-flex xs8 sm5>
           <v-text-field
-            label='ICO start date'
+            label='Tokensale start date*'
             suffix='UTC'
             v-model='form.ico_start_date_date'
             type='date'></v-text-field>
@@ -70,7 +72,7 @@
         <v-flex xs1></v-flex>
         <v-flex xs8 sm5>
           <v-text-field
-            label='ICO end date'
+            label='Tokensale end date*'
             suffix='UTC'
             v-model='form.ico_end_date_date'
             type='date'></v-text-field>
@@ -80,6 +82,8 @@
         <v-flex xs8 sm5>
           <v-text-field
             label='Issued tokens'
+            hint='Amount of tokens released at this phase'
+            persistent-hint
             :rules="[
               () => isNum(form.issued_tokens) !== false || 'Should be a number!'
             ]"
@@ -90,6 +94,8 @@
         <v-flex xs8 sm5>
           <v-text-field
             label='Sold tokens'
+            hint='Amount of tokens sold at this phase'
+            persistent-hint
             :rules="[
               () => isNum(form.sold_tokens) !== false || 'Should be a number!'
             ]"
@@ -107,6 +113,8 @@
         <v-flex xs8 sm6>
           <v-text-field
             label='Cap limit'
+            hint='Goal of raising funds, to achieve which the sale of tokens is completed'
+            persistent-hint
             :rules="[
               () => isNum(form.cap_limit_amount) !== false || 'Should be a number!'
             ]"
@@ -117,8 +125,7 @@
         <v-select
           v-bind:items="currency"
           v-model="form.cap_limit_currency"
-          hint="Select currency"
-          persistent-hint
+          
           max-height='auto'></v-select>
         </v-flex>
       </v-layout>
@@ -129,7 +136,7 @@
             :rules="[
               () => isNum(form.raised_funds_amount_usd) !== false || 'Should be a number!'
             ]"
-            hint="Fill this field only if your ICO already started"
+            hint="Fill this field only if your tokensale already started"
             suffix='USD'
             v-model='form.raised_funds_amount_usd'>
           </v-text-field>
@@ -142,7 +149,7 @@
           :rules="[
               () => isNum(form.raised_funds_amount_eth) !== false || 'Should be a number!'
             ]"
-          hint="Fill this field only if your ICO already started"
+          hint="Fill this field only if your tokensale already started"
           suffix='ETH'
           v-model='form.raised_funds_amount_eth'>
         </v-text-field>
@@ -155,7 +162,7 @@
           :rules="[
               () => isNum(form.raised_funds_amount_btc) !== false || 'Should be a number!'
             ]"
-          hint="Fill this field only if your ICO already started"
+          hint="Fill this field only if your tokensale already started"
           suffix='BTC'
           v-model='form.raised_funds_amount_btc'>
         </v-text-field>
@@ -165,6 +172,8 @@
       <v-flex xs8 sm6>
         <v-text-field
           label='Token final price'
+          hint='Token price at the end of the sale'
+          persistent-hint
           :rules="[
               () => isNum(form.token_final_price.amount) !== false || 'Should be a number!'
             ]"
@@ -175,18 +184,18 @@
       <v-select
         v-bind:items="currency"
         v-model="form.token_final_price.currency"
-        hint="Select currency"
-        persistent-hint
         max-height='auto'></v-select>
       </v-flex>
     </v-layout>
     <v-layout row wrap>
       <v-flex xs8 sm5>
         <v-text-field
-            label='Token distribution date'
-            suffix='UTC'
-            v-model='form.token_distr_date'
-            type='date'></v-text-field>
+          label='Token distribution date'
+          suffix='UTC'
+          hint='Date of distribution of tokens among participants in their sale'
+          persistent-hint
+          v-model='form.token_distr_date'
+          type='date'></v-text-field>
       </v-flex>
     </v-layout>
     <v-layout row wrap>
@@ -231,7 +240,7 @@
       <v-btn
         @click='clear'
         v-if='!commited'>
-        Add phase description
+        Add new phase
       </v-btn>
       <v-btn
         @click='update'
@@ -263,10 +272,10 @@ import WarnComponent from '../WarnComponent'
   },
   validations: {
     form: {
-      phase_name: {required},
-      phase_status: {required},
       reg_terms: {url},
       reg_url: {url},
+      ico_start_date_date: {required},
+      ico_end_date_date: {required},
       supply: {
         numeric
       },
@@ -321,7 +330,7 @@ export default class PhaseFormComponent extends Vue {
   }
   firstField1 = {
     key: 'amount',
-    hint: '',
+    hint: 'Number or %',
     type: 'str',
     label: 'Amount'
   }
@@ -362,13 +371,13 @@ export default class PhaseFormComponent extends Vue {
   color = 'cyan lighten-4'
   firstFieldContracts = {
     key: 'address',
-    hint: '',
+    hint: 'Filled if dependency = ERC20. Address a smart contract for the sale of tokens in the network of the Etherium',
     type: 'str',
     label: 'Contract address'
   }
   secondFieldContracts = {
     key: 'type',
-    hint: '',
+    hint: 'Filled if dependency = ERC20. Type of smart contract for the sale of tokens in the network of the Etherium. You can find it in https://etherscan.io on the page of the corresponding contract in the section Contract Overview (NameTag)',
     type: 'str',
     label: 'Contract type'
   }

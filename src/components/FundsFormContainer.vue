@@ -1,16 +1,6 @@
 <template>
   <div>
     <MultipleValuesContainer
-      @interface='addProceeds'
-      :firstField='firstField'
-      :secondField='secondField'
-      :color='color'
-      :head='head'
-      :buttonText='buttonText'
-      :headers='headers'
-      :items='proceeds'>
-    </MultipleValuesContainer>
-    <MultipleValuesContainer
       @interface='addDistr'
       :firstField='firstField'
       :secondField='secondField'
@@ -19,6 +9,16 @@
       :buttonText='buttonText'
       :headers='headers'
       :items='distr'>
+    </MultipleValuesContainer>
+    <MultipleValuesContainer
+      @interface='addProceeds'
+      :firstField='firstField'
+      :secondField='secondField'
+      :color='color'
+      :head='head'
+      :buttonText='buttonText'
+      :headers='headers'
+      :items='proceeds'>
     </MultipleValuesContainer>
   </div>
 </template>
@@ -33,13 +33,13 @@ import MultipleValuesContainer from './MultipleValuesContainer'
   }
 })
 export default class FundsFormContainer extends Vue {
-  firstField = {
+  secondField = {
     key: 'description',
     hint: '',
     type: 'str',
     label: 'Description'
   }
-  secondField = {
+  firstField = {
     key: 'percent',
     hint: '',
     type: 'num',

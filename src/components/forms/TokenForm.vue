@@ -18,6 +18,7 @@
             <v-flex xs10 sm8>
               <v-text-field
                 label='Token Name*'
+                hint='Ex. BTC, ETH, GBG'
                 :rules="[rules.required]"
                 v-model='form.name'>
               </v-text-field>
@@ -36,12 +37,12 @@
                 label="Token purpose*"
                 max-height='auto'></v-select>
             </v-flex>
-            <v-flex xs2 sm3 align-center justify-center class='mt-3'>
+            <!--<v-flex xs2 sm3 align-center justify-center class='mt-3'>
               <v-tooltip right>
                 <v-icon color="default" slot="activator">info</v-icon>
                 <span>Is token used in ICO, app or both?</span>
               </v-tooltip>
-            </v-flex>
+            </v-flex>-->
           </v-layout>
           <v-layout row wrap>
             <v-flex xs10 sm8>
@@ -55,37 +56,65 @@
             <v-flex xs2 sm3 class='mt-3'>
               <v-tooltip right>
                 <v-icon color="default" slot="activator">info</v-icon>
-                <span>Core token - if token if issued using your own blockchain. <br>Blockchain issued token - if token is issued using some <br> existing blockchain (for example, Ethereum)</span>
+                <span>Core token - token uses its own blockchain<br>
+Blockchain issued token - token uses an existing blockchain (Ex. Ethereum)</span>
               </v-tooltip>
             </v-flex>
             </v-layout>
             <v-layout row wrap>
               <v-flex xs10 sm8>
-              <v-text-field
-                label='Inflation rate'
-                multi-line
-                hint="Annual increase/decrease of the token volume in the ecosystem and a type of its production"
-                v-model='form.inflation_rate'>
-              </v-text-field>
-              <v-text-field
-                label='Circulation terms'
-                multi-line
-                hint="Conditions for consumed tokens (re-sale, burning), rate of fee for intermidearies"
-                v-model='form.circulation_terms'>
-              </v-text-field>
-              <v-text-field
-                label='Governance rights project'
-                multi-line
-                hint="List of rights to be granted to tokenholders to vote for the course of the project development"
-                v-model='form.governance_rights_project'>
-              </v-text-field>
-              <v-text-field
-                label='Governance rights organization'
-                hint="List of rights to be granted to tokenholders to govern the operational organization"
-                multi-line
-                v-model='form.governance_rights_org'>
-              </v-text-field>
-            </v-flex>
+                <v-text-field
+                  label='Inflation rate'
+                  multi-line
+                  hint=""
+                  v-model='form.inflation_rate'>
+                </v-text-field>
+              </v-flex>
+              <v-flex xs2 sm3 class='mt-3'>
+                <v-tooltip right>
+                  <v-icon color="default" slot="activator">info</v-icon>
+                  <span>Description of the mechanism for increasing or decreasing the total supply of tokens</span>
+                </v-tooltip>
+              </v-flex>
+              <v-flex xs10 sm8>
+                <v-text-field
+                  label='Circulation terms'
+                  multi-line
+                  v-model='form.circulation_terms'>
+                </v-text-field>
+              </v-flex>
+              <v-flex xs2 sm3 class='mt-3'>
+                <v-tooltip right>
+                  <v-icon color="default" slot="activator">info</v-icon>
+                  <span>Description of the platform commissions and the fate <br> of the tokens used to pay it (returned to the market or destroyed)</span>
+                </v-tooltip>
+              </v-flex>
+              <v-flex xs10 sm8>
+                <v-text-field
+                  label='Governance rights project'
+                  multi-line
+                  v-model='form.governance_rights_project'>
+                </v-text-field>
+              </v-flex>
+              <v-flex xs2 sm3 class='mt-3'>
+                <v-tooltip right>
+                  <v-icon color="default" slot="activator">info</v-icon>
+                  <span>List of the rights of holders of tokens for participation<br> in the management of further development of the project</span>
+                </v-tooltip>
+              </v-flex>
+              <v-flex xs10 sm8>
+                <v-text-field
+                  label='Governance rights organization'
+                  multi-line
+                  v-model='form.governance_rights_org'>
+                </v-text-field>
+              </v-flex>
+              <v-flex xs2 sm3 class='mt-3'>
+                <v-tooltip right>
+                  <v-icon color="default" slot="activator">info</v-icon>
+                  <span>List of the rights of holders of tokens for participation in the operational activities of the project</span>
+                </v-tooltip>
+              </v-flex>
           </v-layout>
           <v-layout row wrap>
             <v-btn color="default" @click="prev">Previous</v-btn>
@@ -118,7 +147,7 @@ import {Component, Prop} from 'vue-property-decorator'
 export default class Token extends Vue {
   @Prop({default: false})
   backToTop
-  purpose = ['ICO token', 'App token', 'Both']
+  purpose = ['Raising funds', 'Utility', 'Both']
   type = ['Core token', 'Blockchain issued token']
   form = {
     inflation_rate: '',

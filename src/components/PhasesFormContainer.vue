@@ -6,9 +6,16 @@
         src="/dist/static/doc-images/cards/docks2.png">
         <v-container fill-height fluid>
           <v-layout fill-height>
-            <v-flex xs12 align-end flexbox>
-              <span id='anchor-top' class="first headline">ICO Phases descriptions</span>
+            <v-flex xs12 align-end>
+              <div id='anchor-top' class="first display-1">Tokensale</div>
+              <div class="title mt-3">Phase description</div>
             </v-flex>
+            <v-flex xs12>
+            
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+
           </v-layout>
         </v-container>
       </v-card-media>

@@ -7,7 +7,7 @@
         <v-container fill-height fluid>
           <v-layout fill-height>
             <v-flex xs12 align-end flexbox>
-              <span class="headline">App</span>
+              <span class="headline">Application</span>
             </v-flex>
           </v-layout>
         </v-container>
@@ -37,7 +37,7 @@
             <v-flex xs2 sm3 class='mt-3'>
               <v-tooltip right>
                 <v-icon color="default" slot="activator">info</v-icon>
-                <span>Does your app use the same blockchain as in ICO?</span>
+                <span>Does the project use the same blocking system for the functioning<br> of its product where the tokens were sold or not?</span>
               </v-tooltip>
             </v-flex>
           </v-layout>
@@ -55,7 +55,7 @@
             <v-flex xs2 sm3 class='mt-3'>
               <v-tooltip right>
                 <v-icon color="default" slot="activator">info</v-icon>
-                <span>Is your project source code available on Github/Bitbucket/Gitlab?</span>
+                <span>Is the source code available for the product or not?</span>
               </v-tooltip>
             </v-flex>
           </v-layout>
@@ -64,7 +64,7 @@
               <v-select
                 v-bind:items="status"
                 v-model="form.status"
-                label="App status*"
+                label="Application status*"
                 :rules="[rules.required]"
                 item-text="label"
                 item-value="value">
@@ -74,7 +74,7 @@
           <v-layout row wrap>
             <v-flex xs10 sm8>
               <v-text-field
-                label='App type*'
+                label='Application type*'
                 :rules="[rules.required]"
                 v-model='form.app_type'>
               </v-text-field>
@@ -89,9 +89,8 @@
           <v-layout row wrap>
             <v-flex xs10 sm8>
               <v-text-field
-                label='URL to app*'
+                label='Link to application'
                 :rules="[
-                  rules.required,
                   () => $v.form.app_url.url !== false || 'Should be a valid url (for example: https://example.com)'
                 ]"
                 v-model='form.app_url'>
@@ -121,7 +120,6 @@ import {Component} from 'vue-property-decorator'
       status: {required},
       app_type: {required},
       app_url: {
-        required,
         url
       }
     }

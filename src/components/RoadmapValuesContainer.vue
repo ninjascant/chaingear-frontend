@@ -1,17 +1,6 @@
 <template>
   <div>
     <v-card color="grey lighten-4" flat class='mb-3'>
-      <v-card-media
-        height='50px'
-      >
-        <v-container fill-height fluid>
-          <v-layout fill-height>
-            <v-flex xs12 align-end flexbox>
-              <span class="headline">{{head}}</span>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-card-media>
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>

@@ -3,7 +3,7 @@
     <v-card color="grey lighten-4" flat>
       <FormPageHeader
         bgImageSrc='/dist/static/doc-images/cards/docks3.png'
-        cardHeadline='ICO'>
+        cardHeadline='Tokensale'>
       </FormPageHeader>
       <!-- Main content -->
       <v-card-text>
@@ -13,14 +13,6 @@
             <v-flex xs12 md12>
               <span class="title">Common info</span>
               <v-flex xs12 sm8>
-              <v-select
-                v-bind:items="status"
-                :rules="[rules.required]"
-                v-model="form.phase_status"
-                hint=""
-                persistent-hint
-                label="Current ICO phase status*"
-                max-height='auto'></v-select>
               <v-text-field
                 label='Sales agreement*'
                 hint='Link to the tokensale terms'
@@ -33,6 +25,8 @@
               </v-text-field>
               <v-text-field
                 label='Sales website*'
+                hint='Link to the web page for selling tokens'
+                persistent-hint
                 :rules="[
                   rules.required,
                   () => $v.form.sales_url.url !== false || 'Should be a valid url (for example: https://example.com)'
