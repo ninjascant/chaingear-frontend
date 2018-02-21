@@ -1,7 +1,7 @@
 /* eslint-disable */
 module.exports = (formData) => {
   formData.phases.phases = formData.phases.phases.filter(phase => phase !== null)
-  console.log(formData.phases.phases)
+  console.log(formData.tokens)
   const full = {
   "blockchain": {
     "project_name": formData.blockchain.project_name,
@@ -28,31 +28,9 @@ module.exports = (formData) => {
     "phases": formData.phases.phases
   },
   "app": {
-    "info": [
-      {
-        "name": formData.app.name,
-        "same_blockchain": formData.app.same,
-        "sources_availability": formData.app.availability,
-        "app_status": formData.app.status,
-        "app_type": formData.app.app_type,
-        "app_url": formData.app.app_url,
-        "milestone": formData.roadmap.milestones,
-        "links": formData.links
-      }
-    ]
+    "info": formData.apps
   },
-  "token": [
-    {
-      "name": formData.token.name,
-      "symbol": formData.token.symbol,
-      "token_purpose": formData.token.token_purpose,
-      "token_type": formData.token.token_type,
-      "inflation_rate": formData.token.inflation_rate,
-      "circulation_terms": formData.token.circulation_terms || "",
-      "governance_rights_project": formData.token.governance_rights_project || "",
-      "governance_rights_org": formData.token.governance_rights_org || ""
-    }
-  ],
+  "token": formData.tokens,
   "exchange": [
     {
       "exchange": "",

@@ -14,10 +14,10 @@
               <IcoForm  @interface='nextPane'></IcoForm>
             </v-stepper-content>
             <v-stepper-content step="4">
-              <TokenForm  @interface='nextPane'></TokenForm>
+              <TokenFormContainer @interface='nextPane'></TokenFormContainer>
             </v-stepper-content>
             <v-stepper-content step="5">
-              <AppForm @interface='nextPane'></AppForm>
+              <AppFormContainer @interface='nextPane'></AppFormContainer>
             </v-stepper-content>
             <v-stepper-content step="6">
               <RoadmapFormContainer @interface='nextPane'></RoadmapFormContainer>
@@ -44,8 +44,8 @@ import {Component} from 'vue-property-decorator'
 import BlockchainForm from './forms/BlockchainForm'
 import IcoForm from './forms/IcoForm'
 import PhasesFormContainer from './PhasesFormContainer'
-import TokenForm from './forms/TokenForm'
-import AppForm from './forms/AppForm'
+import TokenFormContainer from './TokenFormContainer'
+import AppFormContainer from './AppFormContainer'
 import LinksForm from './forms/LinksForm'
 import SubmitForm from './forms/SubmitForm'
 import FundsFormContainer from './FundsFormContainer'
@@ -57,8 +57,8 @@ import ShortDescriptionForm from './forms/ShortDescriptionForm'
     BlockchainForm,
     IcoForm,
     PhasesFormContainer,
-    TokenForm,
-    AppForm,
+    TokenFormContainer,
+    AppFormContainer,
     RoadmapFormContainer,
     LinksForm,
     ShortDescriptionForm,

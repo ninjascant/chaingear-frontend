@@ -1,17 +1,6 @@
 <template>
   <div>
     <v-card color="grey lighten-4" flat>
-      <v-card-media
-        height='100px'
-        src="/dist/static/doc-images/cards/docks1.png">
-        <v-container fill-height fluid>
-          <v-layout fill-height>
-            <v-flex xs12 align-end flexbox>
-              <span id='first' ref='scrollElem' class="first headline">Token</span>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-card-media>
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
@@ -117,8 +106,7 @@ Blockchain issued token - token uses an existing blockchain (Ex. Ethereum)</span
               </v-flex>
           </v-layout>
           <v-layout row wrap>
-            <v-btn color="default" @click="prev">Previous</v-btn>
-            <v-btn color="primary" @click="next">Continue</v-btn>
+            <v-btn color="primary" @click="addToken">Add new token</v-btn>
           </v-layout>
           <v-dialog v-model="notEnough" max-width="390">
                 <v-card dark>
@@ -164,20 +152,14 @@ export default class Token extends Vue {
   prev () {
     this.$emit('interface', {action: 'previous'})
   }
-  next () {
-    // const container = document.querySelector('#first')
-    // let event = new CustomEvent('scroll')
-    // container.scrollIntoView(false)
-    // window.scrollTo(0, 10)
-    // this.$vuetify.goTo(10, {duration: 300, offset: 800, easing: 'easeInOutCubic'})
-    // console.log(this.backToTop)
+  addToken () {
     this.requiredFields.forEach(field => {
       if (this.form[field] === undefined) {
         this.notEnough = true
       }
     })
     if (this.notEnough !== true) {
-      this.$emit('interface', {form: 'token', data: this.form})
+      this.$emit('interface', {form: this.form})
     }
   }
 }

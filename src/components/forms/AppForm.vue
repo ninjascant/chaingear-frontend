@@ -1,23 +1,12 @@
 <template>
   <div>
     <v-card color="grey lighten-4" flat>
-      <v-card-media
-        height='100px'
-        src="/dist/static/doc-images/cards/docks2.png">
-        <v-container fill-height fluid>
-          <v-layout fill-height>
-            <v-flex xs12 align-end flexbox>
-              <span class="headline">Application</span>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-card-media>
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
             <v-flex xs12 sm8>
               <v-text-field
-                label='App name*'
+                label='Application name*'
                 :rules="[rules.required]"
                 v-model='form.name'>
               </v-text-field>
@@ -98,8 +87,7 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap>
-              <v-btn color="default" @click="prev">Previous</v-btn>
-              <v-btn color="primary" @click="next">Continue</v-btn>
+              <v-btn color="primary" @click="addApp">Add new app</v-btn>
             </v-layout>
         </v-container>
       </v-card-text>
@@ -155,11 +143,15 @@ export default class AppForm extends Vue {
   }
   requiredFields = ['app_type', 'app_url', 'availability', 'name', 'same', 'status']
   notEnough = false
-  prev () {
-    this.$emit('interface', {action: 'previous'})
-  }
-  next () {
-    this.$emit('interface', {form: 'app', data: this.form})
+  addApp () {
+    this.requiredFields.forEach(field => {
+      if (this.form[field] === undefined) {
+        this.notEnough = true
+      }
+    })
+    if (this.notEnough !== true) {
+      this.$emit('interface', {form: this.form})
+    }
   }
 }
 </script>
