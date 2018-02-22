@@ -106,7 +106,13 @@ Blockchain issued token - token uses an existing blockchain (Ex. Ethereum)</span
               </v-flex>
           </v-layout>
           <v-layout row wrap>
-            <v-btn color="success" @click="addToken">Add new token</v-btn>
+            <v-btn color="default" @click="prev">Previous</v-btn>
+      <v-btn
+        @click='ask'
+        color='primary'
+        >
+        Continue
+      </v-btn>
           </v-layout>
           <v-dialog v-model="notEnough" max-width="390">
                 <v-card dark>
@@ -122,6 +128,17 @@ Blockchain issued token - token uses an existing blockchain (Ex. Ethereum)</span
                   </v-card-actions>
                 </v-card>
               </v-dialog>
+              <v-dialog v-model="question" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Describe another token?</v-card-title>
+        <v-card-text></v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat="flat" @click="move">No</v-btn>
+          <v-btn color="green darken-1" flat="flat" @click="stay">Yes</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
         </v-container>
       </v-card-text>
     </v-card>
@@ -135,6 +152,8 @@ import {Component, Prop} from 'vue-property-decorator'
 export default class Token extends Vue {
   @Prop({default: false})
   backToTop
+  @Prop({default: 0})
+  num
   purpose = ['Raising funds', 'Utility', 'Both']
   type = ['Core token', 'Blockchain issued token']
   form = {
@@ -146,11 +165,50 @@ export default class Token extends Vue {
   notEnough = false
   selector = '#first'
   requiredFields = ['name', 'symbol', 'token_purpose', 'token_type']
+  question = false
+  commited = false
   rules = {
     required: (value) => !!value || 'Required'
   }
   prev () {
-    this.$emit('interface', {action: 'previous'})
+    this.$emit('interface', {prev: true})
+  }
+  ask () {
+    this.requiredFields.forEach(field => {
+      if (this.form[field] === undefined) {
+        this.notEnough = true
+      }
+    })
+    if (this.commited === true && this.notEnough === false) {
+      this.update()
+    } else {
+      if (this.notEnough !== true) {
+        this.question = true
+        this.commited = true
+      } else {
+        this.notEnough = true
+        this.errorMessage = 'Not all fields are valid'
+      }
+    }
+  }
+  stay () {
+    this.clear()
+  }
+  move () {
+    this.clear(true)
+  }
+  clear (nextPage) {
+    this.question = false
+    if (nextPage !== true) {
+      this.$emit('interface', {
+        form: this.form})
+      this.commited = true
+    } else {
+      this.$emit('interface', {
+        nextPage: true,
+        form: this.form})
+      this.commited = true
+    }
   }
   addToken () {
     this.requiredFields.forEach(field => {
@@ -161,6 +219,9 @@ export default class Token extends Vue {
     if (this.notEnough !== true) {
       this.$emit('interface', {form: this.form})
     }
+  }
+  update () {
+    this.$emit('interface', {form: this.form, n: this.num})
   }
 }
 </script>

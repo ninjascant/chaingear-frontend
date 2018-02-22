@@ -87,8 +87,25 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap>
-              <v-btn color="success" @click="addApp">Add new app</v-btn>
-            </v-layout>
+            <v-btn color="default" @click="prev">Previous</v-btn>
+            <v-btn
+              @click='ask'
+              color='primary'
+              >
+              Continue
+            </v-btn>
+          </v-layout>
+          <v-dialog v-model="question" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Describe another app?</v-card-title>
+        <v-card-text></v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat="flat" @click="move">No</v-btn>
+          <v-btn color="green darken-1" flat="flat" @click="stay">Yes</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
         </v-container>
       </v-card-text>
     </v-card>
@@ -97,7 +114,7 @@
 <script>
 import Vue from 'vue'
 import { required, url } from 'vuelidate/lib/validators'
-import {Component} from 'vue-property-decorator'
+import {Component, Prop} from 'vue-property-decorator'
 
 @Component({
   validations: {
@@ -114,6 +131,8 @@ import {Component} from 'vue-property-decorator'
   }
 })
 export default class AppForm extends Vue {
+  @Prop({default: 0})
+  num
   form = {
     name: '',
     same: '',
@@ -141,8 +160,55 @@ export default class AppForm extends Vue {
   rules = {
     required: (value) => !!value || 'Required'
   }
-  requiredFields = ['app_type', 'app_url', 'availability', 'name', 'same', 'status']
+  requiredFields = ['app_type', 'availability', 'name', 'same', 'status']
   notEnough = false
+  commited = false
+  question = false
+  prev () {
+    this.$emit('interface', {prev: true})
+  }
+  ask () {
+    this.requiredFields.forEach(field => {
+      if (this.form[field] === undefined) {
+        console.log('yes')
+        this.notEnough = true
+      }
+    })
+    if (this.commited === true && this.notEnough === false) {
+      this.update()
+      console.log('yes')
+    } else {
+      if (this.notEnough !== true) {
+        this.question = true
+        this.commited = true
+      } else {
+        this.notEnough = true
+        this.errorMessage = 'Not all fields are valid'
+      }
+    }
+  }
+  stay () {
+    this.clear()
+  }
+  move () {
+    this.clear(true)
+  }
+  update () {
+    this.$emit('interface', {form: this.form, n: this.num})
+  }
+  clear (nextPage) {
+    this.question = false
+    if (nextPage !== true) {
+      this.$emit('interface', {
+        form: this.form})
+      this.commited = true
+    } else {
+      this.$emit('interface', {
+        nextPage: true,
+        form: this.form})
+      this.commited = true
+    }
+  }
   addApp () {
     this.requiredFields.forEach(field => {
       if (this.form[field] === undefined) {

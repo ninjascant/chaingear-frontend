@@ -43,9 +43,6 @@
               </v-tabs>
             </v-flex>
           </v-layout>
-          <v-layout row wrap class='mt-2'>
-            
-          </v-layout>
         </v-container>
         <WarnComponent
           @interface='okClick'
@@ -80,6 +77,7 @@ export default class PhasesFormContainer extends Vue {
   addPhase (data) {
     if (data.prev === true) {
       this.$emit('interface', {action: 'previous'})
+      return
     }
     const formData = data.form || data
     const tmp = {
@@ -148,6 +146,7 @@ export default class PhasesFormContainer extends Vue {
     }
     if (data.n !== undefined) {
       this.form.phases[data.n] = tmp
+      this.next()
     } else if (data.nextPage !== true) {
       this.form.phases.unshift(tmp)
       this.$nextTick(() => {

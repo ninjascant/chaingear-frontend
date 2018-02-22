@@ -43,10 +43,6 @@
               </v-tabs>
             </v-flex>
           </v-layout>
-          <v-layout row wrap class='mt-2'>
-            <v-btn color="default" @click="prev">Previous</v-btn>
-            <v-btn color="primary" @click="next">Continue</v-btn>
-          </v-layout>
         </v-container>
         <WarnComponent
           @interface='okClick'
@@ -72,17 +68,23 @@ import WarnComponent from './WarnComponent'
 })
 export default class PhasesFormContainer extends Vue {
   form = {
-    tokens: [null, null]
+    tokens: [null]
   }
   n = 0
   active = 0
   notEnough = false
   errorMessage = ''
   addToken (data) {
+    if (data.prev === true) {
+      this.$emit('interface', {action: 'previous'})
+      return
+    }
     const formData = data.form
+    console.log(data.n)
     if (data.n !== undefined) {
       this.form.tokens[data.n] = formData
-    } else {
+      this.next()
+    } else if (data.nextPage !== true) {
       this.form.tokens.unshift(formData)
       this.$nextTick(() => {
         setTimeout(() => {
@@ -91,7 +93,9 @@ export default class PhasesFormContainer extends Vue {
           container.scrollIntoView(false)
         }, 100)
       })
-      console.log(this.form.tokens)
+    } else {
+      this.form.tokens.unshift(formData)
+      this.next()
     }
   }
   okClick (data) {
@@ -104,7 +108,7 @@ export default class PhasesFormContainer extends Vue {
     const filtered = this.form.tokens.filter(p => p !== null)
     if (filtered.length === 0) {
       this.notEnough = true
-      this.errorMessage = 'Please, describe at least one ICO phase'
+      this.errorMessage = 'Please, describe at least one token'
     } else {
       this.$emit('interface', {form: 'tokens', data: this.form.tokens.filter(token => token !== null)})
     }

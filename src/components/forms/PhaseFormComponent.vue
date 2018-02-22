@@ -239,16 +239,16 @@
     <v-layout row wrap>
       <v-btn color="default" @click="prev">Previous</v-btn>
       <v-btn
-        @click.native='question = true'
+        @click='ask'
         color='primary'
-        v-if='!commited'>
+        >
         Continue
       </v-btn>
-      <v-btn
-        @click='update'
+      <!--<v-btn
+        @click.native='question = true'
         v-else='commited'>
         Update description
-      </v-btn>
+      </v-btn>-->
     </v-layout>
     </v-layout>
   </v-flex>
@@ -407,11 +407,15 @@ export default class PhaseFormComponent extends Vue {
   errorMessage = ''
   question = false
   ask () {
-    if (this.$v.$invalid !== true) {
-      this.question = true
+    if (this.commited === true) {
+      this.update()
     } else {
-      this.notEnough = true
-      this.errorMessage = 'Not all fields are valid'
+      if (this.$v.$invalid !== true) {
+        this.question = true
+      } else {
+        this.notEnough = true
+        this.errorMessage = 'Not all fields are valid'
+      }
     }
   }
   addAddresses (data) {

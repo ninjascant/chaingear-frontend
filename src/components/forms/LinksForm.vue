@@ -16,7 +16,7 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-            <v-flex xs12 md8>
+            <v-flex xs12 sm8>
               <v-text-field
                 label='Website*'
                 :rules="[

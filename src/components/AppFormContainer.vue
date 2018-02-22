@@ -40,16 +40,12 @@
               </v-tabs>
             </v-flex>
           </v-layout>
-          <v-layout row wrap class='mt-2'>
-            <v-btn color="default" @click="prev">Previous</v-btn>
-            <v-btn color="primary" @click="next">Continue</v-btn>
-          </v-layout>
-        </v-container>
         <WarnComponent
           @interface='okClick'
           :notEnough='notEnough'
           :errorMessage='errorMessage'>
         </WarnComponent>
+        </v-container>
       </v-card-text>
     </v-card>
   </div>
@@ -69,17 +65,22 @@ import WarnComponent from './WarnComponent'
 })
 export default class PhasesFormContainer extends Vue {
   form = {
-    apps: [null, null]
+    apps: [null]
   }
   n = 0
   active = 0
   notEnough = false
   errorMessage = ''
   addApp (data) {
+    if (data.prev === true) {
+      this.$emit('interface', {action: 'previous'})
+      return
+    }
     const formData = data.form
     if (data.n !== undefined) {
       this.form.apps[data.n] = formData
-    } else {
+      this.next()
+    } else if (data.nextPage !== true) {
       this.form.apps.unshift(formData)
       this.$nextTick(() => {
         setTimeout(() => {
@@ -88,6 +89,9 @@ export default class PhasesFormContainer extends Vue {
           container.scrollIntoView(false)
         }, 100)
       })
+    } else {
+      this.form.apps.unshift(formData)
+      this.next()
     }
   }
   okClick (data) {
