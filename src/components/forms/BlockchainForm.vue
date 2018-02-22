@@ -42,6 +42,16 @@
                 persistent-hint
                 v-model='form.text'>
               </v-text-field>
+              <v-select
+                v-bind:items="yesNo"
+                v-model="form.isICO"
+                label="Is Tokensale?*"
+                autocomplete
+                hint="Do you plan to run a tokensale?"
+                persistent-hint
+                max-height='auto'
+                item-text="label"
+                item-value="value"></v-select>
               <v-radio-group v-model="form.asset_type" label="Asset type" :mandatory="false" row>
                 <v-radio label="App" value="blockchain_app"></v-radio>
                 <v-radio label="Protocol" value="blockchain_protocol"></v-radio>
@@ -49,6 +59,7 @@
               <v-select
                 v-bind:items="states"
                 v-model="form.state"
+                v-if='form.isICO'
                 label="Project State*"
                 :rules="[rules.required]"
                 max-height='auto'
@@ -71,17 +82,6 @@
                 label="Consensus"
                 autocomplete
                 hint="Select consensus algorithm, used in your project, or enter your own option"
-                persistent-hint
-                :rules="[rules.required]"
-                max-height='auto'
-                item-text="label"
-                item-value="value"></v-select>
-              <v-select
-                v-bind:items="yesNo"
-                v-model="form.isICO"
-                label="Is Tokensale?"
-                autocomplete
-                hint="Do you plan to run a tokensale?"
                 persistent-hint
                 :rules="[rules.required]"
                 max-height='auto'
@@ -127,7 +127,8 @@ import {Component} from 'vue-property-decorator'
       },
       state: required,
       dependency: required,
-      consensus: required
+      consensus: required,
+      isICO: required
     }
   }
 })
@@ -137,7 +138,9 @@ export default class BlockchainForm extends Vue {
     headline: '',
     state: '',
     dependency: '',
-    consensus: ''
+    consensus: '',
+    isICO: '',
+    erc: false
   }
   notEnough = false
   errorMessage = ''
@@ -167,11 +170,11 @@ export default class BlockchainForm extends Vue {
   }
   next () {
     if (this.$v.$invalid !== true) {
-      console.log('consensus', this.form.dependency);
-      if (this.form.consensus === '') {
+      // if (this.form.consensus === '') {
         switch (this.form.dependency) {
           case 'Ethereum':
             this.form.consensus = 'Proof-of-Work'
+            this.form.erc = true
             break
           case 'Waves':
             this.form.consensus = 'Proof-of-Stake'
@@ -189,8 +192,7 @@ export default class BlockchainForm extends Vue {
               this.form.consensus = 'Unknown'
           break
         }
-      }
-      console.log(this.form)
+      // }
       this.$emit('interface', {form: 'blockchain', data: this.form})
     } else if (this.$v.form.headline.maxLength === false) {
       this.notEnough = true

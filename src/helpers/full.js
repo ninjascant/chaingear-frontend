@@ -1,5 +1,6 @@
 /* eslint-disable */
-module.exports = (formData) => {
+module.exports = (formData, noIco) => {
+  if (noIco === false) {
   formData.phases.phases = formData.phases.phases.filter(phase => phase !== null)
   const full = {
   "blockchain": {
@@ -48,6 +49,7 @@ module.exports = (formData) => {
     }
   ]
 }
+
 full.ico.phases = full.ico.phases.filter(phase => phase !== null).map((phase, i) => {
   phase.terms.sales_agreement = formData.ico.sales_agreement
   phase.terms.sales_url = formData.ico.sales_url
@@ -55,4 +57,40 @@ full.ico.phases = full.ico.phases.filter(phase => phase !== null).map((phase, i)
   return phase
 })
 return full
+} else {
+  const full = {
+  "blockchain": {
+    "project_name": formData.blockchain.project_name,
+    "headline": formData.blockchain.headline,
+    "short_description": formData.blockchain.text,
+    "logo": "",
+    "state": formData.blockchain.state,
+    "asset_type": formData.blockchain.asset_type,
+    "dependency": formData.blockchain.dependency,
+    "consensus_name": formData.blockchain.consensus,
+    "links": formData.links
+  },
+  "ico": {},
+  "app": {
+    "info": formData.apps
+  },
+  "token": formData.tokens,
+  "exchange": [
+    {
+      "exchange": "",
+      "date": "",
+      "price": "",
+      "volume": ""
+    }
+  ],
+  "label": [
+    {
+      "blockchain": "",
+      "address": "",
+      "balance": ""
+    }
+  ]
+}
+  return full
+}
 }

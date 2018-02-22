@@ -8,10 +8,10 @@
               <BlockchainForm  @interface='nextPane'></BlockchainForm>
             </v-stepper-content>
             <v-stepper-content step="2">
-              <PhasesFormContainer  @interface='nextPane'></PhasesFormContainer>
+              <PhasesFormContainer :erc='erc' v-if='!noIco' @interface='nextPane'></PhasesFormContainer>
             </v-stepper-content>
             <v-stepper-content step="3">
-              <IcoForm  @interface='nextPane'></IcoForm>
+              <IcoForm v-if='!noIco'  @interface='nextPane'></IcoForm>
             </v-stepper-content>
             <v-stepper-content step="4">
               <TokenFormContainer @interface='nextPane'></TokenFormContainer>
@@ -26,7 +26,7 @@
               <LinksForm @interface='nextPane'></LinksForm>
             </v-stepper-content>
             <v-stepper-content step="8">
-              <SubmitForm @interface='nextPane' :fullInfo='fullInfo'></SubmitForm>
+              <SubmitForm @interface='nextPane' :noIco='noIco' :fullInfo='fullInfo'></SubmitForm>
             </v-stepper-content>
           </v-stepper>
         </v-flex>
@@ -65,13 +65,29 @@ import ShortDescriptionForm from './forms/ShortDescriptionForm'
 export default class AddProjectFormContainer extends Vue {
   e6 = 1
   fullInfo = {}
+  noIco = false
+  erc = false
   nextPane (e) {
     if (e.action === 'previous') {
+      if (this.e6 === 4 && this.noIco === true) {
+        this.e6 = 1
+      }
       this.e6 -= 1
       return
+    } else {
+      if (e.form === 'blockchain' && e.data.isICO === false) {
+        this.noIco = true
+        this.e6 = 4
+        this.fullInfo[e.form] = e.data
+      } else if (e.form === 'blockchain' && e.data.isICO === true && e.data.erc === true) {
+        this.erc = true
+        this.e6 += 1
+        this.fullInfo[e.form] = e.data
+      } else {
+        this.e6 += 1
+        this.fullInfo[e.form] = e.data
+      }
     }
-    this.e6 += 1
-    this.fullInfo[e.form] = e.data
   }
   lastPane () {}
 }

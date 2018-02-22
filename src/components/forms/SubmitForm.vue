@@ -83,6 +83,8 @@ import convert from '../../helpers/full.js'
 export default class SubmitForm extends Vue {
   @Prop({default: {}})
   fullInfo
+  @Prop({default: false})
+  noIco
   form = {}
   checked = false
   loading = false
@@ -96,18 +98,35 @@ export default class SubmitForm extends Vue {
   makeCommit () {
     this.loading = true
     let fullDoc
-    try {
-      fullDoc = {
-        creator_email: this.form.email,
-        project_name: this.fullInfo.blockchain.project_name,
-        timestamp: new Date().toISOString(),
-        project_info: convert(this.fullInfo)
+    if (this.noIco === false) {
+      try {
+        fullDoc = {
+          creator_email: this.form.email,
+          project_name: this.fullInfo.blockchain.project_name,
+          timestamp: new Date().toISOString(),
+          project_info: convert(this.fullInfo)
+        }
+      } catch (e) {
+        this.loading = false
+        this.errorCode = e
+        this.submitError = true
+        return
       }
-    } catch (e) {
-      this.loading = false
-      this.errorCode = e
-      this.submitError = true
-      return
+    } else {
+      try {
+        fullDoc = {
+          creator_email: this.form.email,
+          project_name: this.fullInfo.blockchain.project_name,
+          timestamp: new Date().toISOString(),
+          project_info: convert(this.fullInfo, true)
+        }
+      } catch (e) {
+        console.log(e)
+        this.loading = false
+        this.errorCode = e
+        this.submitError = true
+        return
+      }
     }
     this.$http.post('http://ninja-analytics.ru:8000/create-application', JSON.stringify(fullDoc))
       .then(res => {

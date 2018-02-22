@@ -37,6 +37,7 @@
                   <v-flex class='ma-3'>
                     <PhaseFormComponent
                       :num='i'
+                      :erc='erc'
                       @interface='addPhase'></PhaseFormComponent>
                   </v-flex>
                 </v-tab-item>
@@ -56,7 +57,7 @@
 <script>
 /* eslint-disable */
 import Vue from 'vue'
-import {Component} from 'vue-property-decorator'
+import {Component, Prop} from 'vue-property-decorator'
 import PhaseFormComponent from './forms/PhaseFormComponent'
 import WarnComponent from './WarnComponent'
 
@@ -67,6 +68,8 @@ import WarnComponent from './WarnComponent'
   }
 })
 export default class PhasesFormContainer extends Vue {
+  @Prop({default: false})
+  erc
   form = {
     phases: [null]
   }

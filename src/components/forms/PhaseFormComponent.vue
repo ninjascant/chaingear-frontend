@@ -230,6 +230,7 @@
       :firstField='firstFieldContracts'
       :secondField='secondFieldContracts'
       :color='color'
+      v-if='erc'
       :head='head1'
       :buttonText='buttonTextContracts'
       :headers='headers2'
@@ -295,6 +296,8 @@ import WarnComponent from '../WarnComponent'
 export default class PhaseFormComponent extends Vue {
   @Prop({default: 0})
   num
+  @Prop({default: false})
+  erc
   currency = ['USD', 'ETH', 'BTC']
   statuses = ['Planned', 'Active', 'Finished']
   commited = false
