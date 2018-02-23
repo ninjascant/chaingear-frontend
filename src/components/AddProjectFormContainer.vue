@@ -70,7 +70,8 @@ export default class AddProjectFormContainer extends Vue {
   nextPane (e) {
     if (e.action === 'previous') {
       if (this.e6 === 4 && this.noIco === true) {
-        this.e6 = 1
+        this.e6 -= 1
+        this.e6 -= 1
       }
       this.e6 -= 1
       return

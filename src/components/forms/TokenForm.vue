@@ -7,12 +7,15 @@
             <v-flex xs10 sm8>
               <v-text-field
                 label='Token Name*'
-                hint='Ex. BTC, ETH, GBG'
+                hint='Ex. Bitcoin, Ethereum'
+                persistent-hint
                 :rules="[rules.required]"
                 v-model='form.name'>
               </v-text-field>
               <v-text-field
                 label='Token Symbol*'
+                hint='Ex. BTC, ETH, GBG'
+                persistent-hint
                 v-model='form.symbol'>
               </v-text-field>
             </v-flex>
@@ -40,69 +43,47 @@
                 v-model="form.token_type"
                 :rules="[rules.required]"
                 label="Token type*"
+                hint='Core token - token uses its own blockchain. Blockchain issued token - token uses an existing blockchain (Ex. Ethereum)'
+                persistent-hint
                 max-height='auto'></v-select>
               </v-flex>
-            <v-flex xs2 sm3 class='mt-3'>
-              <v-tooltip right>
-                <v-icon color="default" slot="activator">info</v-icon>
-                <span>Core token - token uses its own blockchain<br>
-Blockchain issued token - token uses an existing blockchain (Ex. Ethereum)</span>
-              </v-tooltip>
-            </v-flex>
             </v-layout>
             <v-layout row wrap>
               <v-flex xs10 sm8>
                 <v-text-field
                   label='Inflation rate'
                   multi-line
-                  hint=""
+                  hint="Description of the mechanism for increasing or decreasing the total supply of tokens"
+                  persistent-hint
                   v-model='form.inflation_rate'>
                 </v-text-field>
-              </v-flex>
-              <v-flex xs2 sm3 class='mt-3'>
-                <v-tooltip right>
-                  <v-icon color="default" slot="activator">info</v-icon>
-                  <span>Description of the mechanism for increasing or decreasing the total supply of tokens</span>
-                </v-tooltip>
               </v-flex>
               <v-flex xs10 sm8>
                 <v-text-field
                   label='Circulation terms'
                   multi-line
+                  hint='Description of the platform commissions and the fate of the tokens used to pay it (returned to the market or destroyed)'
+                  persistent-hint
                   v-model='form.circulation_terms'>
                 </v-text-field>
-              </v-flex>
-              <v-flex xs2 sm3 class='mt-3'>
-                <v-tooltip right>
-                  <v-icon color="default" slot="activator">info</v-icon>
-                  <span>Description of the platform commissions and the fate <br> of the tokens used to pay it (returned to the market or destroyed)</span>
-                </v-tooltip>
               </v-flex>
               <v-flex xs10 sm8>
                 <v-text-field
                   label='Governance rights project'
                   multi-line
+                  hint='List of the rights of holders of tokens for participation in the management of further development of the project'
+                  persistent-hint
                   v-model='form.governance_rights_project'>
                 </v-text-field>
-              </v-flex>
-              <v-flex xs2 sm3 class='mt-3'>
-                <v-tooltip right>
-                  <v-icon color="default" slot="activator">info</v-icon>
-                  <span>List of the rights of holders of tokens for participation<br> in the management of further development of the project</span>
-                </v-tooltip>
               </v-flex>
               <v-flex xs10 sm8>
                 <v-text-field
                   label='Governance rights organization'
                   multi-line
+                  hint='List of the rights of holders of tokens for participation in the operational activities of the project'
+                  persistent-hint
                   v-model='form.governance_rights_org'>
                 </v-text-field>
-              </v-flex>
-              <v-flex xs2 sm3 class='mt-3'>
-                <v-tooltip right>
-                  <v-icon color="default" slot="activator">info</v-icon>
-                  <span>List of the rights of holders of tokens for participation in the operational activities of the project</span>
-                </v-tooltip>
               </v-flex>
           </v-layout>
           <v-layout row wrap>

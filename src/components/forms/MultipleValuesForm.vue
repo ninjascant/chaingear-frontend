@@ -2,18 +2,30 @@
   <div>
       <v-container fluid>
         <v-layout row wrap>
-          <v-flex xs8 sm8>
+          <v-flex xs7 sm7>
             <v-text-field
               :label='firstField.label'
-              :hint='firstField.hint'
               v-model='form[firstField.key]'>
             </v-text-field>
+            </v-flex>
+            <v-flex xs1 class='mt-3'>
+            <v-tooltip right v-if='firstField.label === "Contract address"'>
+                <v-icon color="default" slot="activator">info</v-icon>
+                <span><pre>{{firstField.hint}}</pre></span>
+              </v-tooltip>
+            </v-flex>
+            <v-flex xs7>
             <v-text-field
               :label='secondField.label'
-              :hint='secondField.hint'
               v-model='form[secondField.key]'>
             </v-text-field>
           </v-flex>
+          <v-flex xs1 class='mt-3'>
+            <v-tooltip right v-if='firstField.label === "Contract address"'>
+                <v-icon color="default" slot="activator">info</v-icon>
+                <span><pre>{{secondField.hint}}</pre></span>
+              </v-tooltip>
+            </v-flex>
         </v-layout>
         <v-layout row wrap>
           <v-btn

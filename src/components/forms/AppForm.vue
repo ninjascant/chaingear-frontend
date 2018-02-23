@@ -6,7 +6,8 @@
           <v-layout row wrap>
             <v-flex xs12 sm8>
               <v-text-field
-                label='Application name*'
+                label='Application name'
+                required
                 :rules="[rules.required]"
                 v-model='form.name'>
               </v-text-field>

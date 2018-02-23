@@ -115,6 +115,7 @@
             label='Cap limit'
             hint='Goal of raising funds, to achieve which the sale of tokens is completed'
             persistent-hint
+            :mask='numMask'
             :rules="[
               () => isNum(form.cap_limit_amount) !== false || 'Should be a number!'
             ]"
@@ -302,6 +303,7 @@ export default class PhaseFormComponent extends Vue {
   statuses = ['Planned', 'Active', 'Finished']
   commited = false
   notEnough = false
+  numMask = '###,###,###,###,###,###'
   errorMessage = ''
   isNum (value) {
     return !isNaN(value - parseFloat(value))
@@ -375,13 +377,17 @@ export default class PhaseFormComponent extends Vue {
   color = 'cyan lighten-4'
   firstFieldContracts = {
     key: 'address',
-    hint: 'Filled if dependency = ERC20. Address a smart contract for the sale of tokens in the network of the Etherium',
+    hint: `Filled if dependency = ERC20. Address a smart contract 
+for the sale of tokens in the network of the Etherium`,
     type: 'str',
     label: 'Contract address'
   }
   secondFieldContracts = {
     key: 'type',
-    hint: 'Filled if dependency = ERC20. Type of smart contract for the sale of tokens in the network of the Etherium. You can find it in https://etherscan.io on the page of the corresponding contract in the section Contract Overview (NameTag)',
+    hint: `Filled if dependency = ERC20. Type of smart contract for 
+the sale of tokens in the network of the Etherium. You can find 
+it in https://etherscan.io on the page of the corresponding 
+contract in the section Contract Overview (NameTag)`,
     type: 'str',
     label: 'Contract type'
   }

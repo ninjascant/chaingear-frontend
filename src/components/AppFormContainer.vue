@@ -19,9 +19,8 @@
             <v-flex xs12 md12>
               <v-tabs
                 v-model="active"
-                color="cyan"
-                dark
-                slider-color="yellow">
+                color="grey lighten-2"
+                slider-color="block">
                 <v-tab
                   v-for="(app, i) in form.apps" 
                   :key="i"
