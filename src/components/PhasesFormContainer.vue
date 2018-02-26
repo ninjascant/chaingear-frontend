@@ -29,7 +29,8 @@
                   v-for="(phase, i) in form.phases" 
                   :key="i"
                   >
-                  Phase {{ i + 1 }}
+                  <span v-if='phase === null'>Phase {{ i + 1 }}</span>
+                  <span v-if='phase !== null'>{{phase.phase_name}}</span>
                 </v-tab>
                 <v-tab-item
                   v-for="(phase, i) in form.phases" 

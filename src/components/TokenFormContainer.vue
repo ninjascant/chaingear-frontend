@@ -28,7 +28,8 @@
                   v-for="(token, i) in form.tokens" 
                   :key="i"
                   >
-                  Token {{ i + 1 }}
+                  <span v-if='token === null'>Token {{ i + 1 }}</span>
+                  <span v-if='token !== null'>{{token.name}}</span>
                 </v-tab>
                 <v-tab-item
                   v-for="(token, i) in form.tokens" 

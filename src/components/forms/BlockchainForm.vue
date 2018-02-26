@@ -45,17 +45,13 @@
               <v-select
                 v-bind:items="yesNo"
                 v-model="form.isICO"
-                label="Is Tokensale?*"
+                label="Tokensale*"
                 autocomplete
                 hint="Do you plan to run a tokensale?"
                 persistent-hint
                 max-height='auto'
                 item-text="label"
                 item-value="value"></v-select>
-              <v-radio-group v-model="form.asset_type" label="Asset type" :mandatory="false" row>
-                <v-radio label="Application" value="blockchain_app"></v-radio>
-                <v-radio label="Protocol" value="blockchain_protocol"></v-radio>
-              </v-radio-group>
               <v-select
                 v-bind:items="states"
                 v-model="form.state"
@@ -70,7 +66,7 @@
                 v-model="form.dependency"
                 label="Dependency*"
                 :rules="[rules.required]"
-                hint="Select blockchain used to issue your tokens"
+                hint="Select blockchain used to issue project tokens"
                 persistent-hint
                 max-height='auto'
                 item-text="label"
@@ -81,7 +77,7 @@
                 v-model="form.consensus"
                 label="Consensus"
                 autocomplete
-                hint="Select consensus algorithm, used in your project, or enter your own option"
+                hint="Select consensus algorithm, used in project, or enter your own option"
                 persistent-hint
                 :rules="[rules.required]"
                 max-height='auto'

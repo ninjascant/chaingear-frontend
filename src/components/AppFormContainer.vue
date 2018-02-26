@@ -31,7 +31,8 @@
                   v-for="(app, i) in form.apps" 
                   :key="i"
                   >
-                  Application {{ i + 1 }}
+                  <span v-if='app === null'>Application {{ i + 1 }}</span>
+                  <span v-if='app !== null'>{{app.name}}</span>
                 </v-tab>
                 <v-tab-item
                   v-for="(app, i) in form.apps" 
@@ -80,7 +81,7 @@ export default class PhasesFormContainer extends Vue {
   form = {
     apps: [null]
   }
-  isApp = true
+  isApp = false
   n = 0
   active = 0
   notEnough = false
