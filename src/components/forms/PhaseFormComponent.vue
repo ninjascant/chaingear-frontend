@@ -115,7 +115,6 @@
             label='Cap limit'
             hint='Goal of raising funds, to achieve which the sale of tokens is completed'
             persistent-hint
-            :mask='numMask'
             :rules="[
               () => isNum(form.cap_limit_amount) !== false || 'Should be a number!'
             ]"
