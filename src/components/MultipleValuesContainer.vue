@@ -4,6 +4,9 @@
       <div class="title ma-3">{{head}}</div>
     </v-layout>
     <v-layout row wrap>
+      <div class='subheading  ml-3'>{{subhead}}</div>
+    </v-layout>
+    <v-layout row wrap>
       <v-flex xs12 sm4>
         <MultipleValuesForm
           @interface='changeValue'
@@ -27,15 +30,9 @@
               </v-flex>
             </th>
           </tr>
-          <!--<TableRowComponent 
-            v-for='item in items' 
-            :row='item' 
-            key='item.index'
-            @interface='changeRow'></TableRowComponent>-->
           <tr v-for='item in items' v-if='items.length > 0'>
             <td class="custom-table-cell">
             <v-flex xs6 class='ma-2'>
-              <!--<span @click='item.value = !item.value'>{{item[firstField.key]}}</span>-->
               <input
                 v-if='!item.value'
                 label=''
@@ -46,7 +43,6 @@
             </td>
             <td class="custom-table-cell">
               <v-flex xs6 class='ma-2'>
-              <!--<span @click='item = changeItem(item)'>{{item[secondField.key]}}</span>-->
               <input
                 v-if='!item.value'
                 label=''
@@ -101,6 +97,8 @@ export default class AddressesFormContainer extends Vue {
   items
   @Prop({default: ''})
   head
+  @Prop({default: ''})
+  subhead
   selected = []
   expanded = false
   i = 0

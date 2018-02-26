@@ -6,6 +6,7 @@
       :secondField='secondField'
       :color='color'
       :head='head1'
+      :subhead='subhead1'
       :buttonText='buttonText'
       :headers='headers'
       :items='distr'>
@@ -59,6 +60,7 @@ export default class FundsFormContainer extends Vue {
   ]
   head = 'Use of proceeds'
   head1 = 'Token distribution'
+  subhead1 = 'Categories of tokens holders'
   head2 = 'Bonuses'
   proceeds = []
   distr = []
