@@ -16,6 +16,174 @@
                 :buttonText='buttonText'>
               </RoadmapValuesForm>
             </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+    </v-card>
+            <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Name" v-model="editedItem.name"></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Status" v-model="editedItem.current_status"></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Start date" v-model="editedItem.start_date"></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="End date" v-model="editedItem.end_date"></v-text-field>
+              </v-flex>
+              <!--<v-flex xs12 sm6 md4>
+                <v-text-field label="Protein (g)" v-model="editedItem.protein"></v-text-field>
+              </v-flex>-->
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
+          <v-btn color="blue darken-1" flat @click.native="save">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-data-table
+      :headers="headers1"
+      :items="items"
+      hide-actions
+      class="elevation-1"
+    >
+      <template slot="items" slot-scope="props">
+        <td>{{ props.item.number }}</td>
+        <td>{{ props.item.name }}</td>
+        <td>{{ props.item.current_status }}</td>
+        <td>{{ props.item.start_date }}</td>
+        <td>{{ props.item.end_date }}</td>
+        <td class="justify-center layout px-0">
+          <v-btn icon class="mx-0" @click="editItem(props.item)">
+            <v-icon color="teal">edit</v-icon>
+          </v-btn>
+          <v-btn icon class="mx-0" @click="deleteItem(props.item)">
+            <v-icon color="pink">delete</v-icon>
+          </v-btn>
+        </td>
+      </template>
+      <template slot="no-data">
+        <v-alert :value="true" type='info'>
+          Nothing to display yet
+        </v-alert>
+      </template>
+    </v-data-table>
+            <!--<v-flex>
+        <table class="mt-3">
+          <tr>
+            <th>
+              <v-flex class='ml-2 mt-2 mb-1' xs1>
+                #
+              </v-flex>
+            </th>
+            <th>
+              <v-flex xs2 class='ml-2 mt-2 mb-1 mr-2'>
+                Milestone
+              </v-flex>
+            </th>
+            <th>
+              <v-flex class='ml-2 mt-2 mb-1 mr-2' xs1>
+                Status
+              </v-flex>
+            </th>
+            <th>
+              <v-flex class='ml-2 mt-2 mb-1 mr-2' xs2>
+                Start
+              </v-flex>
+            </th>
+            <th>
+              <v-flex class='ml-2 mt-2 mb-1 mr-2' xs2>
+                End
+              </v-flex>
+            </th>
+          </tr>
+          <TableRowComponent 
+            v-for='item in items' 
+            :row='item' 
+            key='item.index'
+            @interface='changeRow'></TableRowComponent>
+          <tr v-for='item in items' v-if='items.length > 0'>
+            <td class="custom-table-cell" xs1>
+            <v-flex class='ma-2'>
+              <span>{{item.number}}</span>
+              </v-flex>
+            </td>
+            <td class="custom-table-cell">
+              <v-flex class='ma-2' xs2>
+              <input
+                v-if='!item.value'
+                label=''
+                value='item[secondField.key]'
+                v-model='item[secondField.key]'>
+              </v-flex>
+            </td>
+            <td class="custom-table-cell">
+              <v-flex class='ma-2' xs1>
+              <input
+                v-if='!item.value'
+                label=''
+                value='item.current_status'
+                v-model='item.current_status'>
+              </v-flex>
+            </td>
+            <td class="custom-table-cell">
+              <v-flex class='ma-2' xs2>
+              <input
+                v-if='!item.value'
+                label=''
+                value='item.start_date'
+                v-model='item.start_date'>
+              </v-flex>
+            </td>
+            <td class="custom-table-cell">
+              <v-flex class='ma-2' xs2>
+              <input
+                v-if='!item.value'
+                label=''
+                value='item.end_date'
+                v-model='item.end_date'>
+              </v-flex>
+            </td>
+          </tr>
+          <tr v-if='items.length === 0'>
+          <td class="custom-table-cell">
+          <v-flex xs1 class='ma-2'>
+            
+            </v-flex>
+          </td>
+          <td class="custom-table-cell">
+          <v-flex xs2 class='ma-2'>
+            
+            </v-flex>
+          </td>
+          <td class="custom-table-cell">
+          <v-flex xs1 class='ma-2'>
+            
+            </v-flex>
+          </td>
+          <td class="custom-table-cell">
+          <v-flex xs2 class='ma-2'>
+            
+            </v-flex>
+          </td>
+          <td class="custom-table-cell">
+          <v-flex xs2 class='ma-2'>
+           
+            </v-flex>
+          </td>
+          </tr>
+        </table>
+        <div><i>Click on row to change data inside it</i></div>
+      </v-flex>
             <v-flex xs12>
               <v-data-table
                 v-bind:headers="headers"
@@ -35,16 +203,16 @@
                 </v-tooltip>
               </template>
               <template slot="items" slot-scope="props">
-                <td class="text-xs-right">{{ props.item[secondField.key] }}</td>
-                <td class="text-xs-right">{{ props.item[thirdField.key] }}</td>
-                <td class="text-xs-right">{{ props.item[fourthField.key] }}</td>
-                <td class="text-xs-right">{{ props.item[fifthField.key] }}</td>
+                <td>{{ props.item[secondField.key] }}</td>
+                <td>{{ props.item[thirdField.key] }}</td>
+                <td>{{ props.item[fourthField.key] }}</td>
+                <td>{{ props.item[fifthField.key] }}</td>
               </template>
               <template slot="no-data">
                 <span>Nothing to display yet</span>
               </template>
             </v-data-table>
-            </v-flex>
+            </v-flex>-->
           </v-layout>
         </v-container>
       </v-card-text>
@@ -52,6 +220,7 @@
   </div>
 </template>
 <script>
+/* eslint-disable */
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
 import RoadmapValuesForm from './forms/RoadmapValuesForm'
@@ -82,11 +251,65 @@ export default class RoadmapValuesContainer extends Vue {
   items
   @Prop({default: ''})
   head
+  dialog = false
+  headers1 = [
+    {
+      text: '#',
+          align: 'left',
+          sortable: true,
+          value: 'number'
+        },
+        { text: 'Name', value: 'name' },
+        { text: 'Status', value: 'current_status' },
+        { text: 'Start date', value: 'start_date' },
+        { text: 'End date', value: 'end_date' },
+        { text: 'Actions', value: 'milestone', sortable: false }
+      ]
+  editedIndex = -1
+  editedItem = {
+    milestone: '',
+    current_status: '',
+    start_date: '',
+    end_date: '',
+    number: 0
+  }
+  defaultItem = {
+    milestone: '',
+    current_status: '',
+    start_date: '',
+    end_date: '',
+    number: 0
+  }
+  editItem (item) {
+        this.editedIndex = this.items.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialog = true
+      }
+
+      deleteItem (item) {
+        const index = this.items.indexOf(item)
+        confirm('Are you sure you want to delete this item?') && this.items.splice(index, 1)
+      }
+
+      close () {
+        this.dialog = false
+        setTimeout(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        }, 300)
+      }
+
+      save () {
+        if (this.editedIndex > -1) {
+          Object.assign(this.items[this.editedIndex], this.editedItem)
+        } else {
+          this.items.push(this.editedItem)
+        }
+        this.close()
+      }
   selected = []
   changeValue (data) {
     const tmp = {}
-    console.log('formData')
-    console.log(data)
     tmp[this.firstField.key] = data.formData[this.firstField.key]
     tmp[this.secondField.key] = data.formData[this.secondField.key]
     tmp[this.thirdField.key] = data.formData[this.thirdField.key]
@@ -99,7 +322,5 @@ export default class RoadmapValuesContainer extends Vue {
 }
 </script>
 <style>
-tr {
-  background-color: #F5F5F5;
-}
+
 </style>

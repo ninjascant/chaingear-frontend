@@ -16,6 +16,12 @@
       <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
+            <v-flex xs6>
+              <div class="title">Do you have an application?</div>
+              <v-switch v-bind:label="`${isApp?'Yes':'No'}`" class='mt-3' v-model="isApp"></v-switch>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap v-if='isApp'>
             <v-flex xs12 md12>
               <v-tabs
                 v-model="active"
@@ -37,6 +43,14 @@
                   </v-flex>
                 </v-tab-item>
               </v-tabs>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap v-if='!isApp'>
+            <v-flex xs6>
+              <v-btn color="default" @click="prev">Previous</v-btn>
+              <v-btn
+                @click='nextWithoutApp'
+                color='primary'>Continue</v-btn>
             </v-flex>
           </v-layout>
         <WarnComponent
@@ -66,6 +80,7 @@ export default class PhasesFormContainer extends Vue {
   form = {
     apps: [null]
   }
+  isApp = true
   n = 0
   active = 0
   notEnough = false
@@ -107,6 +122,9 @@ export default class PhasesFormContainer extends Vue {
     } else {
       this.$emit('interface', {form: 'apps', data: this.form.apps.filter(token => token !== null)})
     }
+  }
+  nextWithoutApp () {
+    this.$emit('interface', {form: 'apps', data: []})
   }
 }
 </script>

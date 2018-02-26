@@ -1,5 +1,6 @@
 /* eslint-disable */
 module.exports = (formData, noIco) => {
+  console.log(formData.roadmap)
   if (noIco === false) {
   formData.phases.phases = formData.phases.phases.filter(phase => phase !== null)
   const full = {
@@ -12,7 +13,8 @@ module.exports = (formData, noIco) => {
     "asset_type": formData.blockchain.asset_type,
     "dependency": formData.blockchain.dependency,
     "consensus_name": formData.blockchain.consensus,
-    "links": formData.links
+    "links": formData.links,
+    "milestone": formData.roadmap.milestones
   },
   "ico": {
     "common_info": {
@@ -64,13 +66,15 @@ return full
     "headline": formData.blockchain.headline,
     "short_description": formData.blockchain.text,
     "logo": "",
-    "state": formData.blockchain.state,
     "asset_type": formData.blockchain.asset_type,
     "dependency": formData.blockchain.dependency,
     "consensus_name": formData.blockchain.consensus,
-    "links": formData.links
+    "links": formData.links,
+    "milestone": formData.roadmap.milestones
   },
-  "ico": {},
+  "ico": {
+    is_ico: false
+  },
   "app": {
     "info": formData.apps
   },

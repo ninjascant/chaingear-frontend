@@ -59,7 +59,6 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-
               <v-btn
                 class="white--text"
                 color='success'
@@ -104,7 +103,7 @@ export default class SubmitForm extends Vue {
           creator_email: this.form.email,
           project_name: this.fullInfo.blockchain.project_name,
           timestamp: new Date().toISOString(),
-          project_info: convert(this.fullInfo)
+          project_info: convert(this.fullInfo, false)
         }
       } catch (e) {
         this.loading = false

@@ -125,6 +125,7 @@ import {Component} from 'vue-property-decorator'
         required,
         maxLength: maxLength(50)
       },
+      text: required,
       state: required,
       dependency: required,
       consensus: required,
@@ -136,11 +137,21 @@ export default class BlockchainForm extends Vue {
   form = {
     project_name: '',
     headline: '',
+    text: '',
     state: '',
     dependency: '',
     consensus: '',
     isICO: '',
     erc: false
+  }
+  requiredFields = ['project_name', 'headline', 'text', 'dependency', 'isICO']
+  fieldsNames = {
+    project_name: 'Project name',
+    headline: 'Headline',
+    text: 'Short description',
+    state: 'Project State',
+    dependency: 'Dependency',
+    isICO: 'Is tokensale'
   }
   notEnough = false
   errorMessage = ''
@@ -169,8 +180,12 @@ export default class BlockchainForm extends Vue {
     required: (value) => !!value || 'Required'
   }
   next () {
-    if (this.$v.$invalid !== true) {
-      // if (this.form.consensus === '') {
+    const emptyValues = []
+    if (this.form.isICO === true) this.requiredFields.push('state')
+    this.requiredFields.forEach(field => {
+      if (this.form[field].length === 0) emptyValues.push(this.fieldsNames[field])
+    })
+    if (emptyValues.length === 0 && this.$v.form.headline.maxLength === true) {
         switch (this.form.dependency) {
           case 'Ethereum':
             this.form.consensus = 'Proof-of-Work'
@@ -192,14 +207,13 @@ export default class BlockchainForm extends Vue {
               this.form.consensus = 'Unknown'
           break
         }
-      // }
       this.$emit('interface', {form: 'blockchain', data: this.form})
     } else if (this.$v.form.headline.maxLength === false) {
       this.notEnough = true
       this.errorMessage = 'Headline shouldn\'t be more than 50 symbols long'
     } else {
       this.notEnough = true
-      this.errorMessage = 'Please, fill all required fields'
+      this.errorMessage = `Please, fill this fields: ${emptyValues.join(', ')}`
     }
   }
 }

@@ -20,15 +20,11 @@
                 v-model="form.same"
                 label="Same blockchain?*"
                 :rules="[rules.required]"
+                hint='Does the project use the same blocking system for the functioning<br> of its product where the tokens were sold or not?'
+                persistent-hint
                 item-text="label"
                 item-value="value">
               </v-select>
-            </v-flex>
-            <v-flex xs2 sm3 class='mt-3'>
-              <v-tooltip right>
-                <v-icon color="default" slot="activator">info</v-icon>
-                <span>Does the project use the same blocking system for the functioning<br> of its product where the tokens were sold or not?</span>
-              </v-tooltip>
             </v-flex>
           </v-layout>
           <v-layout row wrap>
@@ -38,15 +34,11 @@
                 v-model="form.availability"
                 label="Sources availability*"
                 :rules="[rules.required]"
+                hint='Is the source code available for the product or not?'
+                persistent-hint
                 item-text="label"
                 item-value="value">
               </v-select>
-            </v-flex>
-            <v-flex xs2 sm3 class='mt-3'>
-              <v-tooltip right>
-                <v-icon color="default" slot="activator">info</v-icon>
-                <span>Is the source code available for the product or not?</span>
-              </v-tooltip>
             </v-flex>
           </v-layout>
           <v-layout row wrap>
@@ -66,14 +58,10 @@
               <v-text-field
                 label='Application type*'
                 :rules="[rules.required]"
+                hint='Type of your app: Wallet, Marketplace etc'
+                persistent-hint
                 v-model='form.app_type'>
               </v-text-field>
-            </v-flex>
-            <v-flex xs2 sm3 class='mt-3'>
-              <v-tooltip right>
-                <v-icon color="default" slot="activator">info</v-icon>
-                <span>Type of your app: Wallet, Marketplace etc</span>
-              </v-tooltip>
             </v-flex>
           </v-layout>
           <v-layout row wrap>

@@ -47,7 +47,6 @@ import LinksForm from './forms/LinksForm'
 import SubmitForm from './forms/SubmitForm'
 import FundsFormContainer from './FundsFormContainer'
 import RoadmapFormContainer from './RoadmapFormContainer'
-import ShortDescriptionForm from './forms/ShortDescriptionForm'
 
 @Component({
   components: {
@@ -58,7 +57,6 @@ import ShortDescriptionForm from './forms/ShortDescriptionForm'
     AppFormContainer,
     RoadmapFormContainer,
     LinksForm,
-    ShortDescriptionForm,
     SubmitForm
   }
 })

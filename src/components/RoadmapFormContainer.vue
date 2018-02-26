@@ -37,6 +37,7 @@
   </div>
 </template>
 <script>
+/* eslint-disable */
 import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
 import RoadmapValuesContainer from './RoadmapValuesContainer'
@@ -105,7 +106,12 @@ export default class RoadmapFormContainer extends Vue {
     return !isNaN(value - parseFloat(value))
   }
   addMilestone (data) {
+    if (this.milestones.length === 0) {
+      data.number = 1
+    } 
+    else data.number = this.milestones.length + 1
     this.milestones.push(data)
+    console.log(data)
     this.disabled = false
   }
   prev () {

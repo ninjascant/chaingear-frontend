@@ -70,7 +70,6 @@
         </table>
         <div><i>Click on row to change data inside it</i></div>
       </v-flex>
-      
     </v-layout>
   </div>
 </template>

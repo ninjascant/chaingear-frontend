@@ -5,14 +5,14 @@
       <v-layout row wrap>
       <v-flex xs10>
         <v-layout row wrap>
-          <v-flex xs6>
+          <v-flex xs12 sm6>
           <v-text-field
               :label='secondField.label'
               :hint='secondField.hint'
               v-model='form[secondField.key]'>
             </v-text-field>
           </v-flex>
-          <v-flex xs6>
+          <v-flex xs12 sm6>
           <v-select
               v-bind:items="status"
               :label='fifthField.label'
@@ -21,14 +21,14 @@
           </v-flex>
         </v-layout>
         <v-layout row wrap>
-          <v-flex xs6>
+          <v-flex xs12 sm6>
             <v-text-field
               :label='thirdField.label'
               :hint='thirdField.hint'
               v-model='form[thirdField.key]'>
             </v-text-field>
           </v-flex>
-          <v-flex xs6>
+          <v-flex xs12 sm6>
             <v-text-field
               :label='fourthField.label'
               :hint='fourthField.hint'
