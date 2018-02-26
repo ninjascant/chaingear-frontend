@@ -53,7 +53,7 @@
                 item-text="label"
                 item-value="value"></v-select>
               <v-radio-group v-model="form.asset_type" label="Asset type" :mandatory="false" row>
-                <v-radio label="App" value="blockchain_app"></v-radio>
+                <v-radio label="Application" value="blockchain_app"></v-radio>
                 <v-radio label="Protocol" value="blockchain_protocol"></v-radio>
               </v-radio-group>
               <v-select
