@@ -125,7 +125,7 @@ export default class IcoForm extends Vue {
     this.$emit('interface', {action: 'previous'})
   }
   next () {
-    const distrSum = this.distr.reduce((sum, curr) => sum += parseInt(curr.percent), 0)
+    /*const distrSum = this.distr.reduce((sum, curr) => sum += parseInt(curr.percent), 0)
     const proceedsSum = this.proceeds.reduce((sum, curr) => sum += parseInt(curr.percent), 0)
 
     if (this.distr.length > 0 && distrSum > 100) {
@@ -141,7 +141,8 @@ export default class IcoForm extends Vue {
     } else if (this.proceeds.length > 0 && proceedsSum < 100) {
       this.notEnough = true
       this.errorMessage = 'Please, change Funds distribution form: sum of shares can\'t less than 100'
-    } else if (this.$v.$invalid !== true) {
+    } else */
+    if (this.$v.$invalid !== true) {
       this.distr = this.distr.map(dist => {
         delete dist.value
         delete dist.index

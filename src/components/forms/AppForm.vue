@@ -14,7 +14,7 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap>
-            <v-flex xs10 sm8>
+            <v-flex xs12 sm8>
               <v-select
                 v-bind:items="same"
                 v-model="form.same"
@@ -28,7 +28,7 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap>
-            <v-flex xs10 sm8>
+            <v-flex xs12 sm8>
               <v-select
                 v-bind:items="available"
                 v-model="form.availability"
@@ -42,7 +42,7 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap>
-            <v-flex xs10 sm8>
+            <v-flex xs12 sm8>
               <v-select
                 v-bind:items="status"
                 v-model="form.status"
@@ -54,7 +54,7 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap>
-            <v-flex xs10 sm8>
+            <v-flex xs12 sm8>
               <v-text-field
                 label='Application type*'
                 :rules="[rules.required]"
@@ -65,7 +65,7 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap>
-            <v-flex xs10 sm8>
+            <v-flex xs12 sm8>
               <v-text-field
                 label='Link to application'
                 :rules="[
