@@ -7,10 +7,11 @@
       <v-flex xs12>
         <v-dialog v-model="dialog" max-width="600px">
           <v-card>
-            <v-card-title>
+            <v-card-title class='indigo lighten-5'>
               <span class="headline">{{ editedItem.project_name }}</span>
             </v-card-title>
-            <v-card-text>
+            <v-card-text class='grey lighten-4'>
+              <div class="indigo" width='100%' height='1px'></div>
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md4>
@@ -22,14 +23,17 @@
                       item-text="label"
                       item-value="value"></v-select>
                   </v-flex>
-                  <EditApplicationPage :project='editedItem'></EditApplicationPage>
+                  <EditApplicationPage 
+                    :project='editedItem'
+                    @interface='updateEdited'>
+                  </EditApplicationPage>
                 </v-layout>
               </v-container>
             </v-card-text>
-            <v-card-actions>
+            <v-card-actions class='grey lighten-4'>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" flat @click.native="save">Save</v-btn>
+              <v-btn color="blue darken-1" flat @click.native="save">Ok</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -39,38 +43,47 @@
       hide-actions
       class="elevation-1"
     >
+      <template slot="headers" slot-scope="props">
+      <tr>
+        <th
+          v-for="header in props.headers"
+          :key="header.text"
+          class="text-xs-left"
+        >
+          {{ header.text }}
+        </th>
+      </tr>
+    </template>
       <template slot="items" slot-scope="props">
         <td>{{ props.item.status }}</td>
         <td>{{ props.item.project_name }}</td>
         <td>
           <a class="buttoned" v-bind:href='props.item.website'>
-            <v-btn class='ml-0 pl-0' flat>
-              <v-icon left>fa-link</v-icon>
+            
               Site
-            </v-btn>
           </a>
         </td>
         <td>
           <a class="buttoned" v-bind:href='props.item.paper'>
-            <v-btn class='ml-0 pl-0' :disabled='props.item.paper === false' flat>
-              <v-icon left>fa-file</v-icon>
+            <!--<v-btn class='ml-0 pl-0' :disabled='props.item.paper === false' flat>
+              <v-icon left>fa-file</v-icon>-->
               Paper
-            </v-btn>
+            
           </a>
         </td>
         <td>
-          <a class="buttoned" v-bind:href='props.item.git'><v-btn :disabled='props.item.git === false' flat><v-icon left>fa-github-square</v-icon>Github</v-btn></a></td>
+          <a class="buttoned" v-bind:href='props.item.git'>Github</a></td>
         <td class="justify-center layout px-0">
           <v-btn flat @click="editItem(props.item)"><v-icon color='green lighten-1'>fa-edit</v-icon></v-btn>
         </td>
         <td>
           <div>
               <v-tooltip right>
-                <v-btn flat icon slot='activator'><v-icon color="success" medium>fa-check-circle</v-icon></v-btn>
+                <v-btn flat icon @click='moveToApproved(props.item)' slot='activator'><v-icon color="success" medium>fa-check-circle</v-icon></v-btn>
                 <span>Submit</span>
               </v-tooltip>
               <v-tooltip right>
-                <v-btn flat icon slot='activator'><v-icon color='error' medium>fa-ban</v-icon></v-btn>
+                <v-btn flat icon @click='moveToRejected(props.item)' slot='activator'><v-icon color='error' medium>fa-ban</v-icon></v-btn>
                 <span>Reject</span>
               </v-tooltip>
         </div>
@@ -81,10 +94,18 @@
       </template>
     </v-data-table>
         <div class="text-xs-center">
-          <v-pagination :length="total" v-model="page" circle></v-pagination>
+          <v-pagination v-if='total > 1' :length="total" v-model="page" circle></v-pagination>
         </div>
       </v-flex>
     </v-layout>
+    <v-snackbar
+      :timeout="timeout"
+      :top="'top'"
+      v-model="snackbar"
+    >
+      {{ snackbarText }}
+      <v-btn flat @click.native="snackbar = false">Close</v-btn>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -113,7 +134,7 @@ export default class AllApplications extends Vue {
   headers = [
     { text: 'Status', align: 'left', sortable: false, value: 'name' },
     { text: 'Project name', value: 'project_name'},
-    { text: 'Website', value: 'website'},
+    { text: 'Website', value: 'website', align: 'left'},
     { text: 'Whitepaper', value: 'whitepaper'},
     { text: 'Github', value: 'github'},
     { text: 'Edit', value: 'project_name'},
@@ -142,27 +163,83 @@ export default class AllApplications extends Vue {
       token: {}
     }
   }
+  snackbar = false
+  snackbarText = ''
+  timeout = 10000
+  moveToRejected (data) {
+    try {
+      const i = this.pageContent.indexOf(data)
+      this.pageContent.splice(i, 1)
+    } catch (e) {
+      console.log(e)
+    }
+    delete data.git
+    delete data.paper
+    delete data.website
+    this.$http.post('http://ninja-analytics.ru:8000/reject-application', JSON.stringify(data))
+      .then(res => {
+        this.snackbar = true
+        this.snackbarText = 'Application successfully rejected'
+      })
+  }
+  moveToApproved (data) {
+    try {
+      const i = this.pageContent.indexOf(data)
+      this.pageContent.splice(i, 1)
+    } catch (e) {
+      console.log(e)
+    }
+    delete data.git
+    delete data.paper
+    delete data.website
+    this.$http.post('http://ninja-analytics.ru:8000/approve-application', JSON.stringify(data))
+      .then(res => {
+        this.snackbar = true
+        this.snackbarText = 'Application successfully approved'
+      })
+  }
   editItem (item) {
-    console.log('item: ', item)
     this.editedIndex = this.pageContent.indexOf(item)
     this.editedItem = Object.assign({}, item)
     this.dialog = true
-    console.log(this.editedItem)
+  }
+  updateEdited (data) {
+    this.save(data)
   }
   close () {
     this.dialog = false
     setTimeout(() => {
       this.editedItem = Object.assign({}, this.defaultItem)
       this.editedIndex = -1
-    }, 300)
+    }, 400)
   }
-  save () {
-    if (this.editedIndex > -1) {
-      Object.assign(this.pageContent[this.editedIndex], this.editedItem)
+  save (data) {
+    if (data !== undefined) {
+      console.log(data)
+      if (this.editedIndex > -1) {
+        Object.assign(this.pageContent[this.editedIndex], data)
+      } else {
+        this.pageContent.push(data)
+      }
+      this.$http.post('http://ninja-analytics.ru:8000/update-application', JSON.stringify(data))
+        .then(res => {
+          this.snackbar = true
+          this.snackbarText = 'Application successfully updated in db'
+          return
+        }).catch(error => {
+          this.snackbar = true
+          this.snackbarText = 'An error occured while updating application'
+        })
+      this.close()
     } else {
-      this.pageContent.push(this.editedItem)
+      if (this.editedIndex > -1) {
+        Object.assign(this.pageContent[this.editedIndex], this.editedItem)
+      } else {
+        this.pageContent.push(this.editedItem)
+      }
+      this.close()
     }
-    this.close()
+    
   }
   mounted () {
     console.log('mounted')
@@ -183,7 +260,6 @@ export default class AllApplications extends Vue {
         this.pageContent = this.applications[0]
         this.pageContent = this.pageContent.map(project => {
           const info = project.project_info
-          console.log(info)
           if (info.blockchain.links !== undefined) {
             project.website = info.blockchain.links.filter(link => link.type === 'website')[0].url
             if (info.blockchain.links.filter(link => link.type === 'paper').length > 0) {

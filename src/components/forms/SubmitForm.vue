@@ -95,7 +95,7 @@ export default class SubmitForm extends Vue {
     this.$emit('interface', {action: 'previous'})
   }
   makeCommit () {
-    this.loading = true
+    // this.loading = true
     let fullDoc
     if (this.noIco === false) {
       try {
@@ -119,6 +119,9 @@ export default class SubmitForm extends Vue {
           timestamp: new Date().toISOString(),
           project_info: convert(this.fullInfo, true)
         }
+        if (localStorage.getItem('logged_in') === 'true') {
+          fullDoc.golos_username = localStorage.getItem('username')
+        }
       } catch (e) {
         console.log(e)
         this.loading = false
@@ -141,8 +144,7 @@ export default class SubmitForm extends Vue {
               this.loading = false
             })
         }*/
-      })
-      .catch(error => {
+      }).catch(error => {
         console.log('error', error)
         this.errorCode = error.status + ': ' + error.statusText
         this.submitError = true
