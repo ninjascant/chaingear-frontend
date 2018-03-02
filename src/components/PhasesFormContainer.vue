@@ -74,6 +74,7 @@ export default class PhasesFormContainer extends Vue {
   form = {
     phases: [null]
   }
+
   n = 0
   active = 0
   notEnough = false
@@ -152,7 +153,8 @@ export default class PhasesFormContainer extends Vue {
       this.form.phases[data.n] = tmp
       this.next()
     } else if (data.nextPage !== true) {
-      this.form.phases.unshift(tmp)
+      this.form.phases.splice(this.form.phases.length - 1, 0, tmp)
+      console.log(this.form.phases)
       this.$nextTick(() => {
         setTimeout(() => {
           this.active = (parseInt(this.active) + 1).toString()
