@@ -66,20 +66,25 @@ export default class FundsFormContainer extends Vue {
   distr = []
   selected = []
   i = 0
+  // Checks if passed value has numeric type
   isNumeric (value) {
     return !isNaN(value - parseFloat(value))
   }
+  // Pushes data emitted from a child component to the this.proceeds array. Data from this array passed as a prop to a MultipleValuesContainer and displayed in corresponding data table
   addProceeds (data) {
     this.proceeds.push(data)
     this.$emit('interface', {key: 'proceeds', value: data})
   }
+  // Pushes data emitted from a child component to the this.proceeds array. Data from this array passed as a prop to a MultipleValuesContainer and displayed in corresponding data table
   addDistr (data) {
     this.distr.push(data)
     this.$emit('interface', {key: 'distr', value: data})
   }
+  // This method calls nextPane method, defined in the parent component to change currently displayed page
   prev () {
     this.$emit('interface', {action: 'previous'})
   }
+  // This method calls nextPane method, defined in the parent component to change currently displayed page
   next () {
     this.$emit('interface', {proceeds: this.proceeds, distr: this.distr, bonuses: this.bonuses})
   }

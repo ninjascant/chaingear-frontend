@@ -102,10 +102,7 @@ export default class AddressesFormContainer extends Vue {
   selected = []
   expanded = false
   i = 0
-  changeItem (item) {
-    item.value = !item.value
-    return item
-  }
+  // This method sends data from MultipleValuesForm component to a parent component (for example, FundsFormContainer)
   changeValue (data) {
     const tmp = {}
     tmp[this.firstField.key] = data.formData[this.firstField.key]
@@ -114,9 +111,6 @@ export default class AddressesFormContainer extends Vue {
     tmp.value = false
     this.i += 1
     this.$emit('interface', tmp)
-  }
-  changeRow (data) {
-    
   }
 }
 </script>

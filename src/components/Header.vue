@@ -31,7 +31,7 @@
 <script>
 import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
-import LoginForm from './forms/LoginForm'
+import LoginForm from './LoginForm'
 
 @Component({
   components: {

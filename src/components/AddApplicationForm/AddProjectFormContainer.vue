@@ -3,7 +3,7 @@
     <v-container grid-list-md>
       <v-layout row wrap justify-center>
         <v-flex xs12 md8>
-          <v-stepper v-model="e6">
+          <v-stepper v-model="page">
             <v-stepper-content step="1">
               <BlockchainForm  @interface='nextPane'></BlockchainForm>
             </v-stepper-content>
@@ -38,6 +38,7 @@
 /* eslint-disable */
 import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
+// List of compoenets that holds parts of the form
 import BlockchainForm from './forms/BlockchainForm'
 import IcoForm from './forms/IcoForm'
 import PhasesFormContainer from './PhasesFormContainer'
@@ -61,33 +62,36 @@ import RoadmapFormContainer from './RoadmapFormContainer'
   }
 })
 export default class AddProjectFormContainer extends Vue {
-  e6 = 1
+  page = 1
   fullInfo = {}
   noIco = false
   erc = false
+  // This method changes page property which determines what form page is displayed
   nextPane (e) {
+    // This branch activates after clickcing on previous button
     if (e.action === 'previous') {
-      if (this.e6 === 4 && this.noIco === true) {
-        this.e6 -= 1
-        this.e6 -= 1
+      // Checks if there's a need to render form pages that is related to crowdsale (IcoForm, PhasesFormContainer)
+      if (this.page === 4 && this.noIco === true) {
+        this.page -= 1
+        this.page -= 1
       }
-      this.e6 -= 1
+      this.page -= 1
       return
     } else {
+      // Checks if there's a need to render form pages that is related to crowdsale (IcoForm, PhasesFormContainer)
       if (e.form === 'blockchain' && e.data.isICO === false) {
         this.noIco = true
-        this.e6 = 4
+        this.page = 4
         this.fullInfo[e.form] = e.data
       } else if (e.form === 'blockchain' && e.data.isICO === true && e.data.erc === true) {
         this.erc = true
-        this.e6 += 1
+        this.page += 1
         this.fullInfo[e.form] = e.data
       } else {
-        this.e6 += 1
+        this.page += 1
         this.fullInfo[e.form] = e.data
       }
     }
   }
-  lastPane () {}
 }
 </script>
