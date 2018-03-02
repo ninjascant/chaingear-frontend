@@ -53,7 +53,7 @@ export default class IcoForm extends Vue {
     this.$router.push('/')
   }
   crowdsalesRedirect () {
-    this.$router.push('/review')
+    this.$router.push('/applications')
   }
   addInfoRedirect () {
     this.$router.push('/add_info')
