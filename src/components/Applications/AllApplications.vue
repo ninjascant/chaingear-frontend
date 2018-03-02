@@ -43,12 +43,9 @@
               <a class="buttoned" v-bind:href='props.item.git'>Github</a>
             </td>
           </template>
-          <template slot="no-data">
-            <v-btn color="primary">Reset</v-btn>
-          </template>
         </v-data-table>
         <div class="text-xs-center">
-          <v-pagination v-if='total > 1' :length="total" v-model="page" circle></v-pagination>
+          <v-pagination @click='handleCurrentChange' v-if='total > 1' :length="total" v-model="page" circle></v-pagination>
         </div>
       </v-flex>
     </v-layout>
@@ -57,7 +54,7 @@
 <script>
 /* eslint-disable */
 import Vue from 'vue'
-import {Component} from 'vue-property-decorator'
+import {Component, Watch} from 'vue-property-decorator'
 import dateformat from 'dateformat'
 
 @Component({})
@@ -97,7 +94,6 @@ export default class AllApplications extends Vue {
           return chunks
         }
         const sorted = result.body.applications.sort((a, b) => new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf())
-        console.log(sorted)
         this.applications = chunk(sorted, 10)
         this.pageContent = this.applications[0]
         this.pageContent = this.pageContent.map(project => {
@@ -122,8 +118,14 @@ export default class AllApplications extends Vue {
         console.log(err)
       })
   }
+  @Watch('page')
+  onPageChanged(val, oldVal) {
+    this.pageContent = this.applications[val - 1]
+    console.log('hi')
+  }
   handleCurrentChange (e) {
-    this.projects = this.allProjects[e-1]
+    this.pageContent = this.applications[e-1]
+    console.log('hi')
     this.page = e-1
   }
 }
@@ -131,5 +133,8 @@ export default class AllApplications extends Vue {
 <style>
 .buttoned {
   text-decoration: none;
+}
+td {
+  background-color: white;
 }
 </style>

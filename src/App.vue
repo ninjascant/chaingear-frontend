@@ -20,7 +20,7 @@
 import {Component} from 'vue-property-decorator'
 import Vue from 'vue'
 import Header from './components/Header'
-import AddProjectFormContainer from './components/AddProjectFormContainer'
+import AddProjectFormContainer from './components/AddApplicationForm/AddProjectFormContainer'
 import SideMenu from './components/SideMenu'
 
 @Component({

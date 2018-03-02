@@ -275,7 +275,7 @@
 <script>
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
-import { required, numeric, url } from 'vuelidate/lib/validators'
+import { required, url } from 'vuelidate/lib/validators'
 import MultipleValuesContainer from '../MultipleValuesContainer'
 import WarnComponent from '../WarnComponent'
 

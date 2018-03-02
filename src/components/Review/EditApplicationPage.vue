@@ -378,13 +378,13 @@ export default class EditApplicationPage extends Vue {
   project
   dialog = false
   currentPage = 'Blockchain'
-  /*mainKeys = [
+  /* mainKeys = [
     {title: 'Blockchain', icon: 'fa-cogs'},
     {title: 'ICO Common info', icon: 'fa-diamond'},
     {title: 'ICO Phases', icon: 'fa-gem'},
     {title: 'Token', icon: 'mdi-coin'},
     {title: 'App', icon: 'fa-play-circle'}
-  ]*/
+  ] */
   mainKeys = [
     {title: 'Blockchain', icon: ''},
     {title: 'ICO Common info', icon: ''},

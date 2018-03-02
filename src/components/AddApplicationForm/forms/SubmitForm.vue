@@ -76,7 +76,7 @@
 /* eslint-disable */
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
-import convert from '../../helpers/full.js'
+import convert from '../../../helpers/full.js'
 
 @Component({})
 export default class SubmitForm extends Vue {

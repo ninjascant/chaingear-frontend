@@ -23,7 +23,7 @@
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <LoginForm v-if='!loggedIn'></LoginForm>
-      <v-btn flat v-else='loggedIn'>{{username}}</v-btn>
+      <v-btn flat class='mt-2' v-else='loggedIn'>{{username}}</v-btn>
     </v-toolbar-items>
   </v-toolbar>
   </div>
@@ -41,9 +41,6 @@ import LoginForm from './forms/LoginForm'
 export default class IcoForm extends Vue {
   username
   loggedIn
-  items = [
-        'All', 'Family', 'Friends', 'Coworkers'
-      ]
   beforeCreate () {
     this.loggedIn = (localStorage.getItem('logged_in') === 'true')
     if (this.loggedIn === true) this.username = localStorage.getItem('username')
