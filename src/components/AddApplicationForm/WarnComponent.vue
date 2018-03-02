@@ -24,7 +24,7 @@ export default class WarnComponent extends Vue {
   notEnough
   @Prop({default: ''})
   errorMessage
-  // Use vuex to avoid such monkey practices
+  // Calls parent method to hide himself. Use vuex to avoid such monkey practices
   okClick () {
     this.$emit('interface', {ok: true})
   }

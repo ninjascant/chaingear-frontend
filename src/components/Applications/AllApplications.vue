@@ -61,7 +61,7 @@ import dateformat from 'dateformat'
 export default class AllApplications extends Vue {
   applications = []
   pageContent = []
-  page = 0
+  page = 1
   total = 0
   loading = true
   dialog = false
@@ -81,6 +81,7 @@ export default class AllApplications extends Vue {
   pagination = {
     sortBy: 'timestamp'
   }
+  // Make an call to the Chaingear API, sort received data, splits it into into subarrays of 10 elements and assigns first subarray to the pageContent property
   mounted () {
     this.$http.get('http://ninja-analytics.ru:8000/get-all-applications')
       .then(result => {
@@ -93,12 +94,9 @@ export default class AllApplications extends Vue {
           }
           return chunks
         }
-        const sorted = result.body.applications.sort((a, b) => new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf())
-        this.applications = chunk(sorted, 10)
-        this.pageContent = this.applications[0]
-        this.pageContent = this.pageContent.map(project => {
+        const sorted = result.body.applications.sort((a, b) => new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()).filter(project => project.project_info !== undefined).map(project => {
           project.readableDate = dateformat(project.timestamp, 'mmmm dS, yyyy, h:MM:ss TT')
-          project.timestamp = project.timestamp.valueOf()
+          project.timestamp = new Date(project.timestamp).valueOf()
           const info = project.project_info
           if (info.blockchain.links !== undefined) {
             project.website = info.blockchain.links.filter(link => link.type === 'website')[0].url
@@ -111,6 +109,8 @@ export default class AllApplications extends Vue {
           }
           return project
         })
+        this.applications = chunk(sorted, 10)
+        this.pageContent = this.applications[0]
         this.total = this.applications.length
         this.loading = false
       })
@@ -125,7 +125,6 @@ export default class AllApplications extends Vue {
   }
   handleCurrentChange (e) {
     this.pageContent = this.applications[e-1]
-    console.log('hi')
     this.page = e-1
   }
 }

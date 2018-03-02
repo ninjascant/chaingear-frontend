@@ -102,7 +102,7 @@ export default class PhasesFormContainer extends Vue {
     this.next()
   }
   // This method calls nextPane method, defined in the parent component to change currently displayed page
-  previous () {
+  prev () {
     this.$emit('interface', {action: 'previous'})
   }
   // This method checks data received from a child component and call one of the methods, specified above
@@ -111,11 +111,11 @@ export default class PhasesFormContainer extends Vue {
       this.previous()
     }
     if (data.n !== undefined) {
-      this.updateApp(data,form, data.n)
+      this.updateApp(data.form, data.n)
     } else if (data.nextPage !== true) {
       this.addApp(data.form)
     } else {
-      this.form.apps.unshift(data.form)
+      this.form.apps.splice(this.form.apps.length - 1, 0, data.form)
       this.next()
     }
   }
@@ -130,7 +130,7 @@ export default class PhasesFormContainer extends Vue {
       this.notEnough = true
       this.errorMessage = 'Please, describe at least one ICO phase'
     } else {
-      this.$emit('interface', {form: 'apps', data: this.form.apps.filter(token => token !== null)})
+      this.$emit('interface', {form: 'apps', data: this.form.apps})
     }
   }
   // This method is called when isApp property is equal to false

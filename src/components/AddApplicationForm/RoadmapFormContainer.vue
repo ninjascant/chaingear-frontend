@@ -102,21 +102,24 @@ export default class RoadmapFormContainer extends Vue {
   disabled = true
   milestones = []
   i = 0
+  // Checks if passed value has numeric type
   isNumeric (value) {
     return !isNaN(value - parseFloat(value))
   }
+  // Pushes data from RoadmapValuesContainer to the milestones array
   addMilestone (data) {
     if (this.milestones.length === 0) {
       data.number = 1
     } 
     else data.number = this.milestones.length + 1
     this.milestones.push(data)
-    console.log(data)
     this.disabled = false
   }
+  // This method calls nextPane method, defined in the parent component to change currently displayed page
   prev () {
     this.$emit('interface', {action: 'previous'})
   }
+  // This method calls nextPane method, defined in the parent component to change currently displayed page
   next () {
     this.$emit('interface', {form: 'roadmap', data: {milestones: this.milestones}})
   }

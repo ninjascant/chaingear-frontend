@@ -74,12 +74,10 @@
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
 import MultipleValuesForm from './forms/MultipleValuesForm'
-import TableRowComponent from './TableRowComponent'
 
 @Component({
   components: {
-    MultipleValuesForm,
-    TableRowComponent
+    MultipleValuesForm
   }
 })
 export default class AddressesFormContainer extends Vue {

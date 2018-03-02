@@ -20,7 +20,7 @@
         </v-container>
       </v-card-text>
     </v-card>
-            <v-dialog v-model="dialog" max-width="500px">
+    <v-dialog v-model="dialog" max-width="500px">
       <v-card>
         <v-card-text>
           <v-container grid-list-md>
@@ -37,9 +37,6 @@
               <v-flex xs12 sm6 md4>
                 <v-text-field label="End date" v-model="editedItem.end_date"></v-text-field>
               </v-flex>
-              <!--<v-flex xs12 sm6 md4>
-                <v-text-field label="Protein (g)" v-model="editedItem.protein"></v-text-field>
-              </v-flex>-->
             </v-layout>
           </v-container>
         </v-card-text>
@@ -54,8 +51,7 @@
       :headers="headers1"
       :items="items"
       hide-actions
-      class="elevation-1"
-    >
+      class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.number }}</td>
         <td>{{ props.item.name }}</td>
@@ -77,142 +73,6 @@
         </v-alert>
       </template>
     </v-data-table>
-            <!--<v-flex>
-        <table class="mt-3">
-          <tr>
-            <th>
-              <v-flex class='ml-2 mt-2 mb-1' xs1>
-                #
-              </v-flex>
-            </th>
-            <th>
-              <v-flex xs2 class='ml-2 mt-2 mb-1 mr-2'>
-                Milestone
-              </v-flex>
-            </th>
-            <th>
-              <v-flex class='ml-2 mt-2 mb-1 mr-2' xs1>
-                Status
-              </v-flex>
-            </th>
-            <th>
-              <v-flex class='ml-2 mt-2 mb-1 mr-2' xs2>
-                Start
-              </v-flex>
-            </th>
-            <th>
-              <v-flex class='ml-2 mt-2 mb-1 mr-2' xs2>
-                End
-              </v-flex>
-            </th>
-          </tr>
-          <TableRowComponent 
-            v-for='item in items' 
-            :row='item' 
-            key='item.index'
-            @interface='changeRow'></TableRowComponent>
-          <tr v-for='item in items' v-if='items.length > 0'>
-            <td class="custom-table-cell" xs1>
-            <v-flex class='ma-2'>
-              <span>{{item.number}}</span>
-              </v-flex>
-            </td>
-            <td class="custom-table-cell">
-              <v-flex class='ma-2' xs2>
-              <input
-                v-if='!item.value'
-                label=''
-                value='item[secondField.key]'
-                v-model='item[secondField.key]'>
-              </v-flex>
-            </td>
-            <td class="custom-table-cell">
-              <v-flex class='ma-2' xs1>
-              <input
-                v-if='!item.value'
-                label=''
-                value='item.current_status'
-                v-model='item.current_status'>
-              </v-flex>
-            </td>
-            <td class="custom-table-cell">
-              <v-flex class='ma-2' xs2>
-              <input
-                v-if='!item.value'
-                label=''
-                value='item.start_date'
-                v-model='item.start_date'>
-              </v-flex>
-            </td>
-            <td class="custom-table-cell">
-              <v-flex class='ma-2' xs2>
-              <input
-                v-if='!item.value'
-                label=''
-                value='item.end_date'
-                v-model='item.end_date'>
-              </v-flex>
-            </td>
-          </tr>
-          <tr v-if='items.length === 0'>
-          <td class="custom-table-cell">
-          <v-flex xs1 class='ma-2'>
-            
-            </v-flex>
-          </td>
-          <td class="custom-table-cell">
-          <v-flex xs2 class='ma-2'>
-            
-            </v-flex>
-          </td>
-          <td class="custom-table-cell">
-          <v-flex xs1 class='ma-2'>
-            
-            </v-flex>
-          </td>
-          <td class="custom-table-cell">
-          <v-flex xs2 class='ma-2'>
-            
-            </v-flex>
-          </td>
-          <td class="custom-table-cell">
-          <v-flex xs2 class='ma-2'>
-           
-            </v-flex>
-          </td>
-          </tr>
-        </table>
-        <div><i>Click on row to change data inside it</i></div>
-      </v-flex>
-            <v-flex xs12>
-              <v-data-table
-                v-bind:headers="headers"
-                v-bind:items="items"
-                v-model="selected"
-                item-key="item"
-                hide-actions 
-              >
-              <template slot="headerCell" slot-scope="props">
-                <v-tooltip bottom>
-                  <span slot="activator">
-                    {{ props.header.text }}
-                  </span>
-                  <span>
-                    {{ props.header.text }}
-                  </span>
-                </v-tooltip>
-              </template>
-              <template slot="items" slot-scope="props">
-                <td>{{ props.item[secondField.key] }}</td>
-                <td>{{ props.item[thirdField.key] }}</td>
-                <td>{{ props.item[fourthField.key] }}</td>
-                <td>{{ props.item[fifthField.key] }}</td>
-              </template>
-              <template slot="no-data">
-                <span>Nothing to display yet</span>
-              </template>
-            </v-data-table>
-            </v-flex>-->
           </v-layout>
         </v-container>
       </v-card-text>
@@ -280,34 +140,36 @@ export default class RoadmapValuesContainer extends Vue {
     end_date: '',
     number: 0
   }
-  editItem (item) {
-        this.editedIndex = this.items.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      }
-
-      deleteItem (item) {
-        const index = this.items.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.items.splice(index, 1)
-      }
-
-      close () {
-        this.dialog = false
-        setTimeout(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        }, 300)
-      }
-
-      save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.items[this.editedIndex], this.editedItem)
-        } else {
-          this.items.push(this.editedItem)
-        }
-        this.close()
-      }
   selected = []
+  // This method activates form to edit exsisting value in the items array
+  editItem (item) {
+    this.editedIndex = this.items.indexOf(item)
+    this.editedItem = Object.assign({}, item)
+    this.dialog = true
+  }
+  // This method delete value from the items array
+  deleteItem (item) {
+    const index = this.items.indexOf(item)
+    confirm('Are you sure you want to delete this item?') && this.items.splice(index, 1)
+  }
+  // closes item editing form and assigns an object with empty fields to the editedItem
+  close () {
+    this.dialog = false
+    setTimeout(() => {
+      this.editedItem = Object.assign({}, this.defaultItem)
+      this.editedIndex = -1
+    }, 300)
+  }
+  // Updates specified object in the items array or push new one and calls close() method
+  save () {
+    if (this.editedIndex > -1) {
+      Object.assign(this.items[this.editedIndex], this.editedItem)
+    } else {
+      this.items.push(this.editedItem)
+    }
+    this.close()
+  }
+  // Sends data from child component to the parent component
   changeValue (data) {
     const tmp = {}
     tmp[this.firstField.key] = data.formData[this.firstField.key]
@@ -316,11 +178,7 @@ export default class RoadmapValuesContainer extends Vue {
     tmp[this.fourthField.key] = data.formData[this.fourthField.key]
     tmp[this.fifthField.key] = data.formData[this.fifthField.key]
     tmp.value = false
-    console.log(tmp)
     this.$emit('interface', tmp)
   }
 }
 </script>
-<style>
-
-</style>

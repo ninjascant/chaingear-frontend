@@ -12,9 +12,6 @@
               <div class="caption mt-3 ml-2">* - required</div>
             </v-flex>
           </v-layout>
-          <v-layout row wrap>
-
-          </v-layout>
         </v-container>
       </v-card-media>
       <v-card-text>
@@ -39,7 +36,7 @@
                     <PhaseFormComponent
                       :num='i'
                       :erc='erc'
-                      @interface='addPhase'></PhaseFormComponent>
+                      @interface='addOrUpdatePhase'></PhaseFormComponent>
                   </v-flex>
                 </v-tab-item>
               </v-tabs>
@@ -74,12 +71,32 @@ export default class PhasesFormContainer extends Vue {
   form = {
     phases: [null]
   }
-
   n = 0
   active = 0
   notEnough = false
   errorMessage = ''
+  // This method adds object with phase description in front of this.form.phases array and scrolls page view on top 
   addPhase (data) {
+    this.form.phases.splice(this.form.phases.length - 1, 0, data)
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.active = (parseInt(this.active) + 1).toString()
+        const container = document.querySelector('#anchor-top')
+        container.scrollIntoView(false)
+      }, 100)
+    })
+  }
+  // This method updates object with phase description in the this.form.phases array and moves to the next page
+  updatePhase (data, n) {
+    this.form.phases[n] = data
+    this.next()
+  }
+  // This method calls nextPane method, defined in the parent component to change currently displayed page
+  prev () {
+    this.$emit('interface', {action: 'previous'})
+  }
+  // This method constructs whole object that describes one ICO phase and add/update in in the this.form.phases array
+  addOrUpdatePhase (data) {
     if (data.prev === true) {
       this.$emit('interface', {action: 'previous'})
       return
@@ -150,29 +167,19 @@ export default class PhasesFormContainer extends Vue {
       }
     }
     if (data.n !== undefined) {
-      this.form.phases[data.n] = tmp
-      this.next()
+      this.updatePhase(tmp, data.n)
     } else if (data.nextPage !== true) {
-      this.form.phases.splice(this.form.phases.length - 1, 0, tmp)
-      console.log(this.form.phases)
-      this.$nextTick(() => {
-        setTimeout(() => {
-          this.active = (parseInt(this.active) + 1).toString()
-          const container = document.querySelector('#anchor-top')
-          container.scrollIntoView(false)
-        }, 100)
-      })
+      this.addPhase(tmp)
     } else {
-      this.form.phases.unshift(tmp)
+      this.form.phases.splice(this.form.phases.length - 1, 0, tmp)
       this.next()
     }
   }
+  // This method changes this.notEnough to hide WarnComponent
   okClick (data) {
     this.notEnough = false
   }
-  prev () {
-    this.$emit('interface', {action: 'previous'})
-  }
+  // This method check if there is at least one object in this.form.phases array and if it's true, calls parent's nextPane method to change current page
   next () {
     const filtered = this.form.phases.filter(p => p !== null)
     if (filtered.length === 0) {

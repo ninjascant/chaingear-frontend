@@ -37,7 +37,7 @@
                   <v-flex class='ma-3'>
                     <TokenForm
                       :num='i'
-                      @interface='addToken'></TokenForm>
+                      @interface='addOrUpdateToken'></TokenForm>
                   </v-flex>
                 </v-tab-item>
               </v-tabs>
@@ -74,43 +74,53 @@ export default class PhasesFormContainer extends Vue {
   active = 0
   notEnough = false
   errorMessage = ''
+  // This method adds object with app description in front of this.form.tokens array and scrolls page view on top 
   addToken (data) {
+    this.form.tokens.splice(this.form.tokens.length - 1, 0, data)
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.active = (parseInt(this.active) + 1).toString()
+        const container = document.querySelector('#anchor-top1')
+        container.scrollIntoView(false)
+      }, 100)
+    })
+  }
+  // This method updates object with app description in the this.form.tokens array and moves to the next page
+  updateToken (data, n) {
+    this.form.tokens[n] = data
+    this.next()
+  }
+  // This method checks data received from a child component and call one of the methods, specified above
+  addOrUpdateToken (data) {
     if (data.prev === true) {
-      this.$emit('interface', {action: 'previous'})
+      this.prev()
       return
     }
-    const formData = data.form
-    console.log(data.n)
     if (data.n !== undefined) {
-      this.form.tokens[data.n] = formData
-      this.next()
+      this.updateToken(data.form, data.n)
     } else if (data.nextPage !== true) {
-      this.form.tokens.splice(this.form.tokens.length - 1, 0, formData)
-      this.$nextTick(() => {
-        setTimeout(() => {
-          this.active = (parseInt(this.active) + 1).toString()
-          const container = document.querySelector('#anchor-top1')
-          container.scrollIntoView(false)
-        }, 100)
-      })
+      this.addToken(data.form)
     } else {
-      this.form.tokens.unshift(formData)
+      this.form.tokens.splice(this.form.tokens.length - 1, 0, data.form)
       this.next()
     }
   }
+  // This method changes this.notEnough value to hide WarnComponent
   okClick (data) {
     this.notEnough = false
   }
+  // This method calls nextPane method, defined in the parent component to change currently displayed page
   prev () {
     this.$emit('interface', {action: 'previous'})
   }
+  // This method check if there is at least one object in this.form.tokens array and if it's true, calls parent's nextPane method to change current page
   next () {
     const filtered = this.form.tokens.filter(p => p !== null)
     if (filtered.length === 0) {
       this.notEnough = true
       this.errorMessage = 'Please, describe at least one token'
     } else {
-      this.$emit('interface', {form: 'tokens', data: this.form.tokens.filter(token => token !== null)})
+      this.$emit('interface', {form: 'tokens', data: this.form.tokens})
     }
   }
 }
