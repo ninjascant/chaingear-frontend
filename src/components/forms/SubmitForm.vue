@@ -117,6 +117,7 @@ export default class SubmitForm extends Vue {
           creator_email: this.form.email,
           project_name: this.fullInfo.blockchain.project_name,
           timestamp: new Date().toISOString(),
+          application_status: 'Under consideration',
           project_info: convert(this.fullInfo, true)
         }
         if (localStorage.getItem('logged_in') === 'true') {
