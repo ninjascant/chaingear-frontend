@@ -85,7 +85,7 @@ export default class PhasesFormContainer extends Vue {
       this.form.tokens[data.n] = formData
       this.next()
     } else if (data.nextPage !== true) {
-      this.form.tokens.unshift(formData)
+      this.form.tokens.splice(this.form.tokens.length - 1, 0, formData)
       this.$nextTick(() => {
         setTimeout(() => {
           this.active = (parseInt(this.active) + 1).toString()

@@ -96,7 +96,7 @@ export default class PhasesFormContainer extends Vue {
       this.form.apps[data.n] = formData
       this.next()
     } else if (data.nextPage !== true) {
-      this.form.apps.unshift(formData)
+      this.form.apps.splice(this.form.apps.length - 1, 0, formData)
       this.$nextTick(() => {
         setTimeout(() => {
           this.active = (parseInt(this.active) + 1).toString()
