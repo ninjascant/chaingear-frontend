@@ -136,15 +136,15 @@ export default class SubmitForm extends Vue {
         this.loading = false
         this.successful = true
         this.htmlUrl = res.body.html_url
-        const logged = 'true' // localStorage.getItem('logged_in')
-        /*if (logged === 'true') {
-          this.fullInfo.username = 'defaultUsername' // localStorage.getItem('username')
-          this.$http.post('http://ninja-analytics.ru:8000/createPost', JSON.stringify({form: this.fullInfo}))
+        const logged = localStorage.getItem('logged_in')
+        if (logged === 'true') {
+          this.fullInfo.username = localStorage.getItem('username')
+          this.$http.post('http://ninja-analytics.ru:8000/create-post', JSON.stringify(fullDoc))
             .then(res => {
               console.log(res)
               this.loading = false
             })
-        }*/
+        }
       }).catch(error => {
         console.log('error', error)
         this.errorCode = error.status + ': ' + error.statusText

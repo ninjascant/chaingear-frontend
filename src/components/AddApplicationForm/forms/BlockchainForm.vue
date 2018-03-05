@@ -45,6 +45,7 @@
               <v-select
                 v-bind:items="yesNo"
                 v-model="form.isICO"
+                @change='setIsIco'
                 label="Tokensale*"
                 autocomplete
                 hint="Do you plan to run a tokensale?"
@@ -175,6 +176,10 @@ export default class BlockchainForm extends Vue {
   rules = {
     required: (value) => !!value || 'Required'
   }
+  // Changes isIco value in store
+  setIsIco (e) {
+    this.$store.commit('toggleIsIco', e)
+  }
   next () {
     const emptyValues = []
     if (this.form.isICO === true) this.requiredFields.push('state')
@@ -185,7 +190,7 @@ export default class BlockchainForm extends Vue {
         switch (this.form.dependency) {
           case 'Ethereum':
             this.form.consensus = 'Proof-of-Work'
-            this.form.erc = true
+            this.$store.commit('toggleIsErc20')
             break
           case 'Waves':
             this.form.consensus = 'Proof-of-Stake'

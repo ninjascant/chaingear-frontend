@@ -159,13 +159,11 @@ export default class AppForm extends Vue {
   ask () {
     this.requiredFields.forEach(field => {
       if (this.form[field] === undefined) {
-        console.log('yes')
         this.notEnough = true
       }
     })
     if (this.commited === true && this.notEnough === false) {
       this.update()
-      console.log('yes')
     } else {
       if (this.notEnough !== true) {
         this.question = true

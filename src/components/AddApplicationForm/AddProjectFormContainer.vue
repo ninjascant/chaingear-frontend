@@ -8,10 +8,10 @@
               <BlockchainForm  @interface='nextPane'></BlockchainForm>
             </v-stepper-content>
             <v-stepper-content step="2">
-              <PhasesFormContainer :erc='erc' v-if='!noIco' @interface='nextPane'></PhasesFormContainer>
+              <PhasesFormContainer @interface='nextPane'></PhasesFormContainer>
             </v-stepper-content>
             <v-stepper-content step="3">
-              <IcoForm v-if='!noIco'  @interface='nextPane'></IcoForm>
+              <IcoForm @interface='nextPane'></IcoForm>
             </v-stepper-content>
             <v-stepper-content step="4">
               <TokenFormContainer @interface='nextPane'></TokenFormContainer>
@@ -41,7 +41,7 @@ import {Component} from 'vue-property-decorator'
 // List of compoenets that holds parts of the form
 import BlockchainForm from './forms/BlockchainForm'
 import IcoForm from './forms/IcoForm'
-import PhasesFormContainer from './PhasesFormContainer'
+import PhasesFormContainer from './CrowdsalePhasesPage/PhasesFormContainer'
 import TokenFormContainer from './TokenFormContainer'
 import AppFormContainer from './AppFormContainer'
 import LinksForm from './forms/LinksForm'
@@ -66,26 +66,23 @@ export default class AddProjectFormContainer extends Vue {
   fullInfo = {}
   noIco = false
   erc = false
+  get isIco () {
+    return this.$store.getters.getIsIco
+  }
   // This method changes page property which determines what form page is displayed
   nextPane (e) {
     // This branch activates after clickcing on previous button
     if (e.action === 'previous') {
       // Checks if there's a need to render form pages that is related to crowdsale (IcoForm, PhasesFormContainer)
-      if (this.page === 4 && this.noIco === true) {
-        this.page -= 1
+      if (this.page === 4 && this.isIco === false) {
+        this.page = 1
+      } else {
         this.page -= 1
       }
-      this.page -= 1
-      return
     } else {
       // Checks if there's a need to render form pages that is related to crowdsale (IcoForm, PhasesFormContainer)
-      if (e.form === 'blockchain' && e.data.isICO === false) {
-        this.noIco = true
+      if (e.form === 'blockchain' && this.isIco === false) {
         this.page = 4
-        this.fullInfo[e.form] = e.data
-      } else if (e.form === 'blockchain' && e.data.isICO === true && e.data.erc === true) {
-        this.erc = true
-        this.page += 1
         this.fullInfo[e.form] = e.data
       } else {
         this.page += 1

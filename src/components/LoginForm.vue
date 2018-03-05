@@ -32,6 +32,7 @@
               </v-layout>
               <v-layout row wrap>
                 <v-btn
+                  class='mt-2'
                   color='success'
                   :loading='loading'
                   :disabled='loading'
@@ -63,6 +64,7 @@ export default class IcoForm extends Vue {
   loading = false
   incorrectWif = false
   successfulLogin = false
+  // This method creates a mock transaction, signs it with wif specified by user and verifies signature by the golos-js verifyAuthority method. If wif is correct, method saves specified username in browser local storage. If wif has incorrect format or if it does not match with username, it displays an error message 
   checkWif () {
     this.loading = true
     golos.api.getDynamicGlobalProperties((err, res) => {

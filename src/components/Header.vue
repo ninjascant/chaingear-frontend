@@ -23,7 +23,7 @@
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <LoginForm v-if='!loggedIn'></LoginForm>
-      <v-btn flat class='mt-2' v-else='loggedIn'>{{username}}</v-btn>
+      <v-btn flat v-else='loggedIn'>{{username}}</v-btn>
     </v-toolbar-items>
   </v-toolbar>
   </div>
