@@ -94,8 +94,11 @@ export default class AllApplications extends Vue {
           }
           return chunks
         }
+        result = result.filter(proj => proj.project_info !== undefined)
         const sorted = result.body.applications.sort((a, b) => new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()).filter(project => project.project_info !== undefined).map(project => {
-          project.readableDate = dateformat(project.timestamp, 'mmmm dS, yyyy, h:MM:ss TT')
+          if (project.timestamp !== undefined) {
+            project.readableDate = dateformat(project.timestamp, 'mmmm dS, yyyy, h:MM:ss TT')
+          }
           project.timestamp = new Date(project.timestamp).valueOf()
           const info = project.project_info
           if (info.blockchain.links !== undefined) {

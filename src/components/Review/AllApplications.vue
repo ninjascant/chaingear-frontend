@@ -215,7 +215,6 @@ export default class AllApplications extends Vue {
   }
   save (data) {
     if (data !== undefined) {
-      console.log(data)
       if (this.editedIndex > -1) {
         Object.assign(this.pageContent[this.editedIndex], data)
       } else {
@@ -242,7 +241,6 @@ export default class AllApplications extends Vue {
     
   }
   mounted () {
-    console.log('mounted')
     this.$http.get('http://ninja-analytics.ru:8000/get-all-applications')
       .then(result => {
         const chunk = (arr, len) => {
@@ -254,9 +252,9 @@ export default class AllApplications extends Vue {
           }
           return chunks
         }
+        result = result.filter(proj => proj.project_info !== undefined)
         const sorted = result.body.applications.reverse()
         this.applications = chunk(sorted, 10)
-        console.log(this.applications.length)
         this.pageContent = this.applications[0]
         this.pageContent = this.pageContent.map(project => {
           const info = project.project_info

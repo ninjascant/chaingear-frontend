@@ -18,7 +18,8 @@
             <v-flex xs6>
               <v-text-field
                 label='Contact email*'
-                v-model='form.email'>
+                :value='email'
+                @change='setEmail'>
               </v-text-field>
               <span class="title">Please, check all info before submit your application</span>
               <v-card flat color="grey lighten-4">
@@ -82,8 +83,16 @@ import convert from '../../../helpers/full.js'
 export default class SubmitForm extends Vue {
   @Prop({default: {}})
   fullInfo
-  @Prop({default: false})
-  noIco
+  // Computed property that holds info about user's decision on first page - does project has a crowdsale or not
+  get isIco () {
+    return this.$store.getters.getIsIco
+  }
+  get email () {
+    return localStorage.getItem('user_email')
+  }
+  setEmail (e) {
+    localStorage.setItem('user_email', e)
+  }
   form = {}
   checked = false
   loading = false
@@ -95,17 +104,17 @@ export default class SubmitForm extends Vue {
     this.$emit('interface', {action: 'previous'})
   }
   makeCommit () {
-    // this.loading = true
     let fullDoc
-    if (this.noIco === false) {
+    if (this.isIco === true) {
       try {
         fullDoc = {
-          creator_email: this.form.email,
+          creator_email: this.email,
           project_name: this.fullInfo.blockchain.project_name,
           timestamp: new Date().toISOString(),
           project_info: convert(this.fullInfo, false)
         }
       } catch (e) {
+        console.log(e)
         this.loading = false
         this.errorCode = e
         this.submitError = true
@@ -114,7 +123,7 @@ export default class SubmitForm extends Vue {
     } else {
       try {
         fullDoc = {
-          creator_email: this.form.email,
+          creator_email: this.email,
           project_name: this.fullInfo.blockchain.project_name,
           timestamp: new Date().toISOString(),
           application_status: 'Under consideration',

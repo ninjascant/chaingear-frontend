@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { getField, updateField } from 'vuex-map-fields'
 import Vuelidate from 'vuelidate'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
@@ -18,7 +19,8 @@ Vue.use(VueResource)
 Vue.config.productionTip = false
 
 // Intialize LogRocket plugin to collect data about users expirience
-LogRocket.init('56hmla/chaingear-frontend');
+LogRocket.init('56hmla/chaingear-frontend')
+LogRocket.identify(localStorage.getItem('user_email'))
 const logrocketPlugin = createPlugin(LogRocket)
 
 const store = new Vuex.Store({
@@ -26,11 +28,25 @@ const store = new Vuex.Store({
   state: {
     isIco: true,
     isApp: false,
-    isErc20: false
+    isErc20: false,
+    project_info: {
+      blockchain: {
+        project_name: '',
+        headline: '',
+        short_description: '',
+        state: 0,
+        asset_type: '',
+        dependency: '',
+        consensus_name: '',
+        milestone: [],
+        links: []
+      }
+    }
   },
   getters: {
     getIsIco: (state, getters) => state.isIco,
-    getIsErc20: (state, getters) => state.isErc20
+    getIsErc20: (state, getters) => state.isErc20,
+    getField
   },
   mutations: {
     toggleIsIco: (state, payload) => {
@@ -38,6 +54,10 @@ const store = new Vuex.Store({
     },
     toggleIsErc20: (state, payload) => {
       state.isErc20 = true
+    },
+    updateField,
+    updateBlockchain: (state, payload) => {
+      state.project_info.blockchain[payload.key] = payload.value
     }
   }
 })

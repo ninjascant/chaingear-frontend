@@ -30,7 +30,7 @@
                 persistent-hint
                 :rules="[
                   rules.required,
-                  () => $v.form.headline.maxLength !== false || 'Too long'
+                  () => $v.headline.maxLength !== false || 'Too long'
                 ]"
                 v-model='form.headline'>
               </v-text-field>
@@ -40,11 +40,11 @@
                 :rules='[rules.required]'
                 hint="Write short project description (2-3 paragraphs long)"
                 persistent-hint
-                v-model='form.text'>
+                v-model='form.short_description'>
               </v-text-field>
               <v-select
                 v-bind:items="yesNo"
-                v-model="form.isICO"
+                v-model="isICO"
                 @change='setIsIco'
                 label="Tokensale*"
                 autocomplete
@@ -56,7 +56,7 @@
               <v-select
                 v-bind:items="states"
                 v-model="form.state"
-                v-if='form.isICO'
+                v-if='isICO'
                 label="Project State*"
                 :rules="[rules.required]"
                 max-height='auto'
@@ -75,7 +75,7 @@
               <v-select
                 v-bind:items="consensus"
                 v-show='form.dependency === "independent"'
-                v-model="form.consensus"
+                v-model="form.consensus_name"
                 label="Consensus"
                 autocomplete
                 hint="Select consensus algorithm, used in project, or enter your own option"
@@ -87,7 +87,7 @@
               </v-flex>
             </v-layout>
             <v-layout row wrap>
-              <v-btn color="primary" @click="next">Continue</v-btn>
+              <v-btn color="primary" class='submit-button' @click="next">Continue</v-btn>
             </v-layout>
             <v-dialog v-model="notEnough" max-width="390">
               <v-card dark>
@@ -113,10 +113,10 @@
 import Vue from 'vue'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import {Component} from 'vue-property-decorator'
+import { mapFields } from 'vuex-map-fields'
 
 @Component({
   validations: {
-    form: {
       project_name: required,
       headline: {
         required,
@@ -125,22 +125,31 @@ import {Component} from 'vue-property-decorator'
       text: required,
       state: required,
       dependency: required,
-      consensus: required,
+      consensus_name: required,
       isICO: required
-    }
   }
 })
 export default class BlockchainForm extends Vue {
+  props () {
+    mapFields([
+      project_info.blockchain.project_name,
+      project_info.blockchain.headline,
+      project_info.blockchain.short_description,
+      project_info.blockchain.state,
+      project_info.blockchain.dependency
+    ])
+  }
   form = {
     project_name: '',
     headline: '',
     text: '',
+    short_description: '',
     state: '',
     dependency: '',
-    consensus: '',
-    isICO: '',
-    erc: false
+    consensus_name: ''
   }
+  isICO = ''
+  erc = false
   requiredFields = ['project_name', 'headline', 'text', 'dependency', 'isICO']
   fieldsNames = {
     project_name: 'Project name',
@@ -157,11 +166,11 @@ export default class BlockchainForm extends Vue {
     {value: '1', label: 'Pre-public (tokensale ends, but tokens ain`t tradable)'},
     {value: '2', label: 'Public Project (tokens are tradable)'}]
   dependency = [
-    {value: 'Ethereum', label: 'Ethereum (ERC20/ERC223 Token)'},
-    {value: 'Waves', label: 'Waves platform'},
-    {value: 'NEM Mosaic', label: 'NEM Mosaic'},
-    {value: 'Bitcoin', label: 'Bitcoin'},
-    {value: 'Graphene', label: 'Bitshares/Graphene'},
+    {value: 'Ethereum', label: 'Ethereum (ERC20/ERC223 Token)', consensus: 'Proof-of-Work'},
+    {value: 'Waves', label: 'Waves platform', consensus: 'Proof-of-Stake'},
+    {value: 'NEM Mosaic', label: 'NEM Mosaic', consensus: 'Proof-of-Importance'},
+    {value: 'Bitcoin', label: 'Bitcoin', consensus: 'Proof-of-Work'},
+    {value: 'Graphene', label: 'Bitshares/Graphene', consensus: 'Delegated Proof-of-Stake'},
     {value: 'independent', label: 'Core token of standalone blockchain'}]
   consensus = [
     {value: 'Proof-of-Work', label: 'Proof-of-Work'},
@@ -182,34 +191,45 @@ export default class BlockchainForm extends Vue {
   }
   next () {
     const emptyValues = []
-    if (this.form.isICO === true) this.requiredFields.push('state')
-    this.requiredFields.forEach(field => {
-      if (this.form[field].length === 0) emptyValues.push(this.fieldsNames[field])
-    })
-    if (emptyValues.length === 0 && this.$v.form.headline.maxLength === true) {
-        switch (this.form.dependency) {
-          case 'Ethereum':
-            this.form.consensus = 'Proof-of-Work'
-            this.$store.commit('toggleIsErc20')
-            break
-          case 'Waves':
-            this.form.consensus = 'Proof-of-Stake'
-            break
-          case 'NEM Mosaic':
-            this.form.consensus = 'Proof-of-Importance'
-            break;
-          case 'Bitcoin':
-            this.form.consensus = 'Proof-of-Work'
-            break
-          case 'Graphene':
-            this.form.consensus = 'Delegated Proof-of-Stake'
-            break
-          default:
-              this.form.consensus = 'Unknown'
+    // if (this.form.isICO === true) this.requiredFields.push('state')
+    /*this.requiredFields.forEach(field => {
+      if (this.form[field].length === 0 ) emptyValues.push(this.fieldsNames[field])
+    })*/
+    if (emptyValues.length === 0 && this.$v.headline.maxLength === true) {
+      console.log()
+      if(this.form.dependency !== 'independent') {
+        this.form.consensus_name = this.dependency.filter(dependency => {
+          return dependency.value === this.form.dependency
+        })[0].consensus
+      }
+      
+      /*switch (this.form.dependency) {
+        case 'Ethereum':
+          this.form.consensus = 'Proof-of-Work'
+          this.$store.commit('toggleIsErc20')
           break
-        }
-      this.$emit('interface', {form: 'blockchain', data: this.form})
-    } else if (this.$v.form.headline.maxLength === false) {
+        case 'Waves':
+          this.form.consensus = 'Proof-of-Stake'
+          break
+        case 'NEM Mosaic':
+          this.form.consensus = 'Proof-of-Importance'
+          break;
+        case 'Bitcoin':
+          this.form.consensus = 'Proof-of-Work'
+          break
+        case 'Graphene':
+          this.form.consensus = 'Delegated Proof-of-Stake'
+          break
+        default:
+            this.form.consensus = 'Unknown'
+        break
+      }*/
+      Object.keys(this.form).forEach(key => {
+        this.$store.commit('updateBlockchain', {key: key, value: this.form[key]})
+      })
+      console.log(this.$store.state)
+      // this.$emit('interface', {form: 'blockchain', data: this.form})
+    } else if (this.$v.headline.maxLength === false) {
       this.notEnough = true
       this.errorMessage = 'Headline shouldn\'t be more than 50 symbols long'
     } else {
