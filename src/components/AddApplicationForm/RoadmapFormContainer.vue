@@ -121,7 +121,8 @@ export default class RoadmapFormContainer extends Vue {
   }
   // This method calls nextPane method, defined in the parent component to change currently displayed page
   next () {
-    this.$emit('interface', {form: 'roadmap', data: {milestones: this.milestones}})
+    this.$store.commit('addMilestones', this.milestones)
+    this.$emit('interface', {form: 'roadmap'})
   }
 }
 </script>

@@ -115,6 +115,12 @@ const store = new Vuex.Store({
     },
     addEmptyApp: state => {
       state.project_info.app.push(_.cloneDeep(appTemplate))
+    },
+    addLinks: (state, payload) => {
+      state.project_info.blockchain.links = payload
+    },
+    addMilestones: (state, payload) => {
+      state.project_info.blockchain.milestone = payload
     }
   }
 })

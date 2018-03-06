@@ -180,7 +180,8 @@ export default class LinksForm extends Vue {
         }
         return link
       })
-      this.$emit('interface', {form: 'links', data: tmp})
+      this.$store.commit('addLinks', tmp)
+      this.$emit('interface', {form: 'links'})
     } else if (this.$v.form.website.required === false) {
       this.notEnough = true
       this.errorMessage = 'Please, enter a link to website'
