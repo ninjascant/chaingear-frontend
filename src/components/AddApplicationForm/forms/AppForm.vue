@@ -6,71 +6,53 @@
           <v-layout row wrap>
             <v-flex xs12 sm8>
               <v-text-field
-                label='Application name'
-                required
-                :rules="[rules.required]"
+                name='app_name'
+                v-validate.initial="'required'"
+                label='Application name*'
                 v-model='form.name'>
               </v-text-field>
-            </v-flex>
-          </v-layout>
-          <v-layout row wrap>
-            <v-flex xs12 sm8>
               <v-select
+                name='Same_blockchain'
+                v-validate.initial="'required'"
                 v-bind:items="same"
-                v-model="form.same"
+                v-model="form.same_blockchain"
                 label="Same blockchain?*"
-                :rules="[rules.required]"
                 hint='Does the project use the same blocking system for the functioning<br> of its product where the tokens were sold or not?'
                 persistent-hint
                 item-text="label"
                 item-value="value">
               </v-select>
-            </v-flex>
-          </v-layout>
-          <v-layout row wrap>
-            <v-flex xs12 sm8>
               <v-select
+                name='sources'
+                v-validate.initial="'required'"
                 v-bind:items="available"
-                v-model="form.availability"
+                v-model="form.sources_availability"
                 label="Sources availability*"
-                :rules="[rules.required]"
                 hint='Is the source code available for the product or not?'
                 persistent-hint
                 item-text="label"
                 item-value="value">
               </v-select>
-            </v-flex>
-          </v-layout>
-          <v-layout row wrap>
-            <v-flex xs12 sm8>
               <v-select
+                name='status'
+                v-validate.initial="'required'"
                 v-bind:items="status"
-                v-model="form.status"
+                v-model="form.app_status"
                 label="Application status*"
-                :rules="[rules.required]"
                 item-text="label"
                 item-value="value">
               </v-select>
-            </v-flex>
-          </v-layout>
-          <v-layout row wrap>
-            <v-flex xs12 sm8>
               <v-text-field
+                name='type'
+                v-validate.initial="'required'"
                 label='Application type*'
-                :rules="[rules.required]"
                 hint='Type of your app: Wallet, Marketplace etc'
                 persistent-hint
                 v-model='form.app_type'>
               </v-text-field>
-            </v-flex>
-          </v-layout>
-          <v-layout row wrap>
-            <v-flex xs12 sm8>
               <v-text-field
+                name='url'
                 label='Link to application'
-                :rules="[
-                  () => $v.form.app_url.url !== false || 'Should be a valid url (for example: https://example.com)'
-                ]"
                 v-model='form.app_url'>
               </v-text-field>
             </v-flex>
@@ -85,16 +67,30 @@
             </v-btn>
           </v-layout>
           <v-dialog v-model="question" max-width="290">
-      <v-card>
-        <v-card-title class="headline">Describe another app?</v-card-title>
-        <v-card-text></v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat="flat" @click="move">No</v-btn>
-          <v-btn color="green darken-1" flat="flat" @click="stay">Yes</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+            <v-card>
+              <v-card-title class="headline">Describe another app?</v-card-title>
+              <v-card-text></v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" flat="flat" @click="move">No</v-btn>
+                <v-btn color="green darken-1" flat="flat" @click="stay">Yes</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-dialog v-model="notEnough" max-width="390">
+            <v-card dark>
+              <v-card-title class="headline">Error</v-card-title>
+              <v-card-text>
+                <v-alert color="error" icon="warning" v-show="notEnough" value="true">
+                  {{errorMessage}}
+                </v-alert>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" flat="flat" @click.native='notEnough = false'>Ok</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-container>
       </v-card-text>
     </v-card>
@@ -105,30 +101,12 @@ import Vue from 'vue'
 import { required, url } from 'vuelidate/lib/validators'
 import {Component, Prop} from 'vue-property-decorator'
 
-@Component({
-  validations: {
-    form: {
-      name: {required},
-      same: {required},
-      availability: {required},
-      status: {required},
-      app_type: {required},
-      app_url: {
-        url
-      }
-    }
-  }
-})
+@Component({})
 export default class AppForm extends Vue {
   @Prop({default: 0})
   num
-  form = {
-    name: '',
-    same: '',
-    availability: '',
-    status: '',
-    app_type: '',
-    app_url: ''
+  get form () {
+    return this.$store.getters.getApp(this.num)
   }
   available = [{label: 'Available', value: 'true'}, {label: 'Not available', value: 'false'}]
   same = [{label: 'No', value: 'false'}, {label: 'Yes', value: 'true'}]
@@ -146,55 +124,32 @@ export default class AppForm extends Vue {
       value: '3'
     }
   ]
-  rules = {
-    required: (value) => !!value || 'Required'
-  }
-  requiredFields = ['app_type', 'availability', 'name', 'same', 'status']
-  notEnough = false
-  commited = false
   question = false
+  notEnough = false
+  errorMessage = ''
   prev () {
     this.$emit('interface', {prev: true})
   }
   ask () {
-    this.requiredFields.forEach(field => {
-      if (this.form[field] === undefined) {
-        this.notEnough = true
-      }
-    })
-    if (this.commited === true && this.notEnough === false) {
-      this.update()
+    const valid = (this.errors.items.length === 0)
+    if (valid === true && this.form.commited === false) {
+      this.question = true
+      this.form.commited = true
+      this.$store.commit('addEmptyApp')
+    } else if (valid === true && this.form.commited === true) {
+      this.$emit('interface', {nextPage: true})
     } else {
-      if (this.notEnough !== true) {
-        this.question = true
-        this.commited = true
-      } else {
-        this.notEnough = true
-        this.errorMessage = 'Not all fields are valid'
-      }
+      this.notEnough = true
+      this.errorMessage = 'Please, fill all required fields'
     }
-  }
-  stay () {
-    this.clear()
   }
   move () {
-    this.clear(true)
-  }
-  update () {
-    this.$emit('interface', {form: this.form, n: this.num})
-  }
-  clear (nextPage) {
     this.question = false
-    if (nextPage !== true) {
-      this.$emit('interface', {
-        form: this.form})
-      this.commited = true
-    } else {
-      this.$emit('interface', {
-        nextPage: true,
-        form: this.form})
-      this.commited = true
-    }
+    this.$emit('interface', {nextPage: true})
+  }
+  stay () {
+    this.question = false
+    this.$emit('interface', {nextPage: false})
   }
   addApp () {
     this.requiredFields.forEach(field => {

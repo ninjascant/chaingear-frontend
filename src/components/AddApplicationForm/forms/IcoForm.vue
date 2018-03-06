@@ -17,28 +17,17 @@
                 label='Sales agreement*'
                 hint='Link to the tokensale terms'
                 persistent-hint
-                :rules="[
-                  rules.required,
-                  () => $v.form.sales_agreement.url !== false || 'Should be a valid url (for example: https://example.com)'
-                ]"
-                v-model='form.sales_agreement'>
+                v-model='form.terms.sales_agreement'>
               </v-text-field>
               <v-text-field
                 label='Sales website*'
                 hint='Link to the web page for selling tokens'
                 persistent-hint
-                :rules="[
-                  rules.required,
-                  () => $v.form.sales_url.url !== false || 'Should be a valid url (for example: https://example.com)'
-                ]"
-                v-model='form.sales_url'>
+                v-model='form.terms.sales_url'>
               </v-text-field>
               <v-text-field
                 label='Total token supply'
-                :rules="[
-                  () => isNum(form.supply) !== false || 'Should be a number!'
-                ]"
-                v-model='form.supply'>
+                v-model='form.token_distribution.total_supply'>
               </v-text-field>
               </v-flex>
             </v-flex>
@@ -76,18 +65,6 @@ import WarnComponent from '../WarnComponent'
     FormPageHeader,
     FundsFormContainer,
     WarnComponent
-  },
-  validations: {
-    form: {
-      sales_agreement: {
-        required,
-        url
-      },
-      sales_url: {
-        required,
-        url
-      }
-    }
   }
 })
 export default class IcoForm extends Vue {
@@ -101,11 +78,8 @@ export default class IcoForm extends Vue {
   isNum (value) {
     return !isNaN(value - parseFloat(value))
   }
-  form = {
-    phase_status: '',
-    sales_agreement: '',
-    sales_url: '',
-    supply: ''
+  get form () {
+    return this.$store.getters.getCommonInfo
   }
   distr = []
   proceeds = []
@@ -125,43 +99,7 @@ export default class IcoForm extends Vue {
     this.$emit('interface', {action: 'previous'})
   }
   next () {
-    /*const distrSum = this.distr.reduce((sum, curr) => sum += parseInt(curr.percent), 0)
-    const proceedsSum = this.proceeds.reduce((sum, curr) => sum += parseInt(curr.percent), 0)
-
-    if (this.distr.length > 0 && distrSum > 100) {
-      this.notEnough = true
-      this.errorMessage = 'Please, change Token distribution form: sum of shares can\'t be more than 100'
-    } else if (this.distr.length > 0 && distrSum < 100) {
-      this.notEnough = true
-      this.errorMessage = 'Please, change Token distribution form: sum of shares can\'t be less than 100'
-    } else if (this.proceeds.length > 0 && proceedsSum > 100) {
-      this.notEnough = true
-      console.log(proceedsSum)
-      this.errorMessage = 'Please, change Funds distribution form: sum of shares can\'t more than 100'
-    } else if (this.proceeds.length > 0 && proceedsSum < 100) {
-      this.notEnough = true
-      this.errorMessage = 'Please, change Funds distribution form: sum of shares can\'t less than 100'
-    } else */
-    if (this.$v.$invalid !== true) {
-      this.distr = this.distr.map(dist => {
-        delete dist.value
-        delete dist.index
-        return dist
-      })
-      this.proceeds = this.proceeds.map(proceed => {
-        delete proceed.value
-        delete proceed.index
-        return proceed
-      })
-      this.form.distr = this.distr
-      this.form.proceeds = this.proceeds
-      this.$emit('interface', {form: 'ico', data: this.form})
-      const container = document.querySelector('.first')
-      container.scrollIntoView(false)
-    } else {
-      this.notEnough = true
-      this.errorMessage = 'Please, fill all required fields'
-    }
+    this.$emit('interface', {form: 'ico', data: this.form})
   }
 }
 </script>

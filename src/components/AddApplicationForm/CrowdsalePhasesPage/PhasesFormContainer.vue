@@ -65,7 +65,6 @@ import WarnComponent from '../WarnComponent'
   }
 })
 export default class PhasesFormContainer extends Vue {
-  n = 0
   active = 0
   notEnough = false
   errorMessage = ''

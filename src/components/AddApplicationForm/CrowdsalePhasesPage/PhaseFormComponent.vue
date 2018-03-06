@@ -360,7 +360,6 @@ contract in the section Contract Overview (NameTag)`,
   errorMessage = ''
   question = false
   ask () {
-    console.log(this.commited)
     if (this.form.commited === true) {
       this.updatePhase()
     } else {
@@ -399,19 +398,15 @@ contract in the section Contract Overview (NameTag)`,
     this.question = false
     console.log(this.$store.getters.getAllPhases)
     this.form.commited = true
+    this.$store.commit('addEmptyApp')
     if (nextPage !== true) {
-      this.$store.commit('addEmptyPhase')
       this.$emit('interface', {nextPage: false})
-      this.commited = true
     } else {
-      this.$store.commit('addEmptyPhase')
       this.$emit('interface', {nextPage: true})
-      this.commited = true
     }
   }
   // This method updates phase description to store and invokes parent method
   updatePhase () {
-    this.$store.commit('updatePhase', {n: this.num, value: this.form})
     this.$emit('interface', {nextPage: true})
   }
   // This method invokes parent method to move to previous page

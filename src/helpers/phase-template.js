@@ -1,4 +1,5 @@
 module.exports = {
+  committed: false,
   phase_num: 0,
   phase_name: '',
   phase_status: '',

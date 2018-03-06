@@ -33,7 +33,7 @@ describe('BlockchainForm.vue', () => {
 
     expect(BlockchainFormComponent.form.consensus_name).to.be.equal('Proof-of-Work')
   })
-  /*it('it displays an error message', () => {
+  it('it displays an error message', () => {
     const Constructor = Vue.extend(BlockchainForm)
     const BlockchainFormComponent = new Constructor().$mount()
     BlockchainFormComponent.form = {
@@ -51,5 +51,5 @@ describe('BlockchainForm.vue', () => {
 
     expect(BlockchainFormComponent.$el.querySelector('.error-alert-span').textContent).to.be.equal('Please, fill all required fields')
     expect(BlockchainFormComponent.form.consensus_name).to.be.equal('Proof-of-Work')
-  })*/
+  })
 })

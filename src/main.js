@@ -12,7 +12,8 @@ import LogRocket from 'logrocket'
 import createPlugin from 'logrocket-vuex'
 import router from './router'
 import App from './App'
-import * as PhaseTemplate from './helpers/phase-template'
+import * as phaseTemplate from './helpers/phase-template'
+import * as appTemplate from './helpers/app-template'
 import * as _ from 'lodash'
 
 Vue.use(Vuex)
@@ -49,8 +50,12 @@ const store = new Vuex.Store({
         commont_info: {
           is_ico: true,
           current_ico_phase: 0,
+          terms: {
+            sales_argeement: '',
+            sales_url: ''
+          },
           token_distribution: {
-            total_supply: 0,
+            total_supply: '',
             shares: [
               {
                 description: '',
@@ -66,9 +71,12 @@ const store = new Vuex.Store({
           ]
         },
         phases: [
-          _.cloneDeep(PhaseTemplate)
+          _.cloneDeep(phaseTemplate)
         ]
-      }
+      },
+      app: [
+        _.cloneDeep(appTemplate)
+      ]
     }
   },
   getters: {
@@ -76,7 +84,9 @@ const store = new Vuex.Store({
     getIsErc20: (state, getters) => state.isErc20,
     getAllPhases: state => state.project_info.ico.phases,
     getPhase: state => num => state.project_info.ico.phases[num],
-    getCommonInfo: state => state.project_info.ico.commont_info
+    getCommonInfo: state => state.project_info.ico.commont_info,
+    getApp: state => num => state.project_info.app[num],
+    getAllApps: state => state.project_info.app
   },
   mutations: {
     toggleIsIco: (state, payload) => {
@@ -85,21 +95,17 @@ const store = new Vuex.Store({
     toggleIsErc20: (state, payload) => {
       state.isErc20 = true
     },
-    updateField,
     updateBlockchain: (state, payload) => {
       state.project_info.blockchain[payload.key] = payload.value
     },
-    addPhase: (state, payload) => {
-      console.log(payload.value)
-      // (state.project_info.ico.phases.length - 1, 0, 
-      // state.project_info.ico.phases[payload.n] = payload.value
-      state.project_info.ico.phases.splice(state.project_info.ico.phases.length - 1, 0, payload.value)
-    },
     addEmptyPhase: (state, payload) => {
-      state.project_info.ico.phases.push(_.cloneDeep(PhaseTemplate))
+      state.project_info.ico.phases.push(_.cloneDeep(phaseTemplate))
     },
-    updatePhase: (state, payload) => {
-      state.project_info.ico.phases[payload.n] = payload.value
+    addEmptyToken: state => {
+      state.project_info.token.push(_.cloneDeep(tokenTemplate))
+    },
+    addEmptyApp: state => {
+      state.project_info.app.push(_.cloneDeep(appTemplate))
     }
   }
 })
