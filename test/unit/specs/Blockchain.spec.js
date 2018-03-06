@@ -14,7 +14,7 @@ Vue.use(Vuetify)
 Vue.use(VueResource)
 
 describe('BlockchainForm.vue', () => {
-  it('it contains inputs for blockchain block', () => {
+  it('it should automatically set corresponding consensus_name', () => {
     const Constructor = Vue.extend(BlockchainForm)
     const BlockchainFormComponent = new Constructor().$mount()
     BlockchainFormComponent.form = {
@@ -31,7 +31,25 @@ describe('BlockchainForm.vue', () => {
     button.dispatchEvent(clickEvent)
     BlockchainFormComponent._watcher.run()
 
-    // expect(ListComponent.$el.textContent).to.contain('brush my teeth');
     expect(BlockchainFormComponent.form.consensus_name).to.be.equal('Proof-of-Work')
   })
+  /*it('it displays an error message', () => {
+    const Constructor = Vue.extend(BlockchainForm)
+    const BlockchainFormComponent = new Constructor().$mount()
+    BlockchainFormComponent.form = {
+        project_name: 'mock project',
+        short_description: 'description',
+        state: 'Project',
+        dependency: 'Ethereum',
+        consensus_name: ''
+    }
+    const button = BlockchainFormComponent.$el.querySelector('.submit-button')
+
+    const clickEvent = new window.Event('click')
+    button.dispatchEvent(clickEvent)
+    BlockchainFormComponent._watcher.run()
+
+    expect(BlockchainFormComponent.$el.querySelector('.error-alert-span').textContent).to.be.equal('Please, fill all required fields')
+    expect(BlockchainFormComponent.form.consensus_name).to.be.equal('Proof-of-Work')
+  })*/
 })

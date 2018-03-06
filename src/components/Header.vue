@@ -44,7 +44,6 @@ export default class IcoForm extends Vue {
   beforeCreate () {
     this.loggedIn = (localStorage.getItem('logged_in') === 'true')
     if (this.loggedIn === true) this.username = localStorage.getItem('username')
-    console.log('ls', this.username)
   }
   goHome () {
     this.$router.push('/')

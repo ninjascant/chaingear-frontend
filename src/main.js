@@ -4,6 +4,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { getField, updateField } from 'vuex-map-fields'
 import Vuelidate from 'vuelidate'
+import VeeValidate from 'vee-validate'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueResource from 'vue-resource'
@@ -11,11 +12,14 @@ import LogRocket from 'logrocket'
 import createPlugin from 'logrocket-vuex'
 import router from './router'
 import App from './App'
+import * as PhaseTemplate from './helpers/phase-template'
+import * as _ from 'lodash'
 
 Vue.use(Vuex)
 Vue.use(Vuelidate)
 Vue.use(Vuetify)
 Vue.use(VueResource)
+Vue.use(VeeValidate)
 Vue.config.productionTip = false
 
 // Intialize LogRocket plugin to collect data about users expirience
@@ -40,13 +44,39 @@ const store = new Vuex.Store({
         consensus_name: '',
         milestone: [],
         links: []
+      },
+      ico: {
+        commont_info: {
+          is_ico: true,
+          current_ico_phase: 0,
+          token_distribution: {
+            total_supply: 0,
+            shares: [
+              {
+                description: '',
+                percent: 0
+              }
+            ]
+          },
+          use_of_proceeds: [
+            {
+              description: '',
+              percent: ''
+            }
+          ]
+        },
+        phases: [
+          _.cloneDeep(PhaseTemplate)
+        ]
       }
     }
   },
   getters: {
     getIsIco: (state, getters) => state.isIco,
     getIsErc20: (state, getters) => state.isErc20,
-    getField
+    getAllPhases: state => state.project_info.ico.phases,
+    getPhase: state => num => state.project_info.ico.phases[num],
+    getCommonInfo: state => state.project_info.ico.commont_info
   },
   mutations: {
     toggleIsIco: (state, payload) => {
@@ -58,6 +88,18 @@ const store = new Vuex.Store({
     updateField,
     updateBlockchain: (state, payload) => {
       state.project_info.blockchain[payload.key] = payload.value
+    },
+    addPhase: (state, payload) => {
+      console.log(payload.value)
+      // (state.project_info.ico.phases.length - 1, 0, 
+      // state.project_info.ico.phases[payload.n] = payload.value
+      state.project_info.ico.phases.splice(state.project_info.ico.phases.length - 1, 0, payload.value)
+    },
+    addEmptyPhase: (state, payload) => {
+      state.project_info.ico.phases.push(_.cloneDeep(PhaseTemplate))
+    },
+    updatePhase: (state, payload) => {
+      state.project_info.ico.phases[payload.n] = payload.value
     }
   }
 })

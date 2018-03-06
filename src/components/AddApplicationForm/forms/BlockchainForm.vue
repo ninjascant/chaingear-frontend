@@ -18,14 +18,16 @@
           <v-layout row wrap>
             <v-flex xs12 sm8>
               <v-text-field
-                name="input-1"
+                name='project_name'
                 label='Project Name*'
+                v-validate="'required'"
                 :rules="[rules.required]"
                 v-model='form.project_name'>
               </v-text-field>
               <v-text-field
                 name="input-1"
                 label='Headline*'
+                v-validate="'required'"
                 hint="It shouldn't be more than 50 symbols long"
                 persistent-hint
                 :rules="[
@@ -37,6 +39,7 @@
               <v-text-field
                 label='Short project description*'
                 multi-line
+                v-validate="'required'"
                 :rules='[rules.required]'
                 hint="Write short project description (2-3 paragraphs long)"
                 persistent-hint
@@ -46,7 +49,7 @@
                 v-bind:items="yesNo"
                 v-model="isICO"
                 @change='setIsIco'
-                label="Tokensale*"
+                label="Tokensale"
                 autocomplete
                 hint="Do you plan to run a tokensale?"
                 persistent-hint
@@ -65,6 +68,7 @@
               <v-select
                 v-bind:items="dependency"
                 v-model="form.dependency"
+                v-validate="'required'"
                 label="Dependency*"
                 :rules="[rules.required]"
                 hint="Select blockchain used to issue project tokens"
@@ -94,7 +98,7 @@
                 <v-card-title class="headline">Error</v-card-title>
                 <v-card-text>
                   <v-alert color="error" icon="warning" v-show="notEnough" value="true">
-                    {{errorMessage}}
+                    <span class="error-alert-span">{{errorMessage}}</span>
                   </v-alert>
                 </v-card-text>
                 <v-card-actions>
@@ -130,19 +134,9 @@ import { mapFields } from 'vuex-map-fields'
   }
 })
 export default class BlockchainForm extends Vue {
-  props () {
-    mapFields([
-      project_info.blockchain.project_name,
-      project_info.blockchain.headline,
-      project_info.blockchain.short_description,
-      project_info.blockchain.state,
-      project_info.blockchain.dependency
-    ])
-  }
   form = {
     project_name: '',
     headline: '',
-    text: '',
     short_description: '',
     state: '',
     dependency: '',
@@ -150,7 +144,7 @@ export default class BlockchainForm extends Vue {
   }
   isICO = ''
   erc = false
-  requiredFields = ['project_name', 'headline', 'text', 'dependency', 'isICO']
+  requiredFields = ['project_name', 'headline', 'text', 'dependency']
   fieldsNames = {
     project_name: 'Project name',
     headline: 'Headline',
@@ -189,53 +183,26 @@ export default class BlockchainForm extends Vue {
   setIsIco (e) {
     this.$store.commit('toggleIsIco', e)
   }
+  // Checks if all fields are valid and if so sends data from inputs to store and calls nextPane method defined on parent component
   next () {
-    const emptyValues = []
-    // if (this.form.isICO === true) this.requiredFields.push('state')
-    /*this.requiredFields.forEach(field => {
-      if (this.form[field].length === 0 ) emptyValues.push(this.fieldsNames[field])
-    })*/
-    if (emptyValues.length === 0 && this.$v.headline.maxLength === true) {
-      console.log()
-      if(this.form.dependency !== 'independent') {
-        this.form.consensus_name = this.dependency.filter(dependency => {
-          return dependency.value === this.form.dependency
-        })[0].consensus
+    this.$validator.validateAll().then((result) => {
+      if (result === true) {
+        if(this.form.dependency !== 'independent') {
+          this.form.consensus_name = this.dependency.filter(dependency => {
+            return dependency.value === this.form.dependency
+          })[0].consensus
+        }
+        Object.keys(this.form).forEach(key => {
+          this.$store.commit('updateBlockchain', {key: key, value: this.form[key]})
+        })
+        console.log(this.$store.state)
+        this.$emit('interface', {form: 'blockchain', data: this.form})
       }
-      
-      /*switch (this.form.dependency) {
-        case 'Ethereum':
-          this.form.consensus = 'Proof-of-Work'
-          this.$store.commit('toggleIsErc20')
-          break
-        case 'Waves':
-          this.form.consensus = 'Proof-of-Stake'
-          break
-        case 'NEM Mosaic':
-          this.form.consensus = 'Proof-of-Importance'
-          break;
-        case 'Bitcoin':
-          this.form.consensus = 'Proof-of-Work'
-          break
-        case 'Graphene':
-          this.form.consensus = 'Delegated Proof-of-Stake'
-          break
-        default:
-            this.form.consensus = 'Unknown'
-        break
-      }*/
-      Object.keys(this.form).forEach(key => {
-        this.$store.commit('updateBlockchain', {key: key, value: this.form[key]})
-      })
-      console.log(this.$store.state)
-      // this.$emit('interface', {form: 'blockchain', data: this.form})
-    } else if (this.$v.headline.maxLength === false) {
-      this.notEnough = true
-      this.errorMessage = 'Headline shouldn\'t be more than 50 symbols long'
-    } else {
-      this.notEnough = true
-      this.errorMessage = `Please, fill this fields: ${emptyValues.join(', ')}`
-    }
+      else {
+        this.notEnough = true
+        this.errorMessage = `Please, fill all required fields`
+      }
+    })
   }
 }
 </script>

@@ -23,14 +23,14 @@
                 color="grey lighten-2"
                 slider-color="black">
                 <v-tab
-                  v-for="(phase, i) in form.phases" 
+                  v-for="(phase, i) in phases" 
                   :key="i"
                   >
-                  <span v-if='phase === null'>Phase {{ i + 1 }}</span>
+                  <span v-if='phase.phase_name.length === 0'>Phase {{ i + 1 }}</span>
                   <span v-if='phase !== null'>{{phase.phase_name}}</span>
                 </v-tab>
                 <v-tab-item
-                  v-for="(phase, i) in form.phases" 
+                  v-for="(phase, i) in phases" 
                   :key="i">
                   <v-flex class='ma-3'>
                     <PhaseFormComponent
@@ -65,27 +65,25 @@ import WarnComponent from '../WarnComponent'
   }
 })
 export default class PhasesFormContainer extends Vue {
-  form = {
-    phases: [null]
-  }
   n = 0
   active = 0
   notEnough = false
   errorMessage = ''
+  get phases () {
+    return this.$store.getters.getAllPhases
+  }
   // This method adds object with phase description in front of this.form.phases array and scrolls page view on top 
-  addPhase (data) {
-    this.form.phases.splice(this.form.phases.length - 1, 0, data)
+  addPhase () {
     this.$nextTick(() => {
       setTimeout(() => {
         this.active = (parseInt(this.active) + 1).toString()
         const container = document.querySelector('#anchor-top')
         container.scrollIntoView(false)
-      }, 100)
+      }, 500)
     })
   }
   // This method updates object with phase description in the this.form.phases array and moves to the next page
-  updatePhase (data, n) {
-    this.form.phases[n] = data
+  updatePhase () {
     this.next()
   }
   // This method calls nextPane method, defined in the parent component to change currently displayed page
@@ -98,77 +96,11 @@ export default class PhasesFormContainer extends Vue {
       this.$emit('interface', {action: 'previous'})
       return
     }
-    const formData = data.form || data
-    const tmp = {
-      "phase_name": formData.phase_name,
-      "phase_status": formData.phase_status,
-      "registration": {
-        "start_date": formData.reg_start_date_date ? new Date(formData.reg_start_date_date) : "",
-        "end_date": formData.reg_end_date_date ? new Date(formData.reg_end_date_date) : "",
-        "website": formData.reg_url || "",
-        "terms": formData.reg_terms || ""
-      },
-      "terms": {
-        "sales_agreement": formData.sales_agreement,
-        "sales_url": formData.sales_url,
-        "issued_tokens": formData.issued_tokens || 0,
-        "sold_tokens": formData.sold_tokens || 0,
-        "share_of_sold": 0,
-        "token_distribution_date": formData.token_distr_date_date ? new Date(formData.token_distr_date_date) : "",
-        "cap_limit": [
-          {
-            "currency": formData.cap_limit_currency || '',
-            "amount": formData.cap_limit_amount || 0
-          }
-        ],
-        "vesting": [
-          {
-            "supply_percent": 0,
-            "lockup_condition": "",
-            "lockup_date": ""
-          }
-        ],
-        "crowdsale_addresses": (formData.addresses.length !== 0) ? formData.addresses
-          : [{'currency': '', 'address': ''}]
-      },
-      "dates": {
-        "start_date": new Date(formData.ico_start_date_date),
-        "end_date": new Date(formData.ico_end_date_date),
-        "duration": ""
-      },
-      "raised_funds": [
-        {
-          "currency": 'USD',
-          "amount": formData.raised_funds_amount_usd || 0
-        },
-        {
-          "currency": 'ETH',
-          "amount": formData.raised_funds_amount_eth || 0
-        },
-        {
-          "currency": 'BTC',
-          "amount": formData.raised_funds_amount_btc || 0
-        }
-      ],
-      "contract": (formData.contracts.length !== 0) ? formData.contracts
-        : [{address: '', type: ''}],
-      "prices": {
-        "token_final_price": [
-          {
-            "currency": formData.token_final_price.currency || '',
-            "price": formData.token_final_price.amount || 0
-          }
-        ],
-        "bonuses": (formData.bonuses.length !== 0) ? formData.bonuses
-          : [{'description': '', percent: ''}]
-      }
-    }
     if (data.n !== undefined) {
-      this.updatePhase(tmp, data.n)
+      this.next()
     } else if (data.nextPage !== true) {
-      this.addPhase(tmp)
+      this.addPhase()
     } else {
-      this.form.phases.splice(this.form.phases.length - 1, 0, tmp)
       this.next()
     }
   }
@@ -178,13 +110,13 @@ export default class PhasesFormContainer extends Vue {
   }
   // This method check if there is at least one object in this.form.phases array and if it's true, calls parent's nextPane method to change current page
   next () {
-    const filtered = this.form.phases.filter(p => p !== null)
+    /* const filtered = this.form.phases.filter(p => p !== null)
     if (filtered.length === 0) {
       this.notEnough = true
       this.errorMessage = 'Please, describe at least one ICO phase'
-    } else {
+    } else { */
       this.$emit('interface', {form: 'phases', data: this.form})
-    }
+    // }
   }
 }
 </script>

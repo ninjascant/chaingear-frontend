@@ -62,7 +62,7 @@ import RoadmapFormContainer from './RoadmapFormContainer'
   }
 })
 export default class AddProjectFormContainer extends Vue {
-  page = 1
+  page = 2
   fullInfo = {}
   noIco = false
   erc = false
