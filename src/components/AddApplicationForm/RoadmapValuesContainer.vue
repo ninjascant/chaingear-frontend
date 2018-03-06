@@ -177,7 +177,6 @@ export default class RoadmapValuesContainer extends Vue {
     tmp[this.thirdField.key] = data.formData[this.thirdField.key]
     tmp[this.fourthField.key] = data.formData[this.fourthField.key]
     tmp[this.fifthField.key] = data.formData[this.fifthField.key]
-    tmp.value = false
     this.$emit('interface', tmp)
   }
 }

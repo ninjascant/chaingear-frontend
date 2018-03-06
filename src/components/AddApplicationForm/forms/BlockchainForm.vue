@@ -42,6 +42,7 @@
               <v-select
                 v-bind:items="yesNo"
                 v-model="isICO"
+                @change='changeIsIco'
                 label="Tokensale"
                 autocomplete
                 hint="Do you plan to run a tokensale?"
@@ -166,8 +167,7 @@ import CleanStorage from '@/helpers/clean-storage'
       text: required,
       state: required,
       dependency: required,
-      consensus_name: required,
-      isICO: required
+      consensus_name: required
   }
 })
 export default class BlockchainForm extends Vue {
@@ -194,6 +194,9 @@ export default class BlockchainForm extends Vue {
   }*/
   warnAsk () {
 
+  }
+  changeIsIco (e) {
+    this.$store.commit('toggleIsIco', e)
   }
   requiredFields = ['project_name', 'headline', 'text', 'dependency']
   fieldsNames = {

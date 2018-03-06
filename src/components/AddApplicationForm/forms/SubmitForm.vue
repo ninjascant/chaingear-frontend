@@ -117,6 +117,7 @@ export default class SubmitForm extends Vue {
   }
   makeCommit () {
     const cleanedProject = _.cloneDeep(this.projectInfo)
+    cleanedProject.ico.common_info.is_ico = this.isIco
     cleanedProject.ico.phases = cleanedProject.ico.phases.map(phase => {
       delete phase.commited
       return phase

@@ -57,7 +57,7 @@ const store = new Vuex.Store({
         links: []
       },
       ico: {
-        commont_info: {
+        common_info: {
           is_ico: true,
           current_ico_phase: 0,
           terms: {
@@ -88,9 +88,9 @@ const store = new Vuex.Store({
     getBlockchain: state => state.project_info.blockchain,
     getAllPhases: state => state.project_info.ico.phases,
     getPhase: state => num => state.project_info.ico.phases[num],
-    getCommonInfo: state => state.project_info.ico.commont_info,
-    getProceeds: state => state.project_info.ico.commont_info.use_of_proceeds,
-    getTokenDistribution: state => state.project_info.ico.commont_info.token_distribution.shares,
+    getCommonInfo: state => state.project_info.ico.common_info,
+    getProceeds: state => state.project_info.ico.common_info.use_of_proceeds,
+    getTokenDistribution: state => state.project_info.ico.common_info.token_distribution.shares,
     getToken: state => num => state.project_info.token[num],
     getAllTokens: state => state.project_info.token,
     getApp: state => num => state.project_info.app[num],
