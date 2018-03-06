@@ -21,6 +21,11 @@
                 :value='email'
                 @change='setEmail'>
               </v-text-field>
+              <v-text-field
+                label='Golos username'
+                :value='golosUsername'
+                @change='setUsername'>
+              </v-text-field>
               <span class="title">Please, check all info before submit your application</span>
               <v-card flat color="grey lighten-4">
                 <v-card-text>
@@ -81,8 +86,6 @@ import convert from '../../../helpers/full.js'
 
 @Component({})
 export default class SubmitForm extends Vue {
-  @Prop({default: {}})
-  fullInfo
   // Computed property that holds info about user's decision on first page - does project has a crowdsale or not
   get isIco () {
     return this.$store.getters.getIsIco
@@ -90,8 +93,17 @@ export default class SubmitForm extends Vue {
   get email () {
     return localStorage.getItem('user_email')
   }
+  get golosUsername () {
+    return localStorage.getItem('username')
+  }
   setEmail (e) {
     localStorage.setItem('user_email', e)
+  }
+  setUsername (e) {
+    localStorage.setItem('username', e)
+  }
+  get projectInfo () {
+    return this.$store.getters.getProjectInfo
   }
   form = {}
   checked = false
@@ -99,56 +111,28 @@ export default class SubmitForm extends Vue {
   submitError = false
   errorCode = ''
   successful = false
-  htmlUrl = ''
   prev () {
     this.$emit('interface', {action: 'previous'})
   }
   makeCommit () {
-    let fullDoc
-    if (this.isIco === true) {
-      try {
-        fullDoc = {
-          creator_email: this.email,
-          project_name: this.fullInfo.blockchain.project_name,
-          timestamp: new Date().toISOString(),
-          project_info: convert(this.fullInfo, false)
-        }
-      } catch (e) {
-        console.log(e)
-        this.loading = false
-        this.errorCode = e
-        this.submitError = true
-        return
-      }
-    } else {
-      try {
-        fullDoc = {
-          creator_email: this.email,
-          project_name: this.fullInfo.blockchain.project_name,
-          timestamp: new Date().toISOString(),
-          application_status: 'Under consideration',
-          project_info: convert(this.fullInfo, true)
-        }
-        if (localStorage.getItem('logged_in') === 'true') {
-          fullDoc.golos_username = localStorage.getItem('username')
-        }
-      } catch (e) {
-        console.log(e)
-        this.loading = false
-        this.errorCode = e
-        this.submitError = true
-        return
-      }
+    console.log(this.projectInfo)
+    const fullInfo = {
+      project_name: this.projectInfo.blockchain.project_name,
+      creator_email: this.email,
+      timestamp: new Date().toISOString(),
+      project_info: this.projectInfo
     }
-    this.$http.post('http://ninja-analytics.ru:8000/create-application', JSON.stringify(fullDoc))
+    if (localStorage.getItem('logged_in') === 'true') {
+      fullInfo.golos_username = localStorage.getItem('username')
+    }
+    this.$http.post('http://ninja-analytics.ru:8000/create-application', JSON.stringify(fullInfo))
       .then(res => {
         this.loading = false
         this.successful = true
         this.htmlUrl = res.body.html_url
         const logged = localStorage.getItem('logged_in')
         if (logged === 'true') {
-          this.fullInfo.username = localStorage.getItem('username')
-          this.$http.post('http://ninja-analytics.ru:8000/create-post', JSON.stringify(fullDoc))
+          this.$http.post('http://ninja-analytics.ru:8000/create-post', JSON.stringify(fullInfo))
             .then(res => {
               console.log(res)
               this.loading = false

@@ -5,7 +5,9 @@
     <v-layout row wrap class='mt-3'>
       <v-flex xs8 sm5>
         <v-text-field
-          label="Phase name"
+          label="Phase name*"
+          name='phase_name'
+          v-validate.initial="'required'"
           v-model="form.phase_name"
         ></v-text-field>
       </v-flex>
@@ -14,7 +16,9 @@
       <v-select
         v-bind:items='statuses'
         v-model="form.phase_status"
-        label="Phase status"
+        name='phase_status'
+        v-validate.initial="'required'"
+        label="Phase status*"
         max-height='auto'></v-select>
       </v-flex>
     </v-layout>
@@ -59,6 +63,8 @@
         <v-flex xs8 sm5>
           <v-text-field
             label='Tokensale start date*'
+            name='ico_start_datr'
+            v-validate.initial="'required'"
             suffix='UTC'
             v-model='form.dates.start_date'
             type='date'></v-text-field>
@@ -67,6 +73,8 @@
         <v-flex xs8 sm5>
           <v-text-field
             label='Tokensale end date*'
+            name='ico_end_date'
+            v-validate.initial="'required'"
             suffix='UTC'
             v-model='form.dates.end_date'
             type='date'></v-text-field>
@@ -217,19 +225,23 @@
         >
         Continue
       </v-btn>
-      <!--<v-btn
-        @click.native='question = true'
-        v-else='commited'>
-        Update description
-      </v-btn>-->
     </v-layout>
     </v-layout>
   </v-flex>
-  <WarnComponent
-    @interface='okClick'
-    :notEnough='notEnough'
-    :errorMessage='errorMessage'>
-  </WarnComponent>
+  <v-dialog v-model="notEnough" max-width="390">
+            <v-card dark>
+              <v-card-title class="headline">Error</v-card-title>
+              <v-card-text>
+                <v-alert color="error" icon="warning" v-show="notEnough" value="true">
+                  {{errorMessage}}
+                </v-alert>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" flat="flat" @click.native='notEnough = false'>Ok</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
   <v-dialog v-model="question" max-width="290">
       <v-card>
         <v-card-title class="headline">Describe another phase?</v-card-title>
@@ -247,15 +259,12 @@
 <script>
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
-import { required, url } from 'vuelidate/lib/validators'
 import MultipleValuesContainer from '../MultipleValuesContainer'
-import WarnComponent from '../WarnComponent'
 import * as phaseTemplate from '../../../helpers/phase-template'
 
 @Component({
   components: {
-    MultipleValuesContainer,
-    WarnComponent
+    MultipleValuesContainer
   }
 })
 export default class PhaseFormComponent extends Vue {
@@ -269,15 +278,6 @@ export default class PhaseFormComponent extends Vue {
   }
   currency = ['USD', 'ETH', 'BTC']
   statuses = ['Planned', 'Active', 'Finished']
-  commited = false
-  notEnough = false
-  errorMessage = ''
-  isNum (value) {
-    return !isNaN(value - parseFloat(value))
-  }
-  rules = {
-    required: (value) => !!value || 'Required'
-  }
   firstField1 = {
     key: 'amount',
     hint: 'Number or %',
@@ -359,17 +359,30 @@ contract in the section Contract Overview (NameTag)`,
   notEnough = false
   errorMessage = ''
   question = false
+  prev () {
+    this.$emit('interface', {prev: true})
+  }
   ask () {
-    if (this.form.commited === true) {
-      this.updatePhase()
+    const valid = (this.errors.items.length === 0)
+    if (valid === true && this.form.commited === false) {
+      this.question = true
+      this.form.commited = true
+      this.$store.commit('addEmptyPhase')
+    } else if (valid === true && this.form.commited === true) {
+      this.$emit('interface', {nextPage: true})
     } else {
-      // if (this.$v.$invalid !== true) {
-        this.question = true
-      // } else {
-      //  this.notEnough = true
-      //  this.errorMessage = 'Not all fields are valid'
-      // }
+      console.log(this.form.commited)
+      this.notEnough = true
+      this.errorMessage = 'Please, fill all required fields'
     }
+  }
+  move () {
+    this.question = false
+    this.$emit('interface', {nextPage: true})
+  }
+  stay () {
+    this.question = false
+    this.$emit('interface', {nextPage: false})
   }
   // Methods to push data form MultipleValuesContainer to form object
   addAddresses (data) {
@@ -380,38 +393,6 @@ contract in the section Contract Overview (NameTag)`,
   }
   addBonuses (data) {
     this.form.prices.bonuses.push(data)
-  }
-  // 
-  okClick (data) {
-    this.notEnough = false
-  }
-  // This method is invoked if user clicked no in dialog
-  stay () {
-    this.addPhase(false)
-  }
-  // This method is invoked if user clicked yes in dialog
-  move () {
-    this.addPhase(true)
-  }
-  // This method adds empty phase description to store and invokes parent method to switch to next page or new empty tab
-  addPhase (nextPage) {
-    this.question = false
-    console.log(this.$store.getters.getAllPhases)
-    this.form.commited = true
-    this.$store.commit('addEmptyApp')
-    if (nextPage !== true) {
-      this.$emit('interface', {nextPage: false})
-    } else {
-      this.$emit('interface', {nextPage: true})
-    }
-  }
-  // This method updates phase description to store and invokes parent method
-  updatePhase () {
-    this.$emit('interface', {nextPage: true})
-  }
-  // This method invokes parent method to move to previous page
-  prev () {
-    this.$emit('interface', {prev: true})
   }
 }
 </script>

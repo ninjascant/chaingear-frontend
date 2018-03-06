@@ -151,15 +151,5 @@ export default class AppForm extends Vue {
     this.question = false
     this.$emit('interface', {nextPage: false})
   }
-  addApp () {
-    this.requiredFields.forEach(field => {
-      if (this.form[field] === undefined) {
-        this.notEnough = true
-      }
-    })
-    if (this.notEnough !== true) {
-      this.$emit('interface', {form: this.form})
-    }
-  }
 }
 </script>

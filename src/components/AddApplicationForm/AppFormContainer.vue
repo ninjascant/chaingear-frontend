@@ -48,9 +48,9 @@
           </v-layout>
           <v-layout row wrap v-if='!isApp'>
             <v-flex xs6>
-              <v-btn color="default" @click="prev">Previous</v-btn>
+              <v-btn color="default" @click="moveOrStay({prev: true})">Previous</v-btn>
               <v-btn
-                @click='next'
+                @click='moveOrStay({nextPage: true})'
                 color='primary'>Continue</v-btn>
             </v-flex>
           </v-layout>
@@ -70,7 +70,7 @@ import AppForm from './forms/AppForm'
     AppForm
   }
 })
-export default class PhasesFormContainer extends Vue {
+export default class AppsFormContainer extends Vue {
   get apps () {
     return this.$store.getters.getAllApps
   }

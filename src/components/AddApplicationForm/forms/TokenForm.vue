@@ -7,13 +7,16 @@
             <v-flex xs10 sm8>
               <v-text-field
                 label='Token Name*'
+                name='name'
+                v-validate.initial="'required'"
                 hint='Ex. Bitcoin, Ethereum'
                 persistent-hint
-                :rules="[rules.required]"
                 v-model='form.name'>
               </v-text-field>
               <v-text-field
                 label='Token Symbol*'
+                name='symbol'
+                v-validate.initial="'required'"
                 hint='Ex. BTC, ETH, GBG'
                 persistent-hint
                 v-model='form.symbol'>
@@ -25,23 +28,19 @@
               <v-select
                 v-bind:items="purpose"
                 v-model="form.token_purpose"
-                :rules="[rules.required]"
+                name='purpose'
+                v-validate.initial="'required'"
                 label="Token purpose*"
                 max-height='auto'></v-select>
             </v-flex>
-            <!--<v-flex xs2 sm3 align-center justify-center class='mt-3'>
-              <v-tooltip right>
-                <v-icon color="default" slot="activator">info</v-icon>
-                <span>Is token used in ICO, app or both?</span>
-              </v-tooltip>
-            </v-flex>-->
           </v-layout>
           <v-layout row wrap>
             <v-flex xs10 sm8>
               <v-select
                 v-bind:items="type"
                 v-model="form.token_type"
-                :rules="[rules.required]"
+                name='type'
+                v-validate.initial="'required'"
                 label="Token type*"
                 hint='Core token - token uses its own blockchain. Blockchain issued token - token uses an existing blockchain (Ex. Ethereum)'
                 persistent-hint
@@ -131,78 +130,38 @@ import {Component, Prop} from 'vue-property-decorator'
 
 @Component({})
 export default class Token extends Vue {
-  @Prop({default: false})
-  backToTop
   @Prop({default: 0})
   num
+  get form () {
+    return this.$store.getters.getToken(this.num)
+  }
   purpose = ['Raising funds', 'Utility', 'Both']
   type = ['Core token', 'Blockchain issued token']
-  form = {
-    inflation_rate: '',
-    circulation_terms: '',
-    governance_rights_org: '',
-    governance_rights_project: ''
-  }
   notEnough = false
-  selector = '#first'
-  requiredFields = ['name', 'symbol', 'token_purpose', 'token_type']
   question = false
-  commited = false
-  rules = {
-    required: (value) => !!value || 'Required'
-  }
   prev () {
     this.$emit('interface', {prev: true})
   }
   ask () {
-    this.requiredFields.forEach(field => {
-      if (this.form[field] === undefined) {
-        this.notEnough = true
-      }
-    })
-    if (this.commited === true && this.notEnough === false) {
-      this.update()
+    const valid = (this.errors.items.length === 0)
+    if (valid === true && this.form.commited === false) {
+      this.question = true
+      this.form.commited = true
+      this.$store.commit('addEmptyToken')
+    } else if (valid === true && this.form.commited === true) {
+      this.$emit('interface', {nextPage: true})
     } else {
-      if (this.notEnough !== true) {
-        this.question = true
-        this.commited = true
-      } else {
-        this.notEnough = true
-        this.errorMessage = 'Not all fields are valid'
-      }
+      this.notEnough = true
+      this.errorMessage = 'Please, fill all required fields'
     }
-  }
-  stay () {
-    this.clear()
   }
   move () {
-    this.clear(true)
-  }
-  clear (nextPage) {
     this.question = false
-    if (nextPage !== true) {
-      this.$emit('interface', {
-        form: this.form})
-      this.commited = true
-    } else {
-      this.$emit('interface', {
-        nextPage: true,
-        form: this.form})
-      this.commited = true
-    }
+    this.$emit('interface', {nextPage: true})
   }
-  addToken () {
-    this.requiredFields.forEach(field => {
-      if (this.form[field] === undefined) {
-        this.notEnough = true
-      }
-    })
-    if (this.notEnough !== true) {
-      this.$emit('interface', {form: this.form})
-    }
-  }
-  update () {
-    this.$emit('interface', {form: this.form, n: this.num})
+  stay () {
+    this.question = false
+    this.$emit('interface', {nextPage: false})
   }
 }
 </script>

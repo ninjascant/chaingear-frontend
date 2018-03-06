@@ -134,13 +134,8 @@ import { mapFields } from 'vuex-map-fields'
   }
 })
 export default class BlockchainForm extends Vue {
-  form = {
-    project_name: '',
-    headline: '',
-    short_description: '',
-    state: '',
-    dependency: '',
-    consensus_name: ''
+  get form () {
+    return this.$store.getters.getBlockchain
   }
   isICO = ''
   erc = false
@@ -183,26 +178,20 @@ export default class BlockchainForm extends Vue {
   setIsIco (e) {
     this.$store.commit('toggleIsIco', e)
   }
-  // Checks if all fields are valid and if so sends data from inputs to store and calls nextPane method defined on parent component
+  // Checks if all fields are valid and if so automatically sets blockchain.dependency value and calls nextPane method defined on parent component
   next () {
-    this.$validator.validateAll().then((result) => {
-      if (result === true) {
-        if(this.form.dependency !== 'independent') {
-          this.form.consensus_name = this.dependency.filter(dependency => {
-            return dependency.value === this.form.dependency
-          })[0].consensus
-        }
-        Object.keys(this.form).forEach(key => {
-          this.$store.commit('updateBlockchain', {key: key, value: this.form[key]})
-        })
-        console.log(this.$store.state)
-        this.$emit('interface', {form: 'blockchain', data: this.form})
+    const valid = (this.errors.items.length === 0)
+    if (valid === true) {
+      if(this.form.dependency !== 'independent') {
+        this.form.consensus_name = this.dependency.filter(dependency => {
+          return dependency.value === this.form.dependency
+        })[0].consensus
       }
-      else {
-        this.notEnough = true
-        this.errorMessage = `Please, fill all required fields`
-      }
-    })
+      this.$emit('interface', {form: 'blockchain'})
+    } else {
+      this.notEnough = true
+      this.errorMessage = `Please, fill all required fields`
+    }
   }
 }
 </script>

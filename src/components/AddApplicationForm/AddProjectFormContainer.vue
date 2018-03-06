@@ -26,7 +26,7 @@
               <LinksForm @interface='nextPane'></LinksForm>
             </v-stepper-content>
             <v-stepper-content step="8">
-              <SubmitForm @interface='nextPane' :noIco='noIco' :fullInfo='fullInfo'></SubmitForm>
+              <SubmitForm @interface='nextPane'></SubmitForm>
             </v-stepper-content>
           </v-stepper>
         </v-flex>
@@ -62,10 +62,7 @@ import RoadmapFormContainer from './RoadmapFormContainer'
   }
 })
 export default class AddProjectFormContainer extends Vue {
-  page = 5
-  fullInfo = {}
-  noIco = false
-  erc = false
+  page = 1
   get isIco () {
     return this.$store.getters.getIsIco
   }
@@ -83,10 +80,8 @@ export default class AddProjectFormContainer extends Vue {
       // Checks if there's a need to render form pages that is related to crowdsale (IcoForm, PhasesFormContainer)
       if (e.form === 'blockchain' && this.isIco === false) {
         this.page = 4
-        this.fullInfo[e.form] = e.data
       } else {
         this.page += 1
-        this.fullInfo[e.form] = e.data
       }
     }
   }

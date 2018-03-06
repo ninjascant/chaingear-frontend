@@ -14,6 +14,7 @@ import router from './router'
 import App from './App'
 import * as phaseTemplate from './helpers/phase-template'
 import * as appTemplate from './helpers/app-template'
+import * as tokenTemplate from './helpers/token-template'
 import * as _ from 'lodash'
 
 Vue.use(Vuex)
@@ -74,6 +75,9 @@ const store = new Vuex.Store({
           _.cloneDeep(phaseTemplate)
         ]
       },
+      token: [
+        _.cloneDeep(tokenTemplate)
+      ],
       app: [
         _.cloneDeep(appTemplate)
       ]
@@ -82,11 +86,15 @@ const store = new Vuex.Store({
   getters: {
     getIsIco: (state, getters) => state.isIco,
     getIsErc20: (state, getters) => state.isErc20,
+    getBlockchain: state => state.project_info.blockchain,
     getAllPhases: state => state.project_info.ico.phases,
     getPhase: state => num => state.project_info.ico.phases[num],
     getCommonInfo: state => state.project_info.ico.commont_info,
+    getToken: state => num => state.project_info.token[num],
+    getAllTokens: state => state.project_info.token,
     getApp: state => num => state.project_info.app[num],
-    getAllApps: state => state.project_info.app
+    getAllApps: state => state.project_info.app,
+    getProjectInfo: state => state.project_info
   },
   mutations: {
     toggleIsIco: (state, payload) => {
