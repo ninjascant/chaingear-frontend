@@ -34,6 +34,12 @@ import MultipleValuesContainer from './MultipleValuesContainer'
   }
 })
 export default class FundsFormContainer extends Vue {
+  get proceeds () {
+    return this.$store.getters.getProceeds
+  }
+  get distr () {
+    return this.$store.getters.getTokenDistribution
+  }
   secondField = {
     key: 'description',
     hint: '',
@@ -62,8 +68,6 @@ export default class FundsFormContainer extends Vue {
   head1 = 'Token distribution'
   subhead1 = 'Categories of tokens holders'
   head2 = 'Bonuses'
-  proceeds = []
-  distr = []
   selected = []
   i = 0
   // Checks if passed value has numeric type

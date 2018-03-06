@@ -16,7 +16,7 @@ module.exports = {
     token_distribution_date: '',
     cap_limit: [
       {
-        currency: '',
+        currency: 'USD',
         amount: ''
       }
     ],
@@ -27,12 +27,7 @@ module.exports = {
         lockup_date: ''
       }
     ],
-    crowdsale_addresses: [
-      {
-        currency: '',
-        address: ''
-      }
-    ]
+    crowdsale_addresses: []
   },
   dates: {
     start_date: '',
@@ -42,35 +37,25 @@ module.exports = {
   raised_funds: [
     {
       currency: 'USD',
-      amount: 0
+      amount: ''
     },
     {
       currency: 'ETH',
-      amount: 0
+      amount: ''
     },
     {
       currency: 'BTC',
-      amount: 0
+      amount: ''
     }
   ],
   prices: {
     token_final_price: [
       {
         currency: 'BTC',
-        price: 0
+        price: ''
       }
     ],
-    bonuses: [
-      {
-        amount: '',
-        condition: ''
-      }
-    ]
+    bonuses: []
   },
-  contract: [
-    {
-      contract_address: '',
-      contract_type: ''
-    }
-  ]
+  contract: []
 }

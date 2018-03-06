@@ -100,14 +100,14 @@ export default class AddressesFormContainer extends Vue {
   selected = []
   expanded = false
   i = 0
+  mounted () {
+    console.log('items', this.items)
+  }
   // This method sends data from MultipleValuesForm component to a parent component (for example, FundsFormContainer)
   changeValue (data) {
     const tmp = {}
     tmp[this.firstField.key] = data.formData[this.firstField.key]
     tmp[this.secondField.key] = data.formData[this.secondField.key]
-    tmp.index = this.i
-    tmp.value = false
-    this.i += 1
     this.$emit('interface', tmp)
   }
 }

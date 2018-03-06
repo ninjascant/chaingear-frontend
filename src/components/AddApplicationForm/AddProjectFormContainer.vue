@@ -66,6 +66,7 @@ export default class AddProjectFormContainer extends Vue {
   get isIco () {
     return this.$store.getters.getIsIco
   }
+  fab = false
   // This method changes page property which determines what form page is displayed
   nextPane (e) {
     // This branch activates after clickcing on previous button

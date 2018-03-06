@@ -83,6 +83,7 @@
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
 import convert from '../../../helpers/full.js'
+import * as _ from 'lodash'
 
 @Component({})
 export default class SubmitForm extends Vue {
@@ -115,12 +116,24 @@ export default class SubmitForm extends Vue {
     this.$emit('interface', {action: 'previous'})
   }
   makeCommit () {
-    console.log(this.projectInfo)
+    const cleanedProject = _.cloneDeep(this.projectInfo)
+    cleanedProject.ico.phases = cleanedProject.ico.phases.map(phase => {
+      delete phase.commited
+      return phase
+    }).filter(phase => phase.phase_name.length > 0)
+    cleanedProject.token = cleanedProject.token.map(token => {
+      delete token.commited
+      return token
+    }).filter(token => token.name.length > 0)
+    cleanedProject.app = cleanedProject.app.map(app => {
+      delete app.commited
+      return app
+    }).filter(app => app.name.length > 0)
     const fullInfo = {
       project_name: this.projectInfo.blockchain.project_name,
       creator_email: this.email,
       timestamp: new Date().toISOString(),
-      project_info: this.projectInfo
+      project_info: cleanedProject
     }
     if (localStorage.getItem('logged_in') === 'true') {
       fullInfo.golos_username = localStorage.getItem('username')
@@ -131,13 +144,13 @@ export default class SubmitForm extends Vue {
         this.successful = true
         this.htmlUrl = res.body.html_url
         const logged = localStorage.getItem('logged_in')
-        if (logged === 'true') {
+        /*if (logged === 'true') {
           this.$http.post('http://ninja-analytics.ru:8000/create-post', JSON.stringify(fullInfo))
             .then(res => {
               console.log(res)
               this.loading = false
             })
-        }
+        } */
       }).catch(error => {
         console.log('error', error)
         this.errorCode = error.status + ': ' + error.statusText

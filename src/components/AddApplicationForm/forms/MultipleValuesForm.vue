@@ -38,7 +38,7 @@
             flat
             class="hidden-md-and-up"
             color='success'
-            @click="send"><v-icon color="green darken-2">fa-plus-circle</v-icon>
+            @click="send">{{buttonText}} <v-icon color="green darken-2">fa-plus-circle</v-icon>
           </v-btn>
           <v-dialog v-model="notEnough" max-width="390">
               <v-card dark>
