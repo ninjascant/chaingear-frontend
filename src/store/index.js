@@ -1,27 +1,10 @@
-import { shallow, createLocalVue, mount } from '@vue/test-utils'
-
-import BlockchainForm from '../../../src/components/AddApplicationForm/forms/BlockchainForm'
-import Vue from 'vue'
 import Vuex from 'vuex'
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
-import VueResource from 'vue-resource'
 import * as _ from 'lodash'
+import * as phaseTemplate from '../helpers/phase-template'
+import * as appTemplate from '../helpers/app-template'
+import * as tokenTemplate from '../helpers/token-template'
 
-import * as phaseTemplate from '../../../src/helpers/phase-template'
-import * as appTemplate from '../../../src/helpers/app-template'
-import * as tokenTemplate from '../../../src/helpers/token-template'
-
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(VueResource)
-localVue.use(Vuex)
-
-describe('BlockchainForm.vue', () => {
-  it('it should automatically set corresponding consensus_name', () => {
-    console.log('hi')
-    
-    const store = new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     isIco: true,
     isApp: false,
@@ -106,46 +89,4 @@ describe('BlockchainForm.vue', () => {
     }
   }
 })
-    const wrapper = mount(BlockchainForm, { store, localVue })
-    const button = wrapper.find('.submit-button')
-    button.trigger('click')
-    expect(BlockchainFormComponent.form.consensus_name).to.be.equal('unknown')
-    /*
-    const Constructor = Vue.extend(BlockchainForm)
-    const BlockchainFormComponent = new Constructor().$mount()
-    BlockchainFormComponent.form = {
-        project_name: 'mock project',
-        headline: 'healine',
-        short_description: 'description',
-        state: 'Project',
-        dependency: 'Ethereum',
-        consensus_name: ''
-    }
-    const button = BlockchainFormComponent.$el.querySelector('.submit-button')
-
-    const clickEvent = new window.Event('click')
-    button.dispatchEvent(clickEvent)
-    BlockchainFormComponent._watcher.run()
-
-    expect(BlockchainFormComponent.form.consensus_name).to.be.equal('Proof-of-Work')*/
-  })
-  /*it('it displays an error message', () => {
-    const Constructor = Vue.extend(BlockchainForm)
-    const BlockchainFormComponent = new Constructor().$mount()
-    BlockchainFormComponent.form = {
-        project_name: 'mock project',
-        short_description: 'description',
-        state: 'Project',
-        dependency: 'Ethereum',
-        consensus_name: ''
-    }
-    const button = BlockchainFormComponent.$el.querySelector('.submit-button')
-
-    const clickEvent = new window.Event('click')
-    button.dispatchEvent(clickEvent)
-    BlockchainFormComponent._watcher.run()
-
-    expect(BlockchainFormComponent.$el.querySelector('.error-alert-span').textContent).to.be.equal('Please, fill all required fields')
-    expect(BlockchainFormComponent.form.consensus_name).to.be.equal('Proof-of-Work')
-  })*/
-})
+module.exports = store

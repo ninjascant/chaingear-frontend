@@ -29,11 +29,6 @@
             </v-text-field>
           </v-flex>
           <v-flex xs12 sm6>
-            <v-text-field
-              :label='fourthField.label'
-              :hint='fourthField.hint'
-              v-model='form[fourthField.key]'>
-            </v-text-field>
           </v-flex>
         </v-layout>
         </v-flex>
@@ -49,6 +44,20 @@
         </v-layout>
       </v-container>
     </v-card> 
+    <v-dialog v-model="notEnough" max-width="390">
+              <v-card dark>
+                <v-card-title class="headline">Error</v-card-title>
+                <v-card-text>
+                  <v-alert color="error" icon="warning" v-show="notEnough" value="true">
+                    {{errorMessage}}
+                  </v-alert>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat="flat" @click.native="notEnough = false">Ok</v-btn>
+                </v-card-actions>
+              </v-card>
+          </v-dialog>
   </div>
 </template>
 <script>
@@ -73,6 +82,8 @@ export default class RoadmapValuesForm extends Vue {
   buttonText
   form = {}
   status = ['Planned', 'In work', 'Completed']
+  notEnough = false
+  errorMessage = ''
   rules = {
     required: (value) => !!value || 'Required',
     isNum: (value) => {
@@ -81,9 +92,14 @@ export default class RoadmapValuesForm extends Vue {
     }
   }
   send () {
-    console.log(this.form)
-    this.$emit('interface', {formData: this.form})
-    this.form = {}
+    console.log(this.form[this.secondField.key])
+    if (this.form[this.secondField.key] === undefined || this.form[this.fifthField.key] === undefined || this.form[this.thirdField.key] === undefined) {
+      this.notEnough = true
+      this.errorMessage = 'Please, fill all fields'
+    } else {
+      this.$emit('interface', {formData: this.form})
+      this.form = {}
+    }
   }
 }
 </script>

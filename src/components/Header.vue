@@ -22,8 +22,37 @@
     </v-toolbar-items>
     <v-spacer></v-spacer>
     <v-toolbar-items>
-      <LoginForm v-if='!loggedIn'></LoginForm>
-      <v-btn flat v-else='loggedIn'>{{username}}</v-btn>
+      <!--<LoginForm v-if='!loggedIn'></LoginForm>-->
+    <v-dialog v-model="dialog" persistent max-width="500px">
+      <v-btn flat class='mt-4' slot="activator">Having problems?</v-btn>
+      <v-card>
+        <v-card-title>
+          <span class="display-1">Contacts</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout row wrap>
+              <p class="headline">Connect with us: </p>
+              </v-layout>
+              <v-layout row wrap class="ml-2">
+              <p class="subheading"><v-icon>fa-envelope</v-icon>  <a href='mailto:m.odegov@cyberfund.io'>Mail</a></p>
+              </v-layout>
+              <v-layout row wrap class="ml-2">
+              <p class="subheading"><v-icon>fa-github</v-icon> <a href='https://github.com/cyberFund/chaingear'>Github</a></p>
+              </v-layout>
+              <v-layout row wrap class="ml-2">
+              <p class="subheading"><v-icon>fa-twitter</v-icon> <a href='https://twitter.com/cyberfundio'>Twitter</a></p>
+              </v-layout>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click.native="dialog = false">Ok</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  
     </v-toolbar-items>
   </v-toolbar>
   </div>
@@ -41,6 +70,7 @@ import LoginForm from './LoginForm'
 export default class IcoForm extends Vue {
   username
   loggedIn
+  dialog = false
   beforeCreate () {
     this.loggedIn = (localStorage.getItem('logged_in') === 'true')
     if (this.loggedIn === true) this.username = localStorage.getItem('username')

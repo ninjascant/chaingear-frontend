@@ -17,7 +17,6 @@
                     Trying to solve the problem of cryptocurrencies and cryptoassets metadata, Chaingear accumulates dependencies, specs, logos, links and other sensitive metadata.
                   </p>
                 </span>
-                <v-btn large color="success" class="mt-3" @click='addInfoRedirect'>Add project</v-btn>
                 <v-divider class="my-3"></v-divider>
                 <div class="title mb-3">What benefits of adding to Chaingear?</div>
                   <ul class='ml-3'>
@@ -46,7 +45,11 @@
                     <p>In order to get listed, your project should comply with each of the six criteria.</p>
                     <p>We aim to review each new application as soon as possible, but the times may differ depending on the incoming flow of applications. As soon as we take a decision, we will let you know by email, so make sure you provide a valid e-mail address later on in this form.</p>
               </div>
+               <v-btn large color="success" class="mt-3" @click='addInfoRedirect'>Add project</v-btn>
               </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+             
             </v-layout>
           </v-container>
         

@@ -32,13 +32,13 @@
             flat
             class="hidden-sm-and-down"
             color='success'
-            @click="send">{{buttonText}} <v-icon right color="green darken-2">fa-plus-circle</v-icon>
+            @click="send">{{buttonText}}
           </v-btn>
           <v-btn
             flat
             class="hidden-md-and-up"
             color='success'
-            @click="send">{{buttonText}} <v-icon color="green darken-2">fa-plus-circle</v-icon>
+            @click="send">{{buttonText}}
           </v-btn>
           <v-dialog v-model="notEnough" max-width="390">
               <v-card dark>
@@ -85,41 +85,61 @@ export default class MultipleValuesForm extends Vue {
     }
   }
   notEnough = false
+  // This method checks if passed string is valid Ethereum address
+  checkEthAddress (addr) {
+    const ox = addr.slice(0, 2)
+    if (addr.length !== 42) {
+      return false
+    } else if (ox !== '0x') {
+      return false
+    } else if (addr.match(/^[a-z0-9]+$/i) === null) {
+      return false
+    } else {
+      return true
+    }
+  }
+  // This method validates entered values. If values is valid, sends it to a parent component, otherwise shows alert 
   send () {
-    if (!this.form[this.firstField.key] || !this.form[this.secondField.key]) {
+    if (this.firstField.type === 'contract' && this.form[this.firstField.key].length > 0) {
+      this.$emit('interface', {formData: this.form})
+      this.form = {}
+    } else if (!this.form[this.firstField.key] || !this.form[this.secondField.key]) {
       this.notEnough = true
       this.errorMessage = 'Please, fill both fields'
     } else {
-      const isNum = !isNaN(this.form[this.secondField.key] - parseFloat(this.form[this.secondField.key]))
-      const checkEthAddress = (addr) => {
-        const ox = addr.slice(0, 2)
-        if (addr.length !== 42) {
-          return false
-        } else if (ox !== '0x') {
-          return false
-        } else if (addr.match(/^[a-z0-9]+$/i) === null) {
-          return false
+      if (this.secondField.type === 'address' && secondValue === 'eth') {
+        if (checkEthAddress(this.form[this.firstField.key]) === false) {
+          this.notEnough = true
+          this.errorMessage = 'Please, enter a valid Ethereum address (starts with 0x, only alphanumerical characters, 42 characters long)'
         } else {
-          return true
+          this.$emit('interface', {formData: this.form})
+          this.form = {}
         }
-      }
-      const type = this.firstField.type,
-        secondType = this.secondField.type,
-        secondValue = this.form[this.secondField.key].toLowerCase(),
-        firstValue = this.form[this.firstField.key]
-      console.log(type)
-      if (secondType === 'num' && isNum === false) {
-        this.notEnough = true
-        this.errorMessage = 'Percent must be a number'
-      } else if (type === 'address' && secondValue === 'eth' && !checkEthAddress(firstValue)) {
-        this.notEnough = true
-        this.errorMessage = 'Please, enter a valid Ethereum address (starts with 0x, only alphanumerical characters, 42 characters long)'
-      } else if (type === 'address' && secondValue === 'btc' && !WAValidator.validate(this.form[this.firstField.key], 'BTC')) {
-        this.notEnough = true
-        this.errorMessage = 'Please, enter a valid Bitcoin address (starts with 1, 3 or bc1, only alphanumerical characters except O, 0, I and l, 26-34 characters long)'
-      } else if (type === 'address' && secondValue === 'ltc' && !WAValidator.validate(this.form[this.firstField.key], 'LTC')) {
-        this.notEnough = true
-        this.errorMessage = 'Please, enter a valid Litecoin address'
+      } else if (this.secondField.type === 'address' && secondValue === 'btc') {
+        if (WAValidator.validate(this.form[this.firstField.key], 'BTC') === false) {
+          this.notEnough = true
+          this.errorMessage = 'Please, enter a valid Bitcoin address (starts with 1, 3 or bc1, only alphanumerical characters except O, 0, I and l, 26-34 characters long)'
+        } else {
+          this.$emit('interface', {formData: this.form})
+          this.form = {}
+        }
+      } else if (this.secondField.type === 'address' && secondValue === 'ltc') {
+        if (WAValidator.validate(this.form[this.firstField.key], 'LTC') === false) {
+          this.notEnough = true
+          this.errorMessage = 'Please, enter a valid Litecoin address'
+        } else {
+          this.$emit('interface', {formData: this.form})
+          this.form = {}
+        }
+      } else if (this.firstField.type === 'num') {
+        const isNum = !isNaN(this.form[this.firstField.key] - parseFloat(this.form[this.firstField.key]))
+        if (isNum === false) {
+          this.notEnough = true
+          this.errorMessage = 'Percent must be a number'
+        } else {
+          this.$emit('interface', {formData: this.form})
+          this.form = {}
+        }
       } else {
         this.$emit('interface', {formData: this.form})
         this.form = {}

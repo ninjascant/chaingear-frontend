@@ -323,15 +323,12 @@ export default class PhaseFormComponent extends Vue {
     key: 'address',
     hint: `Filled if dependency = ERC20. Address a smart contract 
 for the sale of tokens in the network of the Etherium`,
-    type: 'str',
+    type: 'contract',
     label: 'Contract address'
   }
   secondFieldContracts = {
     key: 'type',
-    hint: `Type of smart contract for 
-the sale of tokens in the network of the Ethereum. You can find 
-it in https://etherscan.io on the page of the corresponding 
-contract in the section Contract Overview (NameTag)`,
+    hint: `Type of smart contract for the sale of tokens in the network of the Ethereum. You can find it in https://etherscan.io on the page of the corresponding contract in the section Contract Overview (NameTag). If there is no contract type, the field will not need to be filled.`,
     type: 'str',
     label: 'Contract type'
   }

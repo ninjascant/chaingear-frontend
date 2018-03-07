@@ -21,7 +21,7 @@
       </v-card-text>
     </v-card>
     <v-dialog v-model="dialog" max-width="500px">
-      <v-card>
+      <v-card class='grey lighten-2'>
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
@@ -29,13 +29,14 @@
                 <v-text-field label="Name" v-model="editedItem.name"></v-text-field>
               </v-flex>
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Status" v-model="editedItem.current_status"></v-text-field>
+                <v-select
+                  v-bind:items="status"
+                  label='Status'
+                  v-model='editedItem.current_status'>
+                </v-select>
               </v-flex>
               <v-flex xs12 sm6 md4>
                 <v-text-field label="Start date" v-model="editedItem.start_date"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="End date" v-model="editedItem.end_date"></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -57,7 +58,6 @@
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.current_status }}</td>
         <td>{{ props.item.start_date }}</td>
-        <td>{{ props.item.end_date }}</td>
         <td class="justify-center layout px-0">
           <v-btn icon class="mx-0" @click="editItem(props.item)">
             <v-icon color="teal">edit</v-icon>
@@ -112,6 +112,7 @@ export default class RoadmapValuesContainer extends Vue {
   @Prop({default: ''})
   head
   dialog = false
+  status = ['Planned', 'In work', 'Completed']
   headers1 = [
     {
       text: '#',
@@ -122,7 +123,6 @@ export default class RoadmapValuesContainer extends Vue {
         { text: 'Name', value: 'name' },
         { text: 'Status', value: 'current_status' },
         { text: 'Start date', value: 'start_date' },
-        { text: 'End date', value: 'end_date' },
         { text: 'Actions', value: 'milestone', sortable: false }
       ]
   editedIndex = -1
