@@ -270,14 +270,18 @@ import * as phaseTemplate from '../../../helpers/phase-template'
 export default class PhaseFormComponent extends Vue {
   @Prop({default: 0})
   num
+  // Computed prop that relies on state isErc20 prop. If true, components renders additional form for smart contract addresses
   get isErc20 () {
     return this.$store.getters.getIsErc20
   }
+  // Computed prop that fetches a crowdsale phase description from state
   get form () {
     return this.$store.getters.getPhase(this.num)
   }
+  // Lists for select inputs
   currency = ['USD', 'ETH', 'BTC']
   statuses = ['Planned', 'Active', 'Finished']
+  // Properties for multiple values forms initialization. Each form needs 4 props: firstField, secondField, buttonText and heading
   firstField1 = {
     key: 'amount',
     hint: 'Number or %',
@@ -353,12 +357,15 @@ for the sale of tokens in the network of the Etherium`,
       value: 'type'
     }
   ]
+  // Props for alert dialog
   notEnough = false
   errorMessage = ''
   question = false
+  // This method calls parent nextPane method to switch current pahe to previous
   prev () {
     this.$emit('interface', {prev: true})
   }
+  // This method validates data entered in form and if true, adds empty object in state phases array and switch tab or page to next
   ask () {
     const valid = (this.errors.items.length === 0)
     if (valid === true && this.form.commited === false) {
@@ -368,15 +375,16 @@ for the sale of tokens in the network of the Etherium`,
     } else if (valid === true && this.form.commited === true) {
       this.$emit('interface', {nextPage: true})
     } else {
-      console.log(this.form.commited)
       this.notEnough = true
       this.errorMessage = 'Please, fill all required fields'
     }
   }
+  // Method that invoked when user decides to add another phase description
   move () {
     this.question = false
     this.$emit('interface', {nextPage: true})
   }
+  // Method that invoked when user don't want to add another phase description
   stay () {
     this.question = false
     this.$emit('interface', {nextPage: false})

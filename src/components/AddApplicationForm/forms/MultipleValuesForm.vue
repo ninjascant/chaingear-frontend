@@ -67,6 +67,7 @@ import WAValidator from 'wallet-address-validator'
 
 @Component({})
 export default class MultipleValuesForm extends Vue {
+  // This props holds info that is used in form inputs
   @Prop({default: ''})
   color
   @Prop({default: {}})
@@ -77,6 +78,7 @@ export default class MultipleValuesForm extends Vue {
   buttonText
   form = {}
   errorMessage = ''
+  // This properties define validation rules
   rules = {
     required: (value) => !!value || 'Required',
     isNum: (value) => {

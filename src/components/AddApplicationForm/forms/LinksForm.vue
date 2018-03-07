@@ -151,11 +151,14 @@ export default class LinksForm extends Vue {
     required: (value) => !!value || 'Required'
   }
   requiredFields = ['website']
+  // This properties is used in alert dialog which tell users that some of entered values is invalid
   notEnough = false
   errorMessage = ''
+  // This method calls parent nextPane method to switch current pahe to previous
   prev () {
     this.$emit('interface', {action: 'previous'})
   }
+  // This method checks if all entered data is enough and valid and if so calls parent nextPane method to change current page to the next
   next () {
     if (this.$v.$invalid !== true) {
       const tmp = Object.keys(this.form).map(key => {

@@ -91,18 +91,23 @@ export default class SubmitForm extends Vue {
   get isIco () {
     return this.$store.getters.getIsIco
   }
+  // Computed property that holds info about user email
   get email () {
     return localStorage.getItem('user_email')
   }
+  // Computed property that holds info about user Golos username
   get golosUsername () {
     return localStorage.getItem('username')
   }
+  // This method saves entered email in browser localStorage
   setEmail (e) {
     localStorage.setItem('user_email', e)
   }
+  // This method saves entered Golos username in browser localStorage
   setUsername (e) {
     localStorage.setItem('username', e)
   }
+  // Computed property that fetches all entered data from state
   get projectInfo () {
     return this.$store.getters.getProjectInfo
   }
@@ -112,9 +117,11 @@ export default class SubmitForm extends Vue {
   submitError = false
   errorCode = ''
   successful = false
+  // This method calls parent nextPane method to switch current pahe to previous
   prev () {
     this.$emit('interface', {action: 'previous'})
   }
+  // This method deletes technical fields from project description, constructs document and sends in to backend. If Golos username is specified, it also makes call to API to construct Golos post (this fuctionality is currently disabled)
   makeCommit () {
     const cleanedProject = _.cloneDeep(this.projectInfo)
     cleanedProject.ico.common_info.is_ico = this.isIco

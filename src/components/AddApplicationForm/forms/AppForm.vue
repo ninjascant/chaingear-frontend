@@ -103,11 +103,14 @@ import {Component, Prop} from 'vue-property-decorator'
 
 @Component({})
 export default class AppForm extends Vue {
+  // Prop that defines which app description this component should fetch from state.apps array
   @Prop({default: 0})
   num
+  // This method fetches object with phase description from state.apps array
   get form () {
     return this.$store.getters.getApp(this.num)
   }
+  // This properties are usedin select inputs
   available = [{label: 'Available', value: 'true'}, {label: 'Not available', value: 'false'}]
   same = [{label: 'No', value: 'false'}, {label: 'Yes', value: 'true'}]
   status = [
@@ -125,11 +128,14 @@ export default class AppForm extends Vue {
     }
   ]
   question = false
+  // This properties is used in alert dialog
   notEnough = false
   errorMessage = ''
+  // This method calls parent nextPane method to switch current pahe to previous
   prev () {
     this.$emit('interface', {prev: true})
   }
+  // This method validates data entered in form and if true, adds empty object in state phases array and switch tab or page to next
   ask () {
     const valid = (this.errors.items.length === 0)
     if (valid === true && this.form.commited === false) {
@@ -143,10 +149,12 @@ export default class AppForm extends Vue {
       this.errorMessage = 'Please, fill all required fields'
     }
   }
+  // Method that invoked when user don't want to add another phase description
   move () {
     this.question = false
     this.$emit('interface', {nextPage: true})
   }
+  // Method that invoked when user decides to add another phase description
   stay () {
     this.question = false
     this.$emit('interface', {nextPage: false})

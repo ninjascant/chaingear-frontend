@@ -81,9 +81,12 @@ export default class RoadmapValuesForm extends Vue {
   @Prop({default: ''})
   buttonText
   form = {}
+  // This property is used in select input
   status = ['Planned', 'In work', 'Completed']
+  // This properties is used in alert dialog which tell users that some of entered values is invalid
   notEnough = false
   errorMessage = ''
+  // This properties define validation rules
   rules = {
     required: (value) => !!value || 'Required',
     isNum: (value) => {
@@ -91,8 +94,8 @@ export default class RoadmapValuesForm extends Vue {
       return !isNaN(value - parseFloat(value)) || 'Should be a number!'
     }
   }
+  // This method checks is entered data valid and if true, calls parent method to save data
   send () {
-    console.log(this.form[this.secondField.key])
     if (this.form[this.secondField.key] === undefined || this.form[this.fifthField.key] === undefined || this.form[this.thirdField.key] === undefined) {
       this.notEnough = true
       this.errorMessage = 'Please, fill all fields'

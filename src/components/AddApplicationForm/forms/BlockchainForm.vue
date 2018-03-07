@@ -171,22 +171,22 @@ import CleanStorage from '@/helpers/clean-storage'
   }
 })
 export default class BlockchainForm extends Vue {
+  // Computed prop that fetches blockchain description object from state
   get form () {
     return this.$store.getters.getBlockchain
   }
-  get projectInfo () {
-    return this.$store.getters.getProjectInfo
-  }
+  // Computed prop that fetches isIco property from state
   get isICO () {
     return this.$store.getters.getIsIco
   }
-  erc = false
+  // This properties is used in floating button functiomality
   fab = false
   askWarn = false
   cleaner = new CleanStorage()
+  // This method invokes clean method from CleanStorage class to delete saved project info from state (this functional is currently disabled)
   clean () {
     this.askWarn = false
-    this.cleaner.clean()
+    // this.cleaner.clean()
   }
   /*mounted () {
     this.cleaner = new CleanStorage()
@@ -195,10 +195,11 @@ export default class BlockchainForm extends Vue {
   warnAsk () {
 
   }
+  // This method changes isIco property in store based on corresponding select input value
   changeIsIco (e) {
     this.$store.commit('toggleIsIco', e)
   }
-  requiredFields = ['project_name', 'headline', 'text', 'dependency']
+  // This properties are used in select inputs
   fieldsNames = {
     project_name: 'Project name',
     headline: 'Headline',

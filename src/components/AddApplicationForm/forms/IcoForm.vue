@@ -68,19 +68,21 @@ import WarnComponent from '../WarnComponent'
   }
 })
 export default class IcoForm extends Vue {
-  n = 0
-  status = ['Planned', 'Active', 'Finished']
+  // This properties is used in alert dialog which tell users that some of entered values is invalid
   notEnough = false
   errorMessage = ''
+  // Properties that defines validation rules
   rules = {
     required: (value) => !!value || 'Required'
   }
   isNum (value) {
     return !isNaN(value - parseFloat(value))
   }
+  // Computed prop that fetches ICO common info description object from state
   get form () {
     return this.$store.getters.getCommonInfo
   }
+  // This properies are probably unnessesary and should be deleted
   distr = []
   proceeds = []
   addMultiple (data) {
@@ -92,12 +94,15 @@ export default class IcoForm extends Vue {
       return
     }
   }
+  // This method closes alert dialog
   okClick (data) {
     this.notEnough = false
   }
+  // This method calls parent nextPane method to switch current pahe to previous
   prev () {
     this.$emit('interface', {action: 'previous'})
   }
+  // This method validates entered data and if true calls parent nextPane method to switch current pahe to next
   next () {
     this.$emit('interface', {form: 'ico', data: this.form})
   }

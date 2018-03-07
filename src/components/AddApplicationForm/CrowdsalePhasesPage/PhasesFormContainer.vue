@@ -60,14 +60,17 @@ import WarnComponent from '../WarnComponent'
   }
 })
 export default class PhasesFormContainer extends Vue {
+  // Number of currently displayed phase; changed when moveOrStay method is invoked with data.nextPage = false
   active = 0
+  // Props for alert dialog
   notEnough = false
   errorMessage = ''
+  // Computed prop that fetches list of crowdsale phases from state
   get phases () {
     return this.$store.getters.getAllPhases
   }
+  // Method that invokes parent nextPane method to switch cuurent page or scrolls page view on top and switch to a next tab
   moveOrStay (data) {
-    console.log(this.$store.getters.getAllPhases)
     if (data.nextPage === true) {
       this.$emit('interface', {form: 'apps'})
     } else if (data.prev === true) {
